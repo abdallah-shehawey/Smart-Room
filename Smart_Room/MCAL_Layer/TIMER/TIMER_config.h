@@ -150,7 +150,7 @@
 	#define TIMER1_CTCB_VAL						0
 
 	/*Set Input Capture Value*/
-	#define TIMER1_ICR1_VAL						255
+	#define TIMER1_ICR1_VAL						20000
 
 	/*Set Compare Match Output for OCR1A
 	 * Choose between

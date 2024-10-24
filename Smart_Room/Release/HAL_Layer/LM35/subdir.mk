@@ -4,17 +4,17 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../MCAL_Layer/GIE/GIE_prog.c 
+../HAL_Layer/LM35/LM35_prog.c 
 
 OBJS += \
-./MCAL_Layer/GIE/GIE_prog.o 
+./HAL_Layer/LM35/LM35_prog.o 
 
 C_DEPS += \
-./MCAL_Layer/GIE/GIE_prog.d 
+./HAL_Layer/LM35/LM35_prog.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-MCAL_Layer/GIE/%.o: ../MCAL_Layer/GIE/%.c MCAL_Layer/GIE/subdir.mk
+HAL_Layer/LM35/%.o: ../HAL_Layer/LM35/%.c HAL_Layer/LM35/subdir.mk
 	@echo 'Building file: $<'
 	@echo 'Invoking: AVR Compiler'
 	avr-gcc -Wall -Os -fpack-struct -fshort-enums -ffunction-sections -fdata-sections -std=gnu99 -funsigned-char -funsigned-bitfields -mmcu=atmega32 -DF_CPU=8000000UL -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" -c -o "$@" "$<"

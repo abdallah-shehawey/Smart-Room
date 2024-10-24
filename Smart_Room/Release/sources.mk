@@ -23,11 +23,10 @@ C_DEPS :=
 SUBDIRS := \
 APP_Layer \
 HAL_Layer/LED \
+HAL_Layer/LM35 \
+MCAL_Layer/ADC \
 MCAL_Layer/DIO \
 MCAL_Layer/EEPROM \
-MCAL_Layer/EXTI \
-MCAL_Layer/GIE \
-MCAL_Layer/SPI \
 MCAL_Layer/TIMER \
 MCAL_Layer/USART \
 

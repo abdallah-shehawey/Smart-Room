@@ -1,7 +1,9 @@
 Archive member included because of file (symbol)
 
-c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
-                              ./APP_Layer/Smart_Room.o (__udivmodqi4)
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+                              ./HAL_Layer/LM35/LM35_prog.o (__mulsi3)
+c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+                              ./HAL_Layer/LM35/LM35_prog.o (__udivmodhi4)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
                               c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o (exit)
 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
@@ -33,11 +35,10 @@ Linker script and memory map
 LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
 LOAD ./MCAL_Layer/USART/USART_prog.o
 LOAD ./MCAL_Layer/TIMER/TIMER_program.o
-LOAD ./MCAL_Layer/SPI/SPI_prog.o
-LOAD ./MCAL_Layer/GIE/GIE_prog.o
-LOAD ./MCAL_Layer/EXTI/EXTI_prog.o
 LOAD ./MCAL_Layer/EEPROM/EEPROM_prog.o
 LOAD ./MCAL_Layer/DIO/DIO_prog.o
+LOAD ./MCAL_Layer/ADC/ADC_prog.o
+LOAD ./HAL_Layer/LM35/LM35_prog.o
 LOAD ./HAL_Layer/LED/LED_prog.o
 LOAD ./APP_Layer/Security.o
 LOAD ./APP_Layer/Smart_Room.o
@@ -135,7 +136,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x1e60
+.text           0x00000000     0x1b74
  *(.vectors)
  .vectors       0x00000000       0x54 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
                 0x00000000                __vectors
@@ -191,24 +192,27 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.init9)
  *(.text)
  .text          0x0000008e        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
+                0x0000008e                __vector_1
+                0x0000008e                __vector_12
                 0x0000008e                __bad_interrupt
+                0x0000008e                __vector_3
                 0x0000008e                __vector_17
                 0x0000008e                __vector_19
+                0x0000008e                __vector_2
                 0x0000008e                __vector_14
-                0x0000008e                __vector_16
                 0x0000008e                __vector_18
                 0x0000008e                __vector_20
  .text          0x00000092        0x0 ./MCAL_Layer/USART/USART_prog.o
  .text          0x00000092        0x0 ./MCAL_Layer/TIMER/TIMER_program.o
- .text          0x00000092        0x0 ./MCAL_Layer/SPI/SPI_prog.o
- .text          0x00000092        0x0 ./MCAL_Layer/GIE/GIE_prog.o
- .text          0x00000092        0x0 ./MCAL_Layer/EXTI/EXTI_prog.o
  .text          0x00000092        0x0 ./MCAL_Layer/EEPROM/EEPROM_prog.o
  .text          0x00000092        0x0 ./MCAL_Layer/DIO/DIO_prog.o
+ .text          0x00000092        0x0 ./MCAL_Layer/ADC/ADC_prog.o
+ .text          0x00000092        0x0 ./HAL_Layer/LM35/LM35_prog.o
  .text          0x00000092        0x0 ./HAL_Layer/LED/LED_prog.o
  .text          0x00000092        0x0 ./APP_Layer/Security.o
  .text          0x00000092        0x0 ./APP_Layer/Smart_Room.o
- .text          0x00000092        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
+ .text          0x00000092        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+ .text          0x00000092        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
  .text          0x00000092        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  .text          0x00000092        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
  .text          0x00000092        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
@@ -337,155 +341,147 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  .text.__vector_4
                 0x00000710       0x52 ./MCAL_Layer/TIMER/TIMER_program.o
                 0x00000710                __vector_4
- .text.SPI_u8InitConfig
-                0x00000762       0xf4 ./MCAL_Layer/SPI/SPI_prog.o
-                0x00000762                SPI_u8InitConfig
- .text.SPI_u8Tranceive
-                0x00000856       0x54 ./MCAL_Layer/SPI/SPI_prog.o
-                0x00000856                SPI_u8Tranceive
- .text.SPI_u8BufferTranceiverSynch
-                0x000008aa       0x50 ./MCAL_Layer/SPI/SPI_prog.o
-                0x000008aa                SPI_u8BufferTranceiverSynch
- .text.SPI_u8BufferTranceiverAsynch
-                0x000008fa       0x64 ./MCAL_Layer/SPI/SPI_prog.o
-                0x000008fa                SPI_u8BufferTranceiverAsynch
- .text.__vector_12
-                0x0000095e       0x8c ./MCAL_Layer/SPI/SPI_prog.o
-                0x0000095e                __vector_12
- .text.SPI_vInit
-                0x000009ea       0x28 ./MCAL_Layer/SPI/SPI_prog.o
-                0x000009ea                SPI_vInit
- .text.GIE_vEnable
-                0x00000a12        0x8 ./MCAL_Layer/GIE/GIE_prog.o
-                0x00000a12                GIE_vEnable
- .text.GIE_vDisable
-                0x00000a1a        0x8 ./MCAL_Layer/GIE/GIE_prog.o
-                0x00000a1a                GIE_vDisable
- .text.EXTI_vInit
-                0x00000a22        0x8 ./MCAL_Layer/EXTI/EXTI_prog.o
-                0x00000a22                EXTI_vInit
- .text.EXTI_vSetSignal
-                0x00000a2a       0xfe ./MCAL_Layer/EXTI/EXTI_prog.o
-                0x00000a2a                EXTI_vSetSignal
- .text.EXTI_vDisableInterrupt
-                0x00000b28       0x26 ./MCAL_Layer/EXTI/EXTI_prog.o
-                0x00000b28                EXTI_vDisableInterrupt
- .text.EXTI_vEnableInterrupt
-                0x00000b4e       0x24 ./MCAL_Layer/EXTI/EXTI_prog.o
-                0x00000b4e                EXTI_vEnableInterrupt
- .text.EXTI_vClearFlag
-                0x00000b72       0x16 ./MCAL_Layer/EXTI/EXTI_prog.o
-                0x00000b72                EXTI_vClearFlag
- .text.EXTI_u8GETFlag
-                0x00000b88       0x26 ./MCAL_Layer/EXTI/EXTI_prog.o
-                0x00000b88                EXTI_u8GETFlag
- .text.EXTI_vSetCallBack
-                0x00000bae       0x34 ./MCAL_Layer/EXTI/EXTI_prog.o
-                0x00000bae                EXTI_vSetCallBack
- .text.__vector_1
-                0x00000be2       0x58 ./MCAL_Layer/EXTI/EXTI_prog.o
-                0x00000be2                __vector_1
- .text.__vector_2
-                0x00000c3a       0x58 ./MCAL_Layer/EXTI/EXTI_prog.o
-                0x00000c3a                __vector_2
- .text.__vector_3
-                0x00000c92       0x58 ./MCAL_Layer/EXTI/EXTI_prog.o
-                0x00000c92                __vector_3
  .text.EEPROM_vWrite
-                0x00000cea       0x10 ./MCAL_Layer/EEPROM/EEPROM_prog.o
-                0x00000cea                EEPROM_vWrite
+                0x00000762       0x10 ./MCAL_Layer/EEPROM/EEPROM_prog.o
+                0x00000762                EEPROM_vWrite
  .text.EEPROM_vRead
-                0x00000cfa        0xa ./MCAL_Layer/EEPROM/EEPROM_prog.o
-                0x00000cfa                EEPROM_vRead
+                0x00000772        0xa ./MCAL_Layer/EEPROM/EEPROM_prog.o
+                0x00000772                EEPROM_vRead
  .text.DIO_enumSetPinDir
-                0x00000d04       0xfc ./MCAL_Layer/DIO/DIO_prog.o
-                0x00000d04                DIO_enumSetPinDir
+                0x0000077c       0xfc ./MCAL_Layer/DIO/DIO_prog.o
+                0x0000077c                DIO_enumSetPinDir
  .text.DIO_enumWritePinVal
-                0x00000e00       0xfc ./MCAL_Layer/DIO/DIO_prog.o
-                0x00000e00                DIO_enumWritePinVal
+                0x00000878       0xfc ./MCAL_Layer/DIO/DIO_prog.o
+                0x00000878                DIO_enumWritePinVal
  .text.DIO_enumReadPinVal
-                0x00000efc       0x54 ./MCAL_Layer/DIO/DIO_prog.o
-                0x00000efc                DIO_enumReadPinVal
+                0x00000974       0x54 ./MCAL_Layer/DIO/DIO_prog.o
+                0x00000974                DIO_enumReadPinVal
  .text.DIO_enumTogglePinVal
-                0x00000f50       0x78 ./MCAL_Layer/DIO/DIO_prog.o
-                0x00000f50                DIO_enumTogglePinVal
+                0x000009c8       0x78 ./MCAL_Layer/DIO/DIO_prog.o
+                0x000009c8                DIO_enumTogglePinVal
  .text.DIO_enumConnectPullUp
-                0x00000fc8      0x128 ./MCAL_Layer/DIO/DIO_prog.o
-                0x00000fc8                DIO_enumConnectPullUp
+                0x00000a40      0x128 ./MCAL_Layer/DIO/DIO_prog.o
+                0x00000a40                DIO_enumConnectPullUp
  .text.DIO_enumSetPortDir
-                0x000010f0       0x2c ./MCAL_Layer/DIO/DIO_prog.o
-                0x000010f0                DIO_enumSetPortDir
+                0x00000b68       0x2c ./MCAL_Layer/DIO/DIO_prog.o
+                0x00000b68                DIO_enumSetPortDir
  .text.DIO_enumWritePortVal
-                0x0000111c       0x2c ./MCAL_Layer/DIO/DIO_prog.o
-                0x0000111c                DIO_enumWritePortVal
+                0x00000b94       0x2c ./MCAL_Layer/DIO/DIO_prog.o
+                0x00000b94                DIO_enumWritePortVal
  .text.DIO_enumReadPorVal
-                0x00001148       0x30 ./MCAL_Layer/DIO/DIO_prog.o
-                0x00001148                DIO_enumReadPorVal
+                0x00000bc0       0x30 ./MCAL_Layer/DIO/DIO_prog.o
+                0x00000bc0                DIO_enumReadPorVal
  .text.DIO_enumTogglePortValue
-                0x00001178       0x3e ./MCAL_Layer/DIO/DIO_prog.o
-                0x00001178                DIO_enumTogglePortValue
+                0x00000bf0       0x3e ./MCAL_Layer/DIO/DIO_prog.o
+                0x00000bf0                DIO_enumTogglePortValue
  .text.DIO_vWriteLowNibble
-                0x000011b6       0x58 ./MCAL_Layer/DIO/DIO_prog.o
-                0x000011b6                DIO_vWriteLowNibble
+                0x00000c2e       0x58 ./MCAL_Layer/DIO/DIO_prog.o
+                0x00000c2e                DIO_vWriteLowNibble
  .text.DIO_vWriteHighNibble
-                0x0000120e       0x5a ./MCAL_Layer/DIO/DIO_prog.o
-                0x0000120e                DIO_vWriteHighNibble
+                0x00000c86       0x5a ./MCAL_Layer/DIO/DIO_prog.o
+                0x00000c86                DIO_vWriteHighNibble
  .text.DIO_vSetLowNibbleDir
-                0x00001268       0x58 ./MCAL_Layer/DIO/DIO_prog.o
-                0x00001268                DIO_vSetLowNibbleDir
+                0x00000ce0       0x58 ./MCAL_Layer/DIO/DIO_prog.o
+                0x00000ce0                DIO_vSetLowNibbleDir
  .text.DIO_vSetHighNibbleDir
-                0x000012c0       0x5a ./MCAL_Layer/DIO/DIO_prog.o
-                0x000012c0                DIO_vSetHighNibbleDir
+                0x00000d38       0x5a ./MCAL_Layer/DIO/DIO_prog.o
+                0x00000d38                DIO_vSetHighNibbleDir
+ .text.ADC_vInit
+                0x00000d92       0x1a ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000d92                ADC_vInit
+ .text.ADC_vEnable
+                0x00000dac        0x4 ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000dac                ADC_vEnable
+ .text.ADC_vDisable
+                0x00000db0        0x4 ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000db0                ADC_vDisable
+ .text.ADC_vInterruptEnable
+                0x00000db4        0x4 ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000db4                ADC_vInterruptEnable
+ .text.ADC_vInterruptDisable
+                0x00000db8        0x4 ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000db8                ADC_vInterruptDisable
+ .text.ADC_u8VoltageReference
+                0x00000dbc       0x26 ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000dbc                ADC_u8VoltageReference
+ .text.ADC_u8SetPrescaler
+                0x00000de2       0x1a ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000de2                ADC_u8SetPrescaler
+ .text.ADC_u8SetAdjustment
+                0x00000dfc       0x16 ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000dfc                ADC_u8SetAdjustment
+ .text.ADC_u8SetTriggerSource
+                0x00000e12       0x22 ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000e12                ADC_u8SetTriggerSource
+ .text.ADC_u8GetResultSync
+                0x00000e34       0x7e ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000e34                ADC_u8GetResultSync
+ .text.ADC_u8StartConversionAsynch
+                0x00000eb2       0x50 ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000eb2                ADC_u8StartConversionAsynch
+ .text.ADC_u8StartChainAsynch
+                0x00000f02       0x78 ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000f02                ADC_u8StartChainAsynch
+ .text.__vector_16
+                0x00000f7a       0xd6 ./MCAL_Layer/ADC/ADC_prog.o
+                0x00000f7a                __vector_16
+ .text.LM35_u8GetAnalogSignal
+                0x00001050       0xa4 ./HAL_Layer/LM35/LM35_prog.o
+                0x00001050                LM35_u8GetAnalogSignal
+ .text.LM35_u8GetTemp
+                0x000010f4       0xac ./HAL_Layer/LM35/LM35_prog.o
+                0x000010f4                LM35_u8GetTemp
  .text.LED_vTog
-                0x0000131a       0x28 ./HAL_Layer/LED/LED_prog.o
-                0x0000131a                LED_vTog
+                0x000011a0       0x28 ./HAL_Layer/LED/LED_prog.o
+                0x000011a0                LED_vTog
  .text.LED_vTurnOff
-                0x00001342       0x38 ./HAL_Layer/LED/LED_prog.o
-                0x00001342                LED_vTurnOff
+                0x000011c8       0x38 ./HAL_Layer/LED/LED_prog.o
+                0x000011c8                LED_vTurnOff
  .text.LED_vTurnOn
-                0x0000137a       0x38 ./HAL_Layer/LED/LED_prog.o
-                0x0000137a                LED_vTurnOn
+                0x00001200       0x38 ./HAL_Layer/LED/LED_prog.o
+                0x00001200                LED_vTurnOn
  .text.LED_vInit
-                0x000013b2       0x2a ./HAL_Layer/LED/LED_prog.o
-                0x000013b2                LED_vInit
+                0x00001238       0x2a ./HAL_Layer/LED/LED_prog.o
+                0x00001238                LED_vInit
  .text.Error_TimeOut
-                0x000013dc       0x52 ./APP_Layer/Security.o
-                0x000013dc                Error_TimeOut
+                0x00001262       0x52 ./APP_Layer/Security.o
+                0x00001262                Error_TimeOut
  .text.PassWord_Set
-                0x0000142e      0x12a ./APP_Layer/Security.o
-                0x0000142e                PassWord_Set
+                0x000012b4      0x12a ./APP_Layer/Security.o
+                0x000012b4                PassWord_Set
  .text.UserName_Set
-                0x00001558      0x118 ./APP_Layer/Security.o
-                0x00001558                UserName_Set
+                0x000013de      0x118 ./APP_Layer/Security.o
+                0x000013de                UserName_Set
  .text.PassWord_Check
-                0x00001670      0x104 ./APP_Layer/Security.o
-                0x00001670                PassWord_Check
+                0x000014f6      0x104 ./APP_Layer/Security.o
+                0x000014f6                PassWord_Check
  .text.UserName_Check
-                0x00001774      0x102 ./APP_Layer/Security.o
-                0x00001774                UserName_Check
- .text.Sign_In  0x00001876       0xa4 ./APP_Layer/Security.o
-                0x00001876                Sign_In
+                0x000015fa      0x102 ./APP_Layer/Security.o
+                0x000015fa                UserName_Check
+ .text.Sign_In  0x000016fc       0xa4 ./APP_Layer/Security.o
+                0x000016fc                Sign_In
  .text.EEPROM_vInit
-                0x0000191a       0xa8 ./APP_Layer/Security.o
-                0x0000191a                EEPROM_vInit
- .text.Child_vFan
-                0x000019c2      0x112 ./APP_Layer/Smart_Room.o
-                0x000019c2                Child_vFan
- .text.Home_vChildren_Room_2
-                0x00001ad4       0xd0 ./APP_Layer/Smart_Room.o
-                0x00001ad4                Home_vChildren_Room_2
- .text.main     0x00001ba4      0x2a0 ./APP_Layer/Smart_Room.o
-                0x00001ba4                main
- .text.libgcc   0x00001e44       0x18 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
-                0x00001e44                __udivmodqi4
- .text.libgcc   0x00001e5c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .text.libgcc   0x00001e5c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
- .text.libgcc   0x00001e5c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
-                0x00001e5c                . = ALIGN (0x2)
+                0x000017a0       0xa8 ./APP_Layer/Security.o
+                0x000017a0                EEPROM_vInit
+ .text.Room_vFan
+                0x00001848      0x112 ./APP_Layer/Smart_Room.o
+                0x00001848                Room_vFan
+ .text.Room     0x0000195a       0xfc ./APP_Layer/Smart_Room.o
+                0x0000195a                Room
+ .text.main     0x00001a56       0xb4 ./APP_Layer/Smart_Room.o
+                0x00001a56                main
+ .text.libgcc   0x00001b0a       0x3e c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+                0x00001b0a                __mulsi3
+ .text.libgcc   0x00001b48       0x28 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+                0x00001b48                __udivmodhi4
+ .text.libgcc   0x00001b70        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x00001b70        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00001b70        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+                0x00001b70                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00001e5c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x00001e5c                exit
-                0x00001e5c                _exit
+ .fini9         0x00001b70        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x00001b70                exit
+                0x00001b70                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -504,135 +500,137 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00001e5c        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .fini0         0x00001b70        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00001e60                _etext = .
+                0x00001b74                _etext = .
 
-.data           0x00800060      0x30c load address 0x00001e60
+.data           0x00800060      0x212 load address 0x00001b74
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
  .data          0x00800060        0x0 ./MCAL_Layer/USART/USART_prog.o
  .data          0x00800060        0x0 ./MCAL_Layer/TIMER/TIMER_program.o
- .data          0x00800060        0x0 ./MCAL_Layer/SPI/SPI_prog.o
- .data          0x00800060        0x0 ./MCAL_Layer/GIE/GIE_prog.o
- .data          0x00800060        0x0 ./MCAL_Layer/EXTI/EXTI_prog.o
  .data          0x00800060        0x0 ./MCAL_Layer/EEPROM/EEPROM_prog.o
  .data          0x00800060        0x0 ./MCAL_Layer/DIO/DIO_prog.o
+ .data          0x00800060        0x0 ./MCAL_Layer/ADC/ADC_prog.o
+ .data          0x00800060        0x0 ./HAL_Layer/LM35/LM35_prog.o
  .data          0x00800060        0x0 ./HAL_Layer/LED/LED_prog.o
  .data          0x00800060      0x11d ./APP_Layer/Security.o
- .data          0x0080017d      0x1e3 ./APP_Layer/Smart_Room.o
- .data          0x00800360        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
- .data          0x00800360        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .data          0x00800360        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
- .data          0x00800360        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+ .data          0x0080017d       0xe6 ./APP_Layer/Smart_Room.o
+ .data          0x00800263        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+ .data          0x00800263        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+ .data          0x00800263        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .data          0x00800263        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .data          0x00800263        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
  *(.data*)
- .data.Tries    0x00800360        0x1 ./APP_Layer/Security.o
-                0x00800360                Tries
+ .data.Tries    0x00800263        0x1 ./APP_Layer/Security.o
+                0x00800263                Tries
  .data.UserName_Check_Flag
-                0x00800361        0x1 ./APP_Layer/Security.o
-                0x00800361                UserName_Check_Flag
+                0x00800264        0x1 ./APP_Layer/Security.o
+                0x00800264                UserName_Check_Flag
  .data.PassWord_Check_Flag
-                0x00800362        0x1 ./APP_Layer/Security.o
-                0x00800362                PassWord_Check_Flag
+                0x00800265        0x1 ./APP_Layer/Security.o
+                0x00800265                PassWord_Check_Flag
  .data.Error_State
-                0x00800363        0x1 ./APP_Layer/Security.o
-                0x00800363                Error_State
- .data.uCCh_2_Led_1
-                0x00800364        0x3 ./APP_Layer/Smart_Room.o
-                0x00800364                uCCh_2_Led_1
- .data.uCCh_2_Led_2
-                0x00800367        0x3 ./APP_Layer/Smart_Room.o
-                0x00800367                uCCh_2_Led_2
- .data.Flags    0x0080036a        0x1 ./APP_Layer/Smart_Room.o
-                0x0080036a                Flags
+                0x00800266        0x1 ./APP_Layer/Security.o
+                0x00800266                Error_State
+ .data.Room_Led_1
+                0x00800267        0x3 ./APP_Layer/Smart_Room.o
+                0x00800267                Room_Led_1
+ .data.Room_Led_2
+                0x0080026a        0x3 ./APP_Layer/Smart_Room.o
+                0x0080026a                Room_Led_2
+ .data.Room_Led_3
+                0x0080026d        0x3 ./APP_Layer/Smart_Room.o
+                0x0080026d                Room_Led_3
+ .data.Flags    0x00800270        0x1 ./APP_Layer/Smart_Room.o
+                0x00800270                Flags
  *(.rodata)
  *(.rodata*)
  *(.gnu.linkonce.d*)
-                0x0080036c                . = ALIGN (0x2)
- *fill*         0x0080036b        0x1 00
-                0x0080036c                _edata = .
-                0x0080036c                PROVIDE (__data_end, .)
+                0x00800272                . = ALIGN (0x2)
+ *fill*         0x00800271        0x1 00
+                0x00800272                _edata = .
+                0x00800272                PROVIDE (__data_end, .)
 
-.bss            0x0080036c       0x58
-                0x0080036c                PROVIDE (__bss_start, .)
+.bss            0x00800272       0x53
+                0x00800272                PROVIDE (__bss_start, .)
  *(.bss)
- .bss           0x0080036c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
- .bss           0x0080036c        0x0 ./MCAL_Layer/USART/USART_prog.o
- .bss           0x0080036c        0x0 ./MCAL_Layer/TIMER/TIMER_program.o
- .bss           0x0080036c        0x0 ./MCAL_Layer/SPI/SPI_prog.o
- .bss           0x0080036c        0x0 ./MCAL_Layer/GIE/GIE_prog.o
- .bss           0x0080036c        0x0 ./MCAL_Layer/EXTI/EXTI_prog.o
- .bss           0x0080036c        0x0 ./MCAL_Layer/EEPROM/EEPROM_prog.o
- .bss           0x0080036c        0x0 ./MCAL_Layer/DIO/DIO_prog.o
- .bss           0x0080036c        0x0 ./HAL_Layer/LED/LED_prog.o
- .bss           0x0080036c        0x0 ./APP_Layer/Security.o
- .bss           0x0080036c        0x0 ./APP_Layer/Smart_Room.o
- .bss           0x0080036c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodqi4.o)
- .bss           0x0080036c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .bss           0x0080036c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
- .bss           0x0080036c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+ .bss           0x00800272        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
+ .bss           0x00800272        0x0 ./MCAL_Layer/USART/USART_prog.o
+ .bss           0x00800272        0x0 ./MCAL_Layer/TIMER/TIMER_program.o
+ .bss           0x00800272        0x0 ./MCAL_Layer/EEPROM/EEPROM_prog.o
+ .bss           0x00800272        0x0 ./MCAL_Layer/DIO/DIO_prog.o
+ .bss           0x00800272        0x0 ./MCAL_Layer/ADC/ADC_prog.o
+ .bss           0x00800272        0x0 ./HAL_Layer/LM35/LM35_prog.o
+ .bss           0x00800272        0x0 ./HAL_Layer/LED/LED_prog.o
+ .bss           0x00800272        0x0 ./APP_Layer/Security.o
+ .bss           0x00800272        0x0 ./APP_Layer/Smart_Room.o
+ .bss           0x00800272        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+ .bss           0x00800272        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+ .bss           0x00800272        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .bss           0x00800272        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .bss           0x00800272        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
  *(.bss*)
  .bss.USART_pu8SendData
-                0x0080036c        0x2 ./MCAL_Layer/USART/USART_prog.o
+                0x00800272        0x2 ./MCAL_Layer/USART/USART_prog.o
  .bss.USART_u8State
-                0x0080036e        0x1 ./MCAL_Layer/USART/USART_prog.o
+                0x00800274        0x1 ./MCAL_Layer/USART/USART_prog.o
  .bss.USART_pvNotificationFunc
-                0x0080036f        0x2 ./MCAL_Layer/USART/USART_prog.o
+                0x00800275        0x2 ./MCAL_Layer/USART/USART_prog.o
  .bss.USART_pu8ReceiveData
-                0x00800371        0x2 ./MCAL_Layer/USART/USART_prog.o
+                0x00800277        0x2 ./MCAL_Layer/USART/USART_prog.o
  .bss.USART_u8BufferSize
-                0x00800373        0x1 ./MCAL_Layer/USART/USART_prog.o
+                0x00800279        0x1 ./MCAL_Layer/USART/USART_prog.o
  .bss.USART_u8Index
-                0x00800374        0x1 ./MCAL_Layer/USART/USART_prog.o
+                0x0080027a        0x1 ./MCAL_Layer/USART/USART_prog.o
  .bss.TIMERS_pvCallBackFunc
-                0x00800375       0x10 ./MCAL_Layer/TIMER/TIMER_program.o
- .bss.SPI_pu8RData
-                0x00800385        0x2 ./MCAL_Layer/SPI/SPI_prog.o
- .bss.SPI_u8State
-                0x00800387        0x1 ./MCAL_Layer/SPI/SPI_prog.o
- .bss.SPI_pvNotificationFunc
-                0x00800388        0x2 ./MCAL_Layer/SPI/SPI_prog.o
- .bss.SPI_pu8TData
-                0x0080038a        0x2 ./MCAL_Layer/SPI/SPI_prog.o
- .bss.SPI_u8BufferSize
-                0x0080038c        0x1 ./MCAL_Layer/SPI/SPI_prog.o
- .bss.SPI_u8Index
-                0x0080038d        0x1 ./MCAL_Layer/SPI/SPI_prog.o
- .bss.EXTI_CallBack
-                0x0080038e        0x6 ./MCAL_Layer/EXTI/EXTI_prog.o
-                0x0080038e                EXTI_CallBack
+                0x0080027b       0x10 ./MCAL_Layer/TIMER/TIMER_program.o
+ .bss.ADC_pu16AsynchConversionResult
+                0x0080028b        0x2 ./MCAL_Layer/ADC/ADC_prog.o
+ .bss.ADC_u8State
+                0x0080028d        0x1 ./MCAL_Layer/ADC/ADC_prog.o
+ .bss.ADC_pvNotificationFunc
+                0x0080028e        0x2 ./MCAL_Layer/ADC/ADC_prog.o
+ .bss.ADC_u8ISRState
+                0x00800290        0x1 ./MCAL_Layer/ADC/ADC_prog.o
+ .bss.ADC_pu8ChainChannel
+                0x00800291        0x2 ./MCAL_Layer/ADC/ADC_prog.o
+ .bss.ADC_u8ChainSize
+                0x00800293        0x1 ./MCAL_Layer/ADC/ADC_prog.o
+ .bss.ADC_u8Index
+                0x00800294        0x1 ./MCAL_Layer/ADC/ADC_prog.o
  .bss.UserName_Length
-                0x00800394        0x1 ./APP_Layer/Security.o
-                0x00800394                UserName_Length
+                0x00800295        0x1 ./APP_Layer/Security.o
+                0x00800295                UserName_Length
  .bss.PassWord_Length
-                0x00800395        0x1 ./APP_Layer/Security.o
-                0x00800395                PassWord_Length
+                0x00800296        0x1 ./APP_Layer/Security.o
+                0x00800296                PassWord_Length
  .bss.KPD_PressLength
-                0x00800396        0x1 ./APP_Layer/Smart_Room.o
-                0x00800396                KPD_PressLength
- .bss.PressVal  0x00800397        0x1 ./APP_Layer/Smart_Room.o
-                0x00800397                PressVal
+                0x00800297        0x1 ./APP_Layer/Smart_Room.o
+                0x00800297                KPD_PressLength
+ .bss.PressVal  0x00800298        0x1 ./APP_Layer/Smart_Room.o
+                0x00800298                PressVal
  .bss.Error_Time_Out
-                0x00800398        0x1 ./APP_Layer/Smart_Room.o
-                0x00800398                Error_Time_Out
+                0x00800299        0x1 ./APP_Layer/Smart_Room.o
+                0x00800299                Error_Time_Out
  *(COMMON)
- COMMON         0x00800399       0x2a ./APP_Layer/Security.o
-                0x00800399                Check
-                0x008003ae                KPD_Press
-                0x008003af                UserName
- COMMON         0x008003c3        0x1 ./APP_Layer/Smart_Room.o
-                0x008003c3                SPI_Recieve
-                0x008003c4                PROVIDE (__bss_end, .)
-                0x00001e60                __data_load_start = LOADADDR (.data)
-                0x0000216c                __data_load_end = (__data_load_start + SIZEOF (.data))
+ COMMON         0x0080029a       0x2a ./APP_Layer/Security.o
+                0x0080029a                Check
+                0x008002af                KPD_Press
+                0x008002b0                UserName
+ COMMON         0x008002c4        0x1 ./APP_Layer/Smart_Room.o
+                0x008002c4                SPI_Recieve
+                0x008002c5                PROVIDE (__bss_end, .)
+                0x00001b74                __data_load_start = LOADADDR (.data)
+                0x00001d86                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x008003c4        0x0
-                0x008003c4                PROVIDE (__noinit_start, .)
+.noinit         0x008002c5        0x0
+                0x008002c5                PROVIDE (__noinit_start, .)
  *(.noinit*)
-                0x008003c4                PROVIDE (__noinit_end, .)
-                0x008003c4                _end = .
-                0x008003c4                PROVIDE (__heap_start, .)
+                0x008002c5                PROVIDE (__noinit_end, .)
+                0x008002c5                _end = .
+                0x008002c5                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
  *(.eeprom*)
