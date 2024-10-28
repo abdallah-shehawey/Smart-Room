@@ -107,6 +107,7 @@ void TIMER2_vInit                  (void                                        
 void TIMER2_vSetPreload            (u8 Copy_u8Preload                                        );
 void TIMER2_vSetCTC                (u8 Copy_u8CTC                                            );
 u8 TIMER2_u8GetTimerCounterValue   (void                                                     );
+void Timer2_vSetPrescaler(u8 Prescaler);
 
 /*******************************/
 

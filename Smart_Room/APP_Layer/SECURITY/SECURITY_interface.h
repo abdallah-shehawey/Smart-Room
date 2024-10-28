@@ -1,14 +1,15 @@
 /*
- * Security.h
+ *<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<    SECURITY_interface.h    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
  *
- *  Created on: Aug 31, 2024
- *      Author: Mega
+ *  Author : Abdallah Abdelmoemen Shehawey
+ *  Layer  : APP_Layer
+ *
  */
-
 #ifndef APP_LAYER_SECURITY_H_
 #define APP_LAYER_SECURITY_H_
 
-
+#define CLCD_OUTPUT        1
+#define TERMINAL_OUTPUT    2
 
 #define NOTPRESSED                        0xFF
 
@@ -33,5 +34,9 @@ void PassWord_Check                       (void);
 void Sign_In                              (void);
 void Error_TimeOut                        (void);
 void EEPROM_Check                         (void);
+
+#if OUTPUT_SCREEN == CLCD_OUTPUT
+void Clear_Char()
+#endif
 
 #endif /* APP_LAYER_SECURITY_H_ */

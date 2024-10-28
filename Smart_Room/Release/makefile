@@ -13,8 +13,12 @@ RM := rm -rf
 -include MCAL_Layer/EEPROM/subdir.mk
 -include MCAL_Layer/DIO/subdir.mk
 -include MCAL_Layer/ADC/subdir.mk
+-include HAL_Layer/SERVO_MOTOR/subdir.mk
 -include HAL_Layer/LM35/subdir.mk
 -include HAL_Layer/LED/subdir.mk
+-include HAL_Layer/LDR/subdir.mk
+-include HAL_Layer/CLCD/subdir.mk
+-include APP_Layer/SECURITY/subdir.mk
 -include APP_Layer/subdir.mk
 -include subdir.mk
 -include objects.mk

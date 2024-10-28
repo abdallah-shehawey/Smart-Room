@@ -569,9 +569,9 @@ void TIMER2_vInit(void)
 
 		#endif
 
-	/*Set the Required Prescaler*/
-	TCCR2 &= TIMER_PRESCALER_MASK ;
-	TCCR2 |= TIMER2_PRESCALER ;
+			/*Set the Required Prescaler*/
+		TCCR2 &= TIMER_PRESCALER_MASK ;
+		TCCR2 |= TIMER2_PRESCALER ;
 }
 
 /*******************************************************************************************************************/
@@ -636,6 +636,13 @@ u8 TIMER2_u8GetTimerCounterValue (void)
 void TIMER_vSetPWM(u16 Copy_u16CompareValue)
 {
 	OCR1A = Copy_u16CompareValue;
+}
+/*******************************************************************************************************************/
+void Timer2_vSetPrescaler(u8 Prescaler)
+{
+	/*Set the Required Prescaler*/
+	TCCR2 &= TIMER_PRESCALER_MASK ;
+	TCCR2 |= Prescaler ;
 }
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------

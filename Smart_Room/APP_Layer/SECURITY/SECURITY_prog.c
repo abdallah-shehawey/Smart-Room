@@ -1,20 +1,28 @@
 /*
- * Security.c
+ *<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<    SECURITY_program.c    >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
  *
- *  Created on: Aug 31, 2024
- *      Author: Abdallah Abdelmoemen Shehawey
+ *  Author : Abdallah Abdelmoemen Shehawey
+ *  Layer  : APP_Layer
+ *
  */
 
 #include <util/delay.h>
 
-#include "STD_TYPES.h"
-#include "STD_MACROS.h"
+#include "../STD_TYPES.h"
+#include "../STD_MACROS.h"
 
-#include "../MCAL_Layer/DIO/DIO_interface.h"
-#include "../MCAL_Layer/EEPROM/EEPROM_interface.h"
-#include "../MCAL_Layer/USART/USART_interface.h"
+#if OUTPUT_SCREEN == CLCD_OUTPUT
+#include "../../HAL_Layer/CLCD/CLCD_interface.h"
+#elif OUTPUT_SCREEN == TERMINAL_OUTPUT
+#include "D:\Embedded System\Embedded Codes\ATMega32-Drivers/1_MCAL/USART/USART_interface.h"
+#endif
 
-#include "Security.h"
+#include "../../MCAL_Layer/DIO/DIO_interface.h"
+#include "../../MCAL_Layer/EEPROM/EEPROM_interface.h"
+
+
+#include "SECURITY_interface.h"
+#include "SECURITY_config.h"
 
 /*To get Username And Password Length from number of input */
 volatile u8 UserName_Length = 0, PassWord_Length = 0;
@@ -46,22 +54,32 @@ void EEPROM_vInit(void)
 	/* check if There is UserName or Not */
 	if (EEPROM_vRead(EEPROM_UserNameStatus) == NOTPRESSED)
 	{
+		#if OUTPUT_SCREEN == CLCD_OUTPUT
+		CLCD_vSendString("Please Sign Up");
+		_delay_ms(500);
+		CLCD_vClearScreen();
+		#elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 		//if No User Name --> Set New User Name
 		USART_u8SendStringSynch("Please Sign Up");
 		USART_u8SendData(0X0D);
+		#endif
 		// Go To function To Set User_Name
 		UserName_Set();
 	}
 	//And also for Password
 	if (EEPROM_vRead(EEPROM_PassWordStatus) == NOTPRESSED)
 	{
-		// Go To function To Set User_Name
+		// Go To function To Set PassWord
 		PassWord_Set();
+		#if OUTPUT_SCREEN == CLCD_OUTPUT
+		CLCD_vClearScreen();
+		CLCD_vSendString("Saved Successfully");
+		#elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 		USART_u8SendStringSynch("Saved Successfully");
 		USART_u8SendData(0X0D);
+		#endif
 	}
 	/*___________________________________________________________________________________________________________________*/
-
 	//check if Tries is lost or not (when user close project and reopen it when he was in time out)
 	if (Tries == 0)
 	{
@@ -69,7 +87,6 @@ void EEPROM_vInit(void)
 	}
 	else
 	{
-
 	}
 	u8 i ;
 	for(i = 0; i < UserName_Length; i++)
@@ -82,10 +99,25 @@ void EEPROM_vInit(void)
 
 void UserName_Set(void)
 {
+	#if OUTPUT_SCREEN == CLCD_OUTPUT
+	CLCD_vClearScreen();
+	CLCD_vSetPosition(1, 5);
+	CLCD_vSendString("Set UserName");
+	CLCD_vSetPosition(2, 1);
+	CLCD_vSendString("Maximum char : 20");
+	CLCD_vSendExtraChar(4, 15); // To Send Enter Symbol
+	CLCD_vSetPosition(4, 16);
+	CLCD_vSendString(" : OK");
+	//To start the line where i write the user name
+	CLCD_vSetPosition(3, 1);
+	CLCD_vSendCommand(CLCD_DISPLAYON_CURSORON);
+
+	#elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 	USART_u8SendStringSynch("Set UserName");
 	USART_u8SendData(0X0D);
 	USART_u8SendStringSynch("Maximum char : 20");
 	USART_u8SendData(0X0D);
+	#endif
 
 	UserName_Length = 0;
 	/*Get username from user*/
@@ -95,10 +127,43 @@ void UserName_Set(void)
 		// if username is less than 5 char and User Write any thing
 		if (UserName_Length != 0)
 		{
+			#if OUTPUT_SCREEN == CLCD_OUTPUT
+			CLCD_vClearScreen();
+			CLCD_vSendString("UserName Must be");
+			CLCD_vSetPosition(2, 1);
+			CLCD_vSendString("More than 5 Char");
+			CLCD_vSendExtraChar(4, 1);
+			CLCD_vSetPosition(4, 2);
+			CLCD_vSendString(" : Exit");
+			while (1)
+			{
+				// wait in error page until press enter
+				Error_State = USART_u8ReceiveData(&KPD_Press);
+				if (Error_State == OK)
+				{
+					if (KPD_Press == 0x0D || KPD_Press == 0x0F)
+					{
+						break;
+					}
+				}
+			}
+			CLCD_vClearScreen();
+			CLCD_vSetPosition(1, 3);
+			CLCD_vSendString("Re Set UserName");
+			CLCD_vSetPosition(2, 1);
+			CLCD_vSendString("Maximum char : 20");
+			CLCD_vSendExtraChar(4, 15); // To Send Enter Symbol
+			CLCD_vSetPosition(4, 16);
+			CLCD_vSendString(" : OK");
+			CLCD_vSetPosition(3, 1);
+
+			#elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 			USART_u8SendStringSynch("UserName Must be More than 5 Char");
 			USART_u8SendData(0X0D);
 			USART_u8SendStringSynch("Re Enter UserName");
 			USART_u8SendData(0X0D);
+			#endif
+
 			UserName_Length = 0;
 		}
 		// get user name from user by using Keypoard
@@ -120,6 +185,9 @@ void UserName_Set(void)
 				}
 				else
 				{
+					#if OUTPUT_SCREEN == CLCD_OUTPUT
+					CLCD_vSendData(KPD_Press);
+					#endif
 					EEPROM_vWrite(EEPROM_UserNameStartLocation + UserName_Length, KPD_Press);
 					UserName_Length++;
 				}
@@ -130,16 +198,24 @@ void UserName_Set(void)
 				//if user press enter
 				if (KPD_Press == 0x0D || KPD_Press == 0x0F)
 				{
+					#if OUTPUT_SCREEN == CLCD_OUTPUT
+					CLCD_vSendCommand(CLCD_DISPLAYON_CURSOROFF);
+					#endif
 					break;
 				}
 				//if user press back space
 				else if (KPD_Press == 0x08)
 				{
-
+					#if OUTPUT_SCREEN == CLCD_OUTPUT
+					Clear_Char();
+					#endif
 					UserName_Length--;
 				}
 				else
 				{
+					#if OUTPUT_SCREEN == CLCD_OUTPUT
+					CLCD_vSendData(KPD_Press);
+					#endif
 					EEPROM_vWrite(EEPROM_UserNameStartLocation + UserName_Length, KPD_Press);
 					UserName_Length++;
 				}
@@ -149,11 +225,16 @@ void UserName_Set(void)
 			{
 				if (KPD_Press == 0x0D || KPD_Press == 0x0F)
 				{
+					#if OUTPUT_SCREEN == CLCD_OUTPUT
+					CLCD_vSendCommand(CLCD_DISPLAYON_CURSOROFF);
+					#endif
 					break;
 				}
 				else if (KPD_Press == 0x08)
 				{
-
+					#if OUTPUT_SCREEN == CLCD_OUTPUT
+					Clear_Char();
+					#endif
 					UserName_Length--;
 				}
 				else
@@ -177,10 +258,24 @@ void UserName_Set(void)
 void PassWord_Set(void)
 {
 	//Function to get password from user like UserName Set Function
+	#if OUTPUT_SCREEN == CLCD_OUTPUT
+	CLCD_vClearScreen();
+	CLCD_vSetPosition(1, 5);
+	CLCD_vSendString("Set PassWord");
+	CLCD_vSetPosition(2, 1);
+	CLCD_vSendString("Maximum char : 20");
+	CLCD_vSendExtraChar(4, 15); // To Send Enter Symbol
+	CLCD_vSetPosition(4, 16);
+	CLCD_vSendString(" : OK");
+	CLCD_vSetPosition(3, 1);
+
+	#elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 	USART_u8SendStringSynch("Set PassWord");
 	USART_u8SendData(0X0D);
 	USART_u8SendStringSynch("Maximum char : 20");
 	USART_u8SendData(0X0D);
+	#endif
+
 	PassWord_Length = 0;
 	/*Get username from user*/
 	do
@@ -188,6 +283,36 @@ void PassWord_Set(void)
 		// if username is less than 5 char
 		if (PassWord_Length != 0)
 		{
+			#if OUTPUT_SCREEN == CLCD_OUTPUT
+			CLCD_vClearScreen();
+			CLCD_vSendString("PassWord Must be");
+			CLCD_vSetPosition(2, 1);
+			CLCD_vSendString("More than 5 Char");
+			CLCD_vSendExtraChar(4, 1);
+			CLCD_vSetPosition(4, 2);
+			CLCD_vSendString(" : Exit");
+			while (1)
+			{
+				//to wait in error page until the user press enter
+				Error_State = USART_u8ReceiveData(&KPD_Press);
+				if (Error_State == OK)
+				{
+					if (KPD_Press == 0x0D || KPD_Press == 0x0F)
+					{
+						break;
+					}
+				}
+			}
+			CLCD_vClearScreen();
+			CLCD_vSetPosition(1, 5);
+			CLCD_vSendString("Set PassWord");
+			CLCD_vSetPosition(2, 1);
+			CLCD_vSendString("Maximum char : 20");
+			CLCD_vSendExtraChar(4, 15); // To Send Enter Symbol
+			CLCD_vSetPosition(4, 16);
+			CLCD_vSendString(" : OK");
+			CLCD_vSetPosition(3, 1);
+			#elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 			USART_u8SendStringSynch("PassWord Must be More than 5 Char");
 			USART_u8SendData(0X0D);
 
@@ -195,8 +320,12 @@ void PassWord_Set(void)
 			USART_u8SendData(0X0D);
 			USART_u8SendStringSynch("Maximum char : 20");
 			USART_u8SendData(0X0D);
+			#endif
 			PassWord_Length = 0;
 		}
+		#if OUTPUT_SCREEN == CLCD_OUTPUT
+		CLCD_vSendCommand(CLCD_DISPLAYON_CURSORON);
+		#endif
 		// get user name from user by using Keypoard
 		while (1)
 		{
@@ -216,6 +345,9 @@ void PassWord_Set(void)
 				}
 				else
 				{
+					#if OUTPUT_SCREEN == CLCD_OUTPUT
+		      CLCD_vSendData(KPD_Press);
+		      #endif
 					EEPROM_vWrite(EEPROM_PassWordStartLocation + PassWord_Length, KPD_Press);
 					PassWord_Length++;
 				}
@@ -226,16 +358,25 @@ void PassWord_Set(void)
 				//if user press enter
 				if (KPD_Press == 0x0D || KPD_Press == 0x0F)
 				{
+					#if OUTPUT_SCREEN == CLCD_OUTPUT
+		      CLCD_vSendCommand(CLCD_DISPLAYON_CURSOROFF);
+		      #endif
 					break;
 				}
 				//if user press back space
 				else if (KPD_Press == 0x08)
 				{
+					#if OUTPUT_SCREEN == CLCD_OUTPUT
+		      Clear_Char();
+		      #endif
 					PassWord_Length--;
 				}
 				//if user enter valid data
 				else
 				{
+					#if OUTPUT_SCREEN == CLCD_OUTPUT
+		      CLCD_vSendData(KPD_Press);
+		      #endif
 					EEPROM_vWrite(EEPROM_PassWordStartLocation + PassWord_Length, KPD_Press);
 					PassWord_Length++;
 				}
@@ -246,11 +387,17 @@ void PassWord_Set(void)
 				// if user press enter
 				if (KPD_Press == 0x0D || KPD_Press == 0x0F)
 				{
+					#if OUTPUT_SCREEN == CLCD_OUTPUT
+		      CLCD_vSendCommand(CLCD_DISPLAYON_CURSOROFF);
+		      #endif
 					break;
 				}
 				// if user press back space
 				else if (KPD_Press == 0x08)
 				{
+					#if OUTPUT_SCREEN == CLCD_OUTPUT
+		      Clear_Char();
+		      #endif
 					PassWord_Length--;
 				}
 				//if enter valid do no thing because you skipped valid char you must input
@@ -275,8 +422,15 @@ void PassWord_Set(void)
 //check if user name is true or not
 void UserName_Check(void)
 {
+	#if OUTPUT_SCREEN == CLCD_OUTPUT
+	CLCD_vClearScreen();
+	CLCD_vSendString("Check UserName");
+	CLCD_vSetPosition(2, 1);
+	CLCD_vSendCommand(CLCD_DISPLAYON_CURSORON);
+	#elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 	USART_u8SendStringSynch("Check UserName");
 	USART_u8SendData(0X0D);
+	#endif
 	u8 CheckLength = 0;
 	UserName_Check_Flag = 1;
 	while (1)
@@ -296,6 +450,9 @@ void UserName_Check(void)
 			// if user enter valid data
 			else
 			{
+				#if OUTPUT_SCREEN == CLCD_OUTPUT
+				CLCD_vSendData(KPD_Press);
+				#endif
 				Check[CheckLength] = KPD_Press;
 				CheckLength++;
 			}
@@ -305,17 +462,25 @@ void UserName_Check(void)
 			// if user press enter
 			if (KPD_Press == 0x0D || KPD_Press == 0x0F)
 			{
+				#if OUTPUT_SCREEN == CLCD_OUTPUT
+				CLCD_vSendCommand(CLCD_DISPLAYON_CURSOROFF);
+				#endif
 				break;
 			}
 			// if user press back space
 			else if (KPD_Press == 0x08)
 			{
-
+				#if OUTPUT_SCREEN == CLCD_OUTPUT
+				Clear_Char();
+				#endif
 				CheckLength--;
 			}
 			// if user enter valid data
 			else
 			{
+				#if OUTPUT_SCREEN == CLCD_OUTPUT
+				CLCD_vSendData(KPD_Press);
+				#endif
 				Check[CheckLength] = KPD_Press;
 				CheckLength++;
 			}
@@ -326,12 +491,17 @@ void UserName_Check(void)
 			// if user press enter
 			if (KPD_Press == 0x0D || KPD_Press == 0x0F)
 			{
+				#if OUTPUT_SCREEN == CLCD_OUTPUT
+				CLCD_vSendCommand(CLCD_DISPLAYON_CURSOROFF);
+				#endif
 				break;
 			}
 			// if user press back space
 			else if (KPD_Press == 0x08)
 			{
-
+				#if OUTPUT_SCREEN == CLCD_OUTPUT
+				Clear_Char();
+				#endif
 				CheckLength--;
 			}
 			// if user enter valid data
@@ -377,9 +547,15 @@ void UserName_Check(void)
 
 void PassWord_Check(void)
 {
-
+	#if OUTPUT_SCREEN == CLCD_OUTPUT
+	CLCD_vClearScreen();
+	CLCD_vSendString("Check PassWord");
+	CLCD_vSetPosition(2, 1);
+	CLCD_vSendCommand(CLCD_DISPLAYON_CURSORON);
+	#elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 	USART_u8SendStringSynch("Check PassWord");
 	USART_u8SendData(0X0D);
+	#endif
 	u8 CheckLength = 0;
 	PassWord_Check_Flag = 1;
 
@@ -400,6 +576,9 @@ void PassWord_Check(void)
 			// if user enter valid data
 			else
 			{
+				#if OUTPUT_SCREEN == CLCD_OUTPUT
+				CLCD_vSendData(KPD_Press);
+				#endif
 				Check[CheckLength] = KPD_Press;
 				CheckLength++;
 			}
@@ -408,15 +587,23 @@ void PassWord_Check(void)
 		{
 			if (KPD_Press == 0x0D || KPD_Press == 0x0F)
 			{
+				#if OUTPUT_SCREEN == CLCD_OUTPUT
+				CLCD_vSendCommand(CLCD_DISPLAYON_CURSOROFF);
+				#endif
 				break;
 			}
 			else if (KPD_Press == 0x08)
 			{
-
+				#if OUTPUT_SCREEN == CLCD_OUTPUT
+				Clear_Char();
+				#endif
 				CheckLength--;
 			}
 			else
 			{
+				#if OUTPUT_SCREEN == CLCD_OUTPUT
+				CLCD_vSendData(KPD_Press);
+				#endif
 				Check[CheckLength] = KPD_Press;
 				CheckLength++;
 			}
@@ -426,11 +613,16 @@ void PassWord_Check(void)
 		{
 			if (KPD_Press == 0x0D || KPD_Press == 0x0F)
 			{
+				#if OUTPUT_SCREEN == CLCD_OUTPUT
+				CLCD_vSendCommand(CLCD_DISPLAYON_CURSOROFF);
+				#endif
 				break;
 			}
 			else if (KPD_Press == 0x08)
 			{
-
+				#if OUTPUT_SCREEN == CLCD_OUTPUT
+				Clear_Char();
+				#endif
 				CheckLength--;
 			}
 
@@ -484,35 +676,65 @@ void Sign_In(void)
 		//if any flag of them is zero that mean there is one of them is zero
 		if (UserName_Check_Flag == 0 || PassWord_Check_Flag == 0)
 		{
+			#if OUTPUT_SCREEN == CLCD_OUTPUT
+			CLCD_vClearScreen();
+		  CLCD_vSendString("Invalid Username");
+		  CLCD_vSetPosition(2, 1);
+		  CLCD_vSendString("or Password");
+		  #elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 			//if it false make tries--
 			USART_u8SendStringSynch("Invalid Username or Password");
 			USART_u8SendData(0X0D);
+			#endif
 			Tries--;
 			EEPROM_vWrite(EEPROM_NoTries_Location, Tries);
 
 			//if there tries i can use
 			if (Tries > 0)
 			{
+                #if OUTPUT_SCREEN == CLCD_OUTPUT
+				CLCD_vSetPosition(3, 1);
+				CLCD_vSendString("Tries Left : ");
+				CLCD_vSendData(Tries + 48);
+				_delay_ms(700);
+                #elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 				USART_u8SendStringSynch("Tries Left : ");
 				USART_u8SendData(Tries + 48);
 				USART_u8SendData(0X0D);
+                #endif
 			}
 			// if there is no tries any more go to function time out to count few of seconds
 			else if (Tries == 0)
 			{
+                #if OUTPUT_SCREEN == CLCD_OUTPUT
+				CLCD_vSetPosition(3, 1);
+				CLCD_vSendString("Tries Left : ");
+				CLCD_vSendData(Tries + 48);
+				_delay_ms(500);
+				Error_TimeOut();
+                #elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 				USART_u8SendStringSynch("Tries Left : ");
 				USART_u8SendData(Tries + 48);
 				USART_u8SendData(0X0D);
 				Error_TimeOut();
+               #endif
 			}
 		}
 		//if username and password are correct
 		else
 		{
+            #if OUTPUT_SCREEN == CLCD_OUTPUT
+			CLCD_vClearScreen();
+			CLCD_vSendString("Successfully");
+			CLCD_vSetPosition(2, 1);
+			CLCD_vSendString("Sign in");
+			_delay_ms(700);
+            #elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 			USART_u8SendStringSynch("Successfully Sign in");
 			EEPROM_vWrite(EEPROM_NoTries_Location, NOTPRESSED);
 			Tries = Tries_Max;
 			USART_u8SendData(0X0D);
+            #endif
 			break;
 		}
 	}
@@ -523,19 +745,42 @@ void Sign_In(void)
 //to time out error
 void Error_TimeOut(void)
 {
+	#if OUTPUT_SCREEN == CLCD_OUTPUT
+	CLCD_vClearScreen();
+	CLCD_vSendString("Time out :  ");
+	#elif OUTPUT_SCREEN == TERMINAL_OUTPUT
 	USART_u8SendStringSynch("Time out :");
-
+	#endif
 	for (u8 i = 5; i > 0; i--)
 	{
-		USART_u8SendData(' ');
+		#if OUTPUT_SCREEN == CLCD_OUTPUT
+		//show second left on lcd
+		CLCD_vSendCommand(CLCD_SHIFT_CURSOR_LEFT);
+		CLCD_vSendData(i + 48);
+		_delay_ms(1000);
+		#elif OUTPUT_SCREEN == TERMINAL_OUTPUT
+		USART_u8SendData(0X08);
 		//show second left on lcd
 		USART_u8SendData(i + 48);
 		_delay_ms(1000);
+		#endif
 	}
+	#if OUTPUT_SCREEN == TERMINAL_OUTPUT
 	USART_u8SendData(0X0D);
+	#endif
 	//to make tries address Not pressed that mean i dosent spend any tries and make tries == max tries again
 	EEPROM_vWrite(EEPROM_NoTries_Location, NOTPRESSED);
 	Tries = Tries_Max;
 }
+
+//======================================================================================================================================//
+#if OUTPUT_SCREEN == CLCD_OUTPUT
+void Clear_Char()
+{
+	CLCD_vSendCommand(CLCD_SHIFT_CURSOR_LEFT);
+	CLCD_vSendData(' ');
+	CLCD_vSendCommand(CLCD_SHIFT_CURSOR_LEFT);
+}
+#endif
 
 //======================================================================================================================================//
