@@ -188,7 +188,7 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x3930
+.text           0x00000000     0x39b4
  *(.vectors)
  .vectors       0x00000000       0x54 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
                 0x00000000                __vectors
@@ -599,61 +599,61 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x00002960       0x50 ./APP_Layer/SECURITY/SECURITY_prog.o
                 0x00002960                Error_TimeOut
  .text.PassWord_Check
-                0x000029b0      0x110 ./APP_Layer/SECURITY/SECURITY_prog.o
+                0x000029b0      0x130 ./APP_Layer/SECURITY/SECURITY_prog.o
                 0x000029b0                PassWord_Check
  .text.UserName_Check
-                0x00002ac0      0x10e ./APP_Layer/SECURITY/SECURITY_prog.o
-                0x00002ac0                UserName_Check
- .text.Sign_In  0x00002bce       0xf2 ./APP_Layer/SECURITY/SECURITY_prog.o
-                0x00002bce                Sign_In
+                0x00002ae0      0x12e ./APP_Layer/SECURITY/SECURITY_prog.o
+                0x00002ae0                UserName_Check
+ .text.Sign_In  0x00002c0e       0xf2 ./APP_Layer/SECURITY/SECURITY_prog.o
+                0x00002c0e                Sign_In
  .text.PassWord_Set
-                0x00002cc0      0x1c8 ./APP_Layer/SECURITY/SECURITY_prog.o
-                0x00002cc0                PassWord_Set
+                0x00002d00      0x1e6 ./APP_Layer/SECURITY/SECURITY_prog.o
+                0x00002d00                PassWord_Set
  .text.UserName_Set
-                0x00002e88      0x1c6 ./APP_Layer/SECURITY/SECURITY_prog.o
-                0x00002e88                UserName_Set
+                0x00002ee6      0x1ec ./APP_Layer/SECURITY/SECURITY_prog.o
+                0x00002ee6                UserName_Set
  .text.EEPROM_vInit
-                0x0000304e       0xcc ./APP_Layer/SECURITY/SECURITY_prog.o
-                0x0000304e                EEPROM_vInit
+                0x000030d2       0xcc ./APP_Layer/SECURITY/SECURITY_prog.o
+                0x000030d2                EEPROM_vInit
  .text.Auto_Fan_Control
-                0x0000311a       0x7e ./APP_Layer/Smart_Room.o
-                0x0000311a                Auto_Fan_Control
+                0x0000319e       0x7e ./APP_Layer/Smart_Room.o
+                0x0000319e                Auto_Fan_Control
  .text.Room_Door
-                0x00003198       0xc8 ./APP_Layer/Smart_Room.o
-                0x00003198                Room_Door
+                0x0000321c       0xc8 ./APP_Layer/Smart_Room.o
+                0x0000321c                Room_Door
  .text.Room_vSetting
-                0x00003260      0x134 ./APP_Layer/Smart_Room.o
-                0x00003260                Room_vSetting
+                0x000032e4      0x134 ./APP_Layer/Smart_Room.o
+                0x000032e4                Room_vSetting
  .text.Room_vFan
-                0x00003394      0x17a ./APP_Layer/Smart_Room.o
-                0x00003394                Room_vFan
- .text.Room     0x0000350e      0x1b0 ./APP_Layer/Smart_Room.o
-                0x0000350e                Room
- .text.main     0x000036be       0xfa ./APP_Layer/Smart_Room.o
-                0x000036be                main
- .text.libgcc   0x000037b8       0x3e c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
-                0x000037b8                __mulsi3
- .text.libgcc   0x000037f6       0x28 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
-                0x000037f6                __udivmodhi4
- .text.libgcc   0x0000381e       0x26 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodhi4.o)
-                0x0000381e                __divmodhi4
-                0x0000381e                _div
- .text.libgcc   0x00003844       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
-                0x00003844                __udivmodsi4
- .text.libgcc   0x00003888       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodsi4.o)
-                0x00003888                __divmodsi4
- .text.libgcc   0x000038be        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
- .text.libgcc   0x000038be        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
- .text.libgcc   0x000038be        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
- .text.libgcc   0x000038be       0x38 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
-                0x000038be                __prologue_saves__
- .text.libgcc   0x000038f6       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
-                0x000038f6                __epilogue_restores__
-                0x0000392c                . = ALIGN (0x2)
+                0x00003418      0x17a ./APP_Layer/Smart_Room.o
+                0x00003418                Room_vFan
+ .text.Room     0x00003592      0x1b0 ./APP_Layer/Smart_Room.o
+                0x00003592                Room
+ .text.main     0x00003742       0xfa ./APP_Layer/Smart_Room.o
+                0x00003742                main
+ .text.libgcc   0x0000383c       0x3e c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_mulsi3.o)
+                0x0000383c                __mulsi3
+ .text.libgcc   0x0000387a       0x28 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodhi4.o)
+                0x0000387a                __udivmodhi4
+ .text.libgcc   0x000038a2       0x26 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodhi4.o)
+                0x000038a2                __divmodhi4
+                0x000038a2                _div
+ .text.libgcc   0x000038c8       0x44 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_udivmodsi4.o)
+                0x000038c8                __udivmodsi4
+ .text.libgcc   0x0000390c       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_divmodsi4.o)
+                0x0000390c                __divmodsi4
+ .text.libgcc   0x00003942        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .text.libgcc   0x00003942        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00003942        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00003942       0x38 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_prologue.o)
+                0x00003942                __prologue_saves__
+ .text.libgcc   0x0000397a       0x36 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_epilogue.o)
+                0x0000397a                __epilogue_restores__
+                0x000039b0                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x0000392c        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
-                0x0000392c                exit
-                0x0000392c                _exit
+ .fini9         0x000039b0        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+                0x000039b0                exit
+                0x000039b0                _exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -672,11 +672,11 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x0000392c        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
+ .fini0         0x000039b0        0x4 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a(_exit.o)
  *(.fini0)
-                0x00003930                _etext = .
+                0x000039b4                _etext = .
 
-.data           0x00800060      0x44c load address 0x00003930
+.data           0x00800060      0x44c load address 0x000039b4
                 0x00800060                PROVIDE (__data_start, .)
  *(.data)
  .data          0x00800060        0x0 c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/../../../../avr/lib/avr5/crtm32.o
@@ -864,8 +864,8 @@ LOAD c:/winavr-20100110/bin/../lib/gcc/avr/4.3.3/avr5\libgcc.a
                 0x008004fe                SPI_Recieve
                 0x008004ff                LM35_Temp
                 0x00800500                PROVIDE (__bss_end, .)
-                0x00003930                __data_load_start = LOADADDR (.data)
-                0x00003d7c                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x000039b4                __data_load_start = LOADADDR (.data)
+                0x00003e00                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800500        0x0
                 0x00800500                PROVIDE (__noinit_start, .)

@@ -139,11 +139,6 @@ void Room()
 	CLCD_vSendString("2- Led2 ON/OFF");
 	CLCD_vSetPosition(4, 1);
 	CLCD_vSendString("3- Led3 ON/OFF");
-	//	CLCD_vSendString("4- Room Fan");
-	//	USART_u8SendData(0X0D);
-	//	CLCD_vSendString("5- Room Door         ");
-	//	CLCD_vSendString("6- Room Setting");
-	//	USART_u8SendData(0X0D);
 
 	do
 	{
