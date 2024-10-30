@@ -17,6 +17,7 @@ RM := rm -rf
 -include HAL_Layer/LM35/subdir.mk
 -include HAL_Layer/LED/subdir.mk
 -include HAL_Layer/LDR/subdir.mk
+-include HAL_Layer/KPD/subdir.mk
 -include HAL_Layer/CLCD/subdir.mk
 -include APP_Layer/SECURITY/subdir.mk
 -include APP_Layer/subdir.mk

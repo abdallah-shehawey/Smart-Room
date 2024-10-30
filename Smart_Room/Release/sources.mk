@@ -24,6 +24,7 @@ SUBDIRS := \
 APP_Layer/SECURITY \
 APP_Layer \
 HAL_Layer/CLCD \
+HAL_Layer/KPD \
 HAL_Layer/LDR \
 HAL_Layer/LED \
 HAL_Layer/LM35 \

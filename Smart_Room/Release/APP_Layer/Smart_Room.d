@@ -10,6 +10,7 @@ APP_Layer/Smart_Room.o APP_Layer/Smart_Room.o: ../APP_Layer/Smart_Room.c \
   ../APP_Layer/../HAL_Layer/LDR/LDR_interface.h \
   ../APP_Layer/../Hal_Layer/ClCD/CLCD_interface.h \
   ../APP_Layer/../Hal_Layer/ClCD/../../APP_Layer/STD_TYPES.h \
+  ../APP_Layer/../Hal_Layer/KPD/KPD_interface.h \
   ../APP_Layer/SECURITY/SECURITY_interface.h
 
 ../APP_Layer/STD_TYPES.h:
@@ -35,5 +36,7 @@ APP_Layer/Smart_Room.o APP_Layer/Smart_Room.o: ../APP_Layer/Smart_Room.c \
 ../APP_Layer/../Hal_Layer/ClCD/CLCD_interface.h:
 
 ../APP_Layer/../Hal_Layer/ClCD/../../APP_Layer/STD_TYPES.h:
+
+../APP_Layer/../Hal_Layer/KPD/KPD_interface.h:
 
 ../APP_Layer/SECURITY/SECURITY_interface.h:

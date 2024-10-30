@@ -21,6 +21,8 @@
 #include "../HAL_Layer/LM35/LM35_interface.h"
 #include "../HAL_Layer/LDR/LDR_interface.h"
 #include "../Hal_Layer/ClCD/CLCD_interface.h"
+#include "../Hal_Layer/KPD/KPD_interface.h"
+
 #include "SECURITY/SECURITY_interface.h"
 
 //Used Flags
@@ -29,6 +31,7 @@ typedef struct
 	unsigned char OneTimeFlag : 1;
 	unsigned char STOP_Flag : 1;
 	unsigned char Auto_Fan :1;
+	unsigned char Page_One :1;
 }Flags_structConfig;
 
 LM35_Config LM35 = {ADC_CHANNEL0, 5, ADC_RES_10_BIT};
@@ -41,6 +44,7 @@ LDR_Config LDR2    = {ADC_CHANNEL3, 5, ADC_RES_10_BIT};
 volatile u8 Error_State, KPD_Press, SPI_Recieve;
 volatile u8 Error_Time_Out = 0, Prescaler_Falg = 0; // To count time out allow for user
 extern  u8 UserName[20];          // extern user name which intern with user to show on system
+extern u8 UserName_Length;
 volatile u8 LDR_LightPrec, LM35_Temp;
 
 LED_config Room_Led_1  =  {DIO_PORTC, DIO_PIN5, HIGH};
@@ -48,7 +52,7 @@ LED_config Room_Led_2  =  {DIO_PORTC, DIO_PIN6, HIGH};
 LED_config Room_Led_3  =  {DIO_PORTC, DIO_PIN7, HIGH};
 
 //Default flags value
-Flags_structConfig Flags = {1, 1, 0};
+Flags_structConfig Flags = {1, 1, 0, 0};
 
 //Function ProtoType
 void Room();
@@ -91,8 +95,7 @@ void main()
 		{
 			Error_Time_Out = 0;
 			Flags.STOP_Flag = 1;
-			USART_u8SendStringSynch("Press enter to open system");
-			USART_u8SendData(0X0D);
+			CLCD_vSendString("Press enter to open system");
 			do
 			{
 				Error_State = USART_u8ReceiveData(&KPD_Press);
@@ -104,12 +107,17 @@ void main()
 					}
 				}
 			}while (1); //go into infinite loop until press enter
+
 			//Check username and password
-			Sign_In();
+			//Sign_In();
+
+			CLCD_vClearScreen();
 			//print hello message
-			USART_u8SendStringSynch("Welcome ");
-			USART_u8SendStringSynch(UserName);
-			USART_u8SendData(0X0D); // make new line
+			CLCD_vSetPosition(2, 7);
+			CLCD_vSendString("Welcome ");
+			CLCD_vSetPosition(3, ((20 - UserName_Length) /  2) + 1);
+			CLCD_vSendString(UserName);
+			_delay_ms(1000);
 			Flags.OneTimeFlag = 0; // to print it one time which system is open
 			Room();
 		}
@@ -123,18 +131,19 @@ void main()
 //======================================================================================================================================//
 void Room()
 {
-	USART_u8SendStringSynch("Room Options : ");
-	USART_u8SendData(0X0D);
-
-	USART_u8SendStringSynch("1- Led1 ON/OFF       ");
-	USART_u8SendStringSynch("2- Led2 ON/OFF");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("3- Led3 ON/OFF       ");
-	USART_u8SendStringSynch("4- Room Fan");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("5- Room Door         ");
-	USART_u8SendStringSynch("6- Room Setting");
-	USART_u8SendData(0X0D);
+	CLCD_vClearScreen();
+	CLCD_vSendString("Room Options : ");
+	CLCD_vSetPosition(2, 1);
+	CLCD_vSendString("1- Led1 ON/OFF");
+	CLCD_vSetPosition(3, 1);
+	CLCD_vSendString("2- Led2 ON/OFF");
+	CLCD_vSetPosition(4, 1);
+	CLCD_vSendString("3- Led3 ON/OFF");
+	//	CLCD_vSendString("4- Room Fan");
+	//	USART_u8SendData(0X0D);
+	//	CLCD_vSendString("5- Room Door         ");
+	//	CLCD_vSendString("6- Room Setting");
+	//	USART_u8SendData(0X0D);
 
 	do
 	{
@@ -144,7 +153,6 @@ void Room()
 		{
 			switch (KPD_Press)
 			{
-
 			case '1':
 				Error_Time_Out = 0;
 				LED_vTog(Room_Led_1);
@@ -172,9 +180,39 @@ void Room()
 				Room_vSetting();
 				KPD_Press = NOTPRESSED;
 				break;
+			case '0':
+				if (Flags.Page_One == 0)
+				{
+					CLCD_vClearScreen();
+					CLCD_vSendString("Room Options : ");
+					CLCD_vSetPosition(2, 1);
+					CLCD_vSendString("4- Room Fan");
+					CLCD_vSetPosition(3, 1);
+					CLCD_vSendString("5- Room Door");
+					CLCD_vSetPosition(4, 1);
+					CLCD_vSendString("6- Room Setting");
+					Flags.Page_One = 1;
+				}
+				else if(Flags.Page_One == 1)
+				{
+					CLCD_vClearScreen();
+					CLCD_vSendString("Room Options : ");
+					CLCD_vSetPosition(2, 1);
+					CLCD_vSendString("1- Led1 ON/OFF");
+					CLCD_vSetPosition(3, 1);
+					CLCD_vSendString("2- Led2 ON/OFF");
+					CLCD_vSetPosition(4, 1);
+					CLCD_vSendString("3- Led3 ON/OFF");
+					Flags.Page_One = 0;
+				}
+				else
+				{
+
+				}
+				break;
 			case 0x08 :
 				Error_Time_Out = 0;
-				USART_u8SendData(0X0D);
+				CLCD_vClearScreen();
 				Flags.OneTimeFlag = 1; // to print it one time which system is open
 				break;
 			default :
@@ -185,13 +223,11 @@ void Room()
 		{
 			if (Error_Time_Out == Time_Out)
 			{
-				USART_u8SendData(0X0D);
 				if (Flags.STOP_Flag == 1)
 				{
-					USART_u8SendStringSynch("Session Time Out");
+					CLCD_vSendString("Session Time Out");
 					Flags.STOP_Flag = 0;
 				}
-				USART_u8SendData(0X0D);
 				Flags.OneTimeFlag = 1;
 				break;
 			}
@@ -202,22 +238,17 @@ void Room()
 //======================================================================================================================================//
 void Room_vFan()
 {
-	USART_u8SendStringSynch("Fan Control : ");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("1- Fan Off           ");
-	USART_u8SendStringSynch("2- Speed 1");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("3- Speed 2           ");
-	USART_u8SendStringSynch("4- Speed 3");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("5- Speed 4");
-	USART_u8SendData(0X0D);
+	CLCD_vSendString("Fan Control : ");
+	CLCD_vSendString("1- Fan Off           ");
+	CLCD_vSendString("2- Speed 1");
+	CLCD_vSendString("3- Speed 2           ");
+	CLCD_vSendString("4- Speed 3");
+	CLCD_vSendString("5- Speed 4");
+
 
 	if (Flags.Auto_Fan = 1)
 	{
-		USART_u8SendStringSynch("Auto Fan Control is Enabled");
-		USART_u8SendData(0X0D);
-
+		CLCD_vSendString("Auto Fan Control is Enabled");
 	}
 	do
 	{
@@ -271,18 +302,12 @@ void Room_vFan()
 				break;
 			case 0x08 :
 				Error_Time_Out = 0;
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("Room Options : ");
-				USART_u8SendData(0X0D);
-
-				USART_u8SendStringSynch("1- Led1 ON/OFF       ");
-				USART_u8SendStringSynch("2- Led2 ON/OFF");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("3- Led3 ON/OFF       ");
-				USART_u8SendStringSynch("4- Room Fan");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("5- Room Setting");
-				USART_u8SendData(0X0D);
+				CLCD_vSendString("Room Options : ");
+				CLCD_vSendString("1- Led1 ON/OFF       ");
+				CLCD_vSendString("2- Led2 ON/OFF");
+				CLCD_vSendString("3- Led3 ON/OFF       ");
+				CLCD_vSendString("4- Room Fan");
+				CLCD_vSendString("5- Room Setting");
 				break;
 			default :
 				break;
@@ -424,19 +449,15 @@ void Room_Door(void)
 				Error_Time_Out = 0;
 				break;
 			case 0x08 :
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("Room Options : ");
-				USART_u8SendData(0X0D);
-
-				USART_u8SendStringSynch("1- Led1 ON/OFF       ");
-				USART_u8SendStringSynch("2- Led2 ON/OFF");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("3- Led3 ON/OFF       ");
-				USART_u8SendStringSynch("4- Room Fan");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("5- Room Door         ");
-				USART_u8SendStringSynch("6- Room Setting");
-				USART_u8SendData(0X0D);
+				CLCD_vClearScreen();
+				CLCD_vSendString("Room Options : ");
+				CLCD_vSetPosition(2, 1);
+				CLCD_vSendString("1- Led1 ON/OFF");
+				CLCD_vSetPosition(3, 1);
+				CLCD_vSendString("2- Led2 ON/OFF");
+				CLCD_vSetPosition(4, 1);
+				CLCD_vSendString("3- Led3 ON/OFF");
+				Flags.Page_One = 0;
 				break;
 			default :
 				break;
@@ -463,11 +484,10 @@ void Room_Door(void)
 //======================================================================================================================================//
 void Auto_Fan_Control()
 {
-	USART_u8SendStringSynch("Auto Fan Control");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("1- Open              ");
-	USART_u8SendStringSynch("2- Close");
-	USART_u8SendData(0X0D);
+	CLCD_vSendString("Auto Fan Control");
+	CLCD_vSendString("1- Open              ");
+	CLCD_vSendString("2- Close");
+
 	do
 	{
 		Error_State = USART_u8ReceiveData(&KPD_Press);
@@ -498,10 +518,9 @@ void Auto_Fan_Control()
 				USART_u8SendData(0X0D);
 				if (Flags.STOP_Flag == 1)
 				{
-					USART_u8SendStringSynch("Session Time Out");
+					CLCD_vSendString("Session Time Out");
 					Flags.STOP_Flag = 0;
 				}
-				USART_u8SendData(0X0D);
 				Flags.OneTimeFlag = 1;
 				break;
 			}
