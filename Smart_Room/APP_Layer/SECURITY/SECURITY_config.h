@@ -11,18 +11,18 @@
 
 
 #define Tries_Max                          3
-#define USERNAME_MIN_LENGTH 6
+#define USERNAME_MIN_LENGTH 8
 #define PASSWORD_MIN_LENGTH 5
 
-#define USERNAME_MAX_LENGTH 15
-#define PASSWORD_MAX_LENGTH 20
+#define USERNAME_MAX_LENGTH 20
+#define PASSWORD_MAX_LENGTH 15
 
 /*
 *Optoins :-
   1- CLCD_OUTPUT
   2- TERMINAL_OUTPUT
 */
-#define OUTPUT_SCREEN TERMINAL_OUTPUT
+#define OUTPUT_SCREEN CLCD_OUTPUT
 
 /*
 *Optoins :-
