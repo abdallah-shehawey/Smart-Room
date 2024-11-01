@@ -5,6 +5,8 @@ APP_Layer/Smart_Room.o APP_Layer/Smart_Room.o: ../APP_Layer/Smart_Room.c \
   ../APP_Layer/../MCAL_Layer/USART/USART_interface.h \
   ../APP_Layer/../MCAL_Layer/TIMER/TIMER_interface.h \
   ../APP_Layer/../MCAL_Layer/ADC/ADC_interface.h \
+  ../APP_Layer/../MCAL_Layer/GIE/GIE_interface.h \
+  ../APP_Layer/../MCAL_Layer/EXTI/EXTI_interface.h \
   ../APP_Layer/../HAL_Layer/LED/LED_interface.h \
   ../APP_Layer/../HAL_Layer/LM35/LM35_interface.h \
   ../APP_Layer/../HAL_Layer/LDR/LDR_interface.h \
@@ -26,6 +28,10 @@ APP_Layer/Smart_Room.o APP_Layer/Smart_Room.o: ../APP_Layer/Smart_Room.c \
 ../APP_Layer/../MCAL_Layer/TIMER/TIMER_interface.h:
 
 ../APP_Layer/../MCAL_Layer/ADC/ADC_interface.h:
+
+../APP_Layer/../MCAL_Layer/GIE/GIE_interface.h:
+
+../APP_Layer/../MCAL_Layer/EXTI/EXTI_interface.h:
 
 ../APP_Layer/../HAL_Layer/LED/LED_interface.h:
 

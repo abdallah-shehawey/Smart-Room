@@ -10,6 +10,8 @@ RM := rm -rf
 -include sources.mk
 -include MCAL_Layer/USART/subdir.mk
 -include MCAL_Layer/TIMER/subdir.mk
+-include MCAL_Layer/GIE/subdir.mk
+-include MCAL_Layer/EXTI/subdir.mk
 -include MCAL_Layer/EEPROM/subdir.mk
 -include MCAL_Layer/DIO/subdir.mk
 -include MCAL_Layer/ADC/subdir.mk

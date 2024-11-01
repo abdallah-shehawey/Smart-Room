@@ -477,11 +477,11 @@ void TIMER1_vInit(void)
 
 void TIMER2_vInit(void)
 {
-//	#if TIMER2_EXTERNAL_CLK == ENABLE
-//		SET_BIT(ASSR, ASSR_AS2);
-//	#elif
-//		CLR_BIT(ASSR, ASSR_AS2);
-//	#endif
+	#if TIMER2_EXTERNAL_CLK == ENABLE
+		SET_BIT(ASSR, ASSR_AS2);
+	#elif
+		CLR_BIT(ASSR, ASSR_AS2);
+	#endif
 	/*Set Configurable Modes*/
 		#if TIMER2_WAVEFORM_GENERATION_MODE == TIMER_NORMAL_MODE
 
@@ -644,7 +644,13 @@ void Timer2_vSetPrescaler(u8 Prescaler)
 	TCCR2 &= TIMER_PRESCALER_MASK ;
 	TCCR2 |= Prescaler ;
 }
-
+/*******************************************************************************************************************/
+void Timer0_vSetPrescaler(u8 Prescaler)
+{
+	/*Set the Required Prescaler*/
+	TCCR0 &= TIMER_PRESCALER_MASK ;
+	TCCR0 |= Prescaler ;
+}
 //----------------------------------------------------------------------------------------------------------------------------------------------------
 /*
 	Hint : This func for initial state of trigger (prebuild)

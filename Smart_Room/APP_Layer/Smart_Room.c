@@ -16,6 +16,8 @@
 #include "../MCAL_Layer/USART/USART_interface.h"
 #include "../MCAL_Layer/TIMER/TIMER_interface.h"
 #include "../MCAL_Layer/ADC/ADC_interface.h"
+#include "../MCAL_Layer/GIE/GIE_interface.h"
+#include "../MCAL_Layer/EXTI/EXTI_interface.h"
 
 #include "../HAL_Layer/LED/LED_interface.h"
 #include "../HAL_Layer/LM35/LM35_interface.h"
@@ -51,8 +53,8 @@ extern u8 UserName_Length;
 volatile u8 LDR_LightPrec, LM35_Temp;
 
 LED_config Room_Led_1 = {DIO_PORTC, DIO_PIN5, HIGH};
-LED_config Room_Led_2 = {DIO_PORTC, DIO_PIN6, HIGH};
-LED_config Room_Led_3 = {DIO_PORTC, DIO_PIN7, HIGH};
+LED_config Room_Led_2 = {DIO_PORTD, DIO_PIN3, HIGH};
+LED_config Room_Led_3 = {DIO_PORTC, DIO_PIN4, HIGH};
 
 // Default flags value
 Flags_structConfig Flags = {1, 1, 0, 1, 0, 0, 0};
@@ -67,17 +69,20 @@ void ROOM_LampOne(void);
 void ROOM_LampTwo(void);
 void ROOM_LampThree(void);
 
+
+void ISR_EXTI0_Interrupt(void); //ISR function name for external interrupt
+void ISR_TIMER2_OVF_MODE(void);
 void main()
 {
 	// Set Pin Direction
 	DIO_enumSetPortDir(DIO_PORTC, DIO_PORT_OUTPUT);
-	DIO_enumSetPortDir(DIO_PORTD, 0xFE);
+	DIO_enumSetPortDir(DIO_PORTD, 0XFE);
 	DIO_enumSetPinDir(DIO_PORTB, DIO_PIN0, DIO_PIN_OUTPUT);
 	DIO_enumSetPinDir(DIO_PORTB, DIO_PIN1, DIO_PIN_OUTPUT);
 
 	// Initialize CLCD Pins
 	CLCD_vInit();
-
+	// initialize ADC to Convert From Analog To digital
 	ADC_vInit();
 	// initialize USART to communicate with laptop with Baud Rate 9600
 	USART_vInit();
@@ -87,12 +92,29 @@ void main()
 	DIO_enumSetPinDir(DIO_PORTD, DIO_PIN5, DIO_PIN_OUTPUT);
 	TIMER1_vInit();
 	// set Timer2 Output PIN
-	DIO_enumSetPinDir(DIO_PORTD, DIO_PIN7, DIO_PIN_OUTPUT);
+	DIO_enumSetPinDir(DIO_PORTB, DIO_PIN3, DIO_PIN_OUTPUT);
+	TIMER0_vInit();
+	/*
+	 * Initialize TIMER2 with external clock at 32.768 KHz
+	 * Using division factor 128 to achieve 1 second intervals
+	 */
 	TIMER2_vInit();
+
+	// Set callback function for TIMER2 overflow interrup
+		TIMER_u8SetCallBack(ISR_TIMER2_OVF_MODE, TIMER2_OVF_VECTOR_ID);
 
 	// Initialize Servo Motor
 	SM_vInit();
 	SM_vTimer1Degree(90);
+
+	//SET I-Bit to enable Interrupt
+	GIE_vEnable();
+	//SET INT2 to execute on change on pin
+	EXTI_vEnableInterrupt(EXTI_LINE0);
+	EXTI_vSetSignal(EXTI_RISING_EDGE, EXTI_LINE0);
+	//Set Call Back Function for ISR to INT2
+	EXTI_vSetCallBack(ISR_EXTI0_Interrupt, EXTI_LINE0);
+	DIO_enumSetPinDir(DIO_PORTD, DIO_PIN2, DIO_PIN_INPUT);
 
 	while (1)
 	{
@@ -256,298 +278,7 @@ void Room()
 		}
 	} while (KPD_Press != 0X08);
 }
-//======================================================================================================================================//
-void Room_vFan()
-{
-	CLCD_vSendString("Fan Control : ");
-	CLCD_vSendString("1- Fan Off           ");
-	CLCD_vSendString("2- Speed 1");
-	CLCD_vSendString("3- Speed 2           ");
-	CLCD_vSendString("4- Speed 3");
-	CLCD_vSendString("5- Speed 4");
 
-	if (Flags.Auto_Fan == 1)
-	{
-		CLCD_vSendString("Auto Fan Control is Enabled");
-	}
-	do
-	{
-		Error_State = USART_u8ReceiveData(&KPD_Press);
-		if (Error_State == OK)
-		{
-			switch (KPD_Press)
-			{
-			case '1':
-				Error_Time_Out = 0;
-				TIMER2_vSetCTC(0);
-				_delay_ms(100);
-				Timer2_vSetPrescaler(TIMER_NO_CLOCK_SOURCE);
-				Prescaler_Falg = 0;
-				break;
-			case '2':
-				Error_Time_Out = 0;
-				if (Prescaler_Falg == 0) // To Set Prescaler One Time
-				{
-					Timer2_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
-					Prescaler_Falg = 1;
-				}
-				TIMER2_vSetCTC(63);
-				break;
-			case '3':
-				Error_Time_Out = 0;
-				if (Prescaler_Falg == 0) // To Set Prescaler One Time
-				{
-					Timer2_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
-					Prescaler_Falg = 1;
-				}
-				TIMER2_vSetCTC(126);
-				break;
-			case '4':
-				Error_Time_Out = 0;
-				if (Prescaler_Falg == 0) // To Set Prescaler One Time
-				{
-					Timer2_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
-					Prescaler_Falg = 1;
-				}
-				TIMER2_vSetCTC(189);
-				break;
-			case '5':
-				Error_Time_Out = 0;
-				if (Prescaler_Falg == 0) // To Set Prescaler One Time
-				{
-					Timer2_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
-					Prescaler_Falg = 1;
-				}
-				TIMER2_vSetCTC(255);
-				break;
-			case 0x08:
-				Error_Time_Out = 0;
-				CLCD_vSendString("Room Options : ");
-				CLCD_vSendString("1- Led1 ON/OFF       ");
-				CLCD_vSendString("2- Led2 ON/OFF");
-				CLCD_vSendString("3- Led3 ON/OFF       ");
-				CLCD_vSendString("4- Room Fan");
-				CLCD_vSendString("5- Room Setting");
-				break;
-			default:
-				break;
-			}
-		}
-		else if (Error_State == TIMEOUT_STATE)
-		{
-			if (Error_Time_Out == Time_Out)
-			{
-				USART_u8SendData(0X0D);
-				if (Flags.STOP_Flag == 1)
-				{
-					USART_u8SendStringSynch("Session Time Out");
-					Flags.STOP_Flag = 0;
-				}
-				USART_u8SendData(0X0D);
-				Flags.OneTimeFlag = 1;
-				break;
-			}
-			Error_Time_Out++;
-		}
-	} while (KPD_Press != 0X08);
-}
-//======================================================================================================================================//
-void Room_vSetting()
-{
-	USART_u8SendStringSynch("Setting:");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("1- Change UserName");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("2- Change PassWord");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("3- Change UserName & PassWord");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("4- Auto Fan Control");
-	USART_u8SendData(0X0D);
-	do
-	{
-		Error_State = USART_u8ReceiveData(&KPD_Press);
-		if (Error_State == OK)
-		{
-			switch (KPD_Press)
-			{
-			case '1':
-				USART_u8SendData(0X0D);
-				EEPROM_vWrite(EEPROM_UserNameStatus, 0XFF);
-				UserName_Set();
-				USART_u8SendStringSynch("Setting:");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("1- Change UserName");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("2- Change PassWord");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("2- Change UserName & PassWord");
-				USART_u8SendData(0X0D);
-				Error_Time_Out = 0;
-				break;
-			case '2':
-				USART_u8SendData(0X0D);
-				EEPROM_vWrite(EEPROM_PassWordStatus, 0XFF);
-				PassWord_Set();
-				USART_u8SendStringSynch("Setting:");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("1- Change UserName");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("2- Change PassWord");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("2- Change UserName & PassWord");
-				USART_u8SendData(0X0D);
-				Error_Time_Out = 0;
-				break;
-			case '3':
-				USART_u8SendData(0X0D);
-				EEPROM_vWrite(EEPROM_UserNameStatus, 0XFF);
-				EEPROM_vWrite(EEPROM_PassWordStatus, 0XFF);
-				UserName_Set();
-				PassWord_Set();
-				USART_u8SendStringSynch("Setting:");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("1- Change UserName");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("2- Change PassWord");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("2- Change UserName & PassWord");
-				USART_u8SendData(0X0D);
-				Error_Time_Out = 0;
-				break;
-			case '4':
-				Auto_Fan_Control();
-				break;
-			case 0x08:
-				USART_u8SendData(0X0D);
-				Error_Time_Out = 0;
-				break;
-			default:
-				break;
-			}
-		}
-		else if (Error_State == TIMEOUT_STATE)
-		{
-			if (Error_Time_Out == Time_Out)
-			{
-				USART_u8SendData(0X0D);
-				if (Flags.STOP_Flag == 1)
-				{
-					USART_u8SendStringSynch("Session Time Out");
-					Flags.STOP_Flag = 0;
-				}
-				USART_u8SendData(0X0D);
-				Flags.OneTimeFlag = 1;
-				break;
-			}
-			Error_Time_Out++;
-		}
-	} while (KPD_Press != 0X08);
-}
-
-//======================================================================================================================================//
-void Room_Door(void)
-{
-	USART_u8SendStringSynch("Reception Door : ");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("1- Open              ");
-	USART_u8SendStringSynch("2- Lock");
-	USART_u8SendData(0X0D);
-	do
-	{
-		Error_State = USART_u8ReceiveData(&KPD_Press);
-		if (Error_State == OK)
-		{
-			switch (KPD_Press)
-			{
-			case '1':
-				SM_vTimer1Degree(0);
-				Error_Time_Out = 0;
-				break;
-			case '2':
-				SM_vTimer1Degree(90);
-				Error_Time_Out = 0;
-				break;
-			case 0x08:
-				CLCD_vClearScreen();
-				CLCD_vSendString("Room Options : ");
-				CLCD_vSetPosition(2, 1);
-				CLCD_vSendString("1- Led1 ON/OFF");
-				CLCD_vSetPosition(3, 1);
-				CLCD_vSendString("2- Led2 ON/OFF");
-				CLCD_vSetPosition(4, 1);
-				CLCD_vSendString("3- Led3 ON/OFF");
-				Flags.Page_One = 0;
-				break;
-			default:
-				break;
-			}
-		}
-		else if (Error_State == TIMEOUT_STATE)
-		{
-			if (Error_Time_Out == Time_Out)
-			{
-				USART_u8SendData(0X0D);
-				if (Flags.STOP_Flag == 1)
-				{
-					USART_u8SendStringSynch("Session Time Out");
-					Flags.STOP_Flag = 0;
-				}
-				USART_u8SendData(0X0D);
-				Flags.OneTimeFlag = 1;
-				break;
-			}
-			Error_Time_Out++;
-		}
-	} while (KPD_Press != 0X08);
-}
-//======================================================================================================================================//
-void Auto_Fan_Control()
-{
-	CLCD_vSendString("Auto Fan Control");
-	CLCD_vSendString("1- Open              ");
-	CLCD_vSendString("2- Close");
-
-	do
-	{
-		Error_State = USART_u8ReceiveData(&KPD_Press);
-		if (Error_State == OK)
-		{
-			switch (KPD_Press)
-			{
-			case '1':
-				Flags.Auto_Fan = 1;
-				Error_Time_Out = 0;
-				break;
-			case '2':
-				Flags.Auto_Fan = 0;
-				Error_Time_Out = 0;
-				break;
-			case 0x08:
-				USART_u8SendData(0X0D);
-				Error_Time_Out = 0;
-				break;
-			default:
-				break;
-			}
-		}
-		else if (Error_State == TIMEOUT_STATE)
-		{
-			if (Error_Time_Out == Time_Out)
-			{
-				USART_u8SendData(0X0D);
-				if (Flags.STOP_Flag == 1)
-				{
-					CLCD_vSendString("Session Time Out");
-					Flags.STOP_Flag = 0;
-				}
-				Flags.OneTimeFlag = 1;
-				break;
-			}
-			Error_Time_Out++;
-		}
-	} while (KPD_Press != 0x08);
-}
 //======================================================================================================================================//
 void ROOM_LampOne(void)
 {
@@ -810,4 +541,310 @@ void ROOM_LampThree(void)
 		{
 		}
 	} while (KPD_Press != 0X08);
+}
+//======================================================================================================================================//
+void Room_vFan()
+{
+	CLCD_vClearScreen();
+	CLCD_vSendString("Fan Control : ");
+	CLCD_vSetPosition(2, 1);
+	CLCD_vSendString("1- Fan Off           ");
+	CLCD_vSendString("2- Speed 1");
+	CLCD_vSendString("3- Speed 2           ");
+	CLCD_vSendString("4- Speed 3");
+	CLCD_vSendString("5- Speed 4");
+
+	if (Flags.Auto_Fan == 1)
+	{
+		CLCD_vSendString("Auto Fan Control is Enabled");
+	}
+	do
+	{
+		Error_State = USART_u8ReceiveData(&KPD_Press);
+		if (Error_State == OK)
+		{
+			switch (KPD_Press)
+			{
+			case '1':
+				Error_Time_Out = 0;
+				TIMER0_vSetCTC(0);
+				_delay_ms(100);
+				Timer0_vSetPrescaler(TIMER_NO_CLOCK_SOURCE);
+				Prescaler_Falg = 0;
+				break;
+			case '2':
+				Error_Time_Out = 0;
+				if (Prescaler_Falg == 0) // To Set Prescaler One Time
+				{
+					Timer0_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
+					Prescaler_Falg = 1;
+				}
+				TIMER0_vSetCTC(63);
+				break;
+			case '3':
+				Error_Time_Out = 0;
+				if (Prescaler_Falg == 0) // To Set Prescaler One Time
+				{
+					Timer0_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
+					Prescaler_Falg = 1;
+				}
+				TIMER0_vSetCTC(126);
+				break;
+			case '4':
+				Error_Time_Out = 0;
+				if (Prescaler_Falg == 0) // To Set Prescaler One Time
+				{
+					Timer0_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
+					Prescaler_Falg = 1;
+				}
+				TIMER0_vSetCTC(189);
+				break;
+			case '5':
+				Error_Time_Out = 0;
+				if (Prescaler_Falg == 0) // To Set Prescaler One Time
+				{
+					Timer0_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
+					Prescaler_Falg = 1;
+				}
+				TIMER0_vSetCTC(255);
+				break;
+			case 0x08:
+				Error_Time_Out = 0;
+				CLCD_vSendString("Room Options : ");
+				CLCD_vSendString("1- Led1 ON/OFF       ");
+				CLCD_vSendString("2- Led2 ON/OFF");
+				CLCD_vSendString("3- Led3 ON/OFF       ");
+				CLCD_vSendString("4- Room Fan");
+				CLCD_vSendString("5- Room Setting");
+				break;
+			default:
+				break;
+			}
+		}
+		else if (Error_State == TIMEOUT_STATE)
+		{
+			if (Error_Time_Out == Time_Out)
+			{
+				USART_u8SendData(0X0D);
+				if (Flags.STOP_Flag == 1)
+				{
+					USART_u8SendStringSynch("Session Time Out");
+					Flags.STOP_Flag = 0;
+				}
+				USART_u8SendData(0X0D);
+				Flags.OneTimeFlag = 1;
+				break;
+			}
+			Error_Time_Out++;
+		}
+	} while (KPD_Press != 0X08);
+}
+//======================================================================================================================================//
+void Room_vSetting()
+{
+	USART_u8SendStringSynch("Setting:");
+	USART_u8SendData(0X0D);
+	USART_u8SendStringSynch("1- Change UserName");
+	USART_u8SendData(0X0D);
+	USART_u8SendStringSynch("2- Change PassWord");
+	USART_u8SendData(0X0D);
+	USART_u8SendStringSynch("3- Change UserName & PassWord");
+	USART_u8SendData(0X0D);
+	USART_u8SendStringSynch("4- Auto Fan Control");
+	USART_u8SendData(0X0D);
+	do
+	{
+		Error_State = USART_u8ReceiveData(&KPD_Press);
+		if (Error_State == OK)
+		{
+			switch (KPD_Press)
+			{
+			case '1':
+				USART_u8SendData(0X0D);
+				EEPROM_vWrite(EEPROM_UserNameStatus, 0XFF);
+				UserName_Set();
+				USART_u8SendStringSynch("Setting:");
+				USART_u8SendData(0X0D);
+				USART_u8SendStringSynch("1- Change UserName");
+				USART_u8SendData(0X0D);
+				USART_u8SendStringSynch("2- Change PassWord");
+				USART_u8SendData(0X0D);
+				USART_u8SendStringSynch("2- Change UserName & PassWord");
+				USART_u8SendData(0X0D);
+				Error_Time_Out = 0;
+				break;
+			case '2':
+				USART_u8SendData(0X0D);
+				EEPROM_vWrite(EEPROM_PassWordStatus, 0XFF);
+				PassWord_Set();
+				USART_u8SendStringSynch("Setting:");
+				USART_u8SendData(0X0D);
+				USART_u8SendStringSynch("1- Change UserName");
+				USART_u8SendData(0X0D);
+				USART_u8SendStringSynch("2- Change PassWord");
+				USART_u8SendData(0X0D);
+				USART_u8SendStringSynch("2- Change UserName & PassWord");
+				USART_u8SendData(0X0D);
+				Error_Time_Out = 0;
+				break;
+			case '3':
+				USART_u8SendData(0X0D);
+				EEPROM_vWrite(EEPROM_UserNameStatus, 0XFF);
+				EEPROM_vWrite(EEPROM_PassWordStatus, 0XFF);
+				UserName_Set();
+				PassWord_Set();
+				USART_u8SendStringSynch("Setting:");
+				USART_u8SendData(0X0D);
+				USART_u8SendStringSynch("1- Change UserName");
+				USART_u8SendData(0X0D);
+				USART_u8SendStringSynch("2- Change PassWord");
+				USART_u8SendData(0X0D);
+				USART_u8SendStringSynch("2- Change UserName & PassWord");
+				USART_u8SendData(0X0D);
+				Error_Time_Out = 0;
+				break;
+			case '4':
+				Auto_Fan_Control();
+				break;
+			case 0x08:
+				USART_u8SendData(0X0D);
+				Error_Time_Out = 0;
+				break;
+			default:
+				break;
+			}
+		}
+		else if (Error_State == TIMEOUT_STATE)
+		{
+			if (Error_Time_Out == Time_Out)
+			{
+				USART_u8SendData(0X0D);
+				if (Flags.STOP_Flag == 1)
+				{
+					USART_u8SendStringSynch("Session Time Out");
+					Flags.STOP_Flag = 0;
+				}
+				USART_u8SendData(0X0D);
+				Flags.OneTimeFlag = 1;
+				break;
+			}
+			Error_Time_Out++;
+		}
+	} while (KPD_Press != 0X08);
+}
+
+//======================================================================================================================================//
+void Room_Door(void)
+{
+	USART_u8SendStringSynch("Reception Door : ");
+	USART_u8SendData(0X0D);
+	USART_u8SendStringSynch("1- Open              ");
+	USART_u8SendStringSynch("2- Lock");
+	USART_u8SendData(0X0D);
+	do
+	{
+		Error_State = USART_u8ReceiveData(&KPD_Press);
+		if (Error_State == OK)
+		{
+			switch (KPD_Press)
+			{
+			case '1':
+				SM_vTimer1Degree(0);
+				Error_Time_Out = 0;
+				break;
+			case '2':
+				SM_vTimer1Degree(90);
+				Error_Time_Out = 0;
+				break;
+			case 0x08:
+				CLCD_vClearScreen();
+				CLCD_vSendString("Room Options : ");
+				CLCD_vSetPosition(2, 1);
+				CLCD_vSendString("1- Led1 ON/OFF");
+				CLCD_vSetPosition(3, 1);
+				CLCD_vSendString("2- Led2 ON/OFF");
+				CLCD_vSetPosition(4, 1);
+				CLCD_vSendString("3- Led3 ON/OFF");
+				Flags.Page_One = 0;
+				break;
+			default:
+				break;
+			}
+		}
+		else if (Error_State == TIMEOUT_STATE)
+		{
+			if (Error_Time_Out == Time_Out)
+			{
+				USART_u8SendData(0X0D);
+				if (Flags.STOP_Flag == 1)
+				{
+					USART_u8SendStringSynch("Session Time Out");
+					Flags.STOP_Flag = 0;
+				}
+				USART_u8SendData(0X0D);
+				Flags.OneTimeFlag = 1;
+				break;
+			}
+			Error_Time_Out++;
+		}
+	} while (KPD_Press != 0X08);
+}
+//======================================================================================================================================//
+void Auto_Fan_Control()
+{
+	CLCD_vSendString("Auto Fan Control");
+	CLCD_vSendString("1- Open              ");
+	CLCD_vSendString("2- Close");
+
+	do
+	{
+		Error_State = USART_u8ReceiveData(&KPD_Press);
+		if (Error_State == OK)
+		{
+			switch (KPD_Press)
+			{
+			case '1':
+				Flags.Auto_Fan = 1;
+				Error_Time_Out = 0;
+				break;
+			case '2':
+				Flags.Auto_Fan = 0;
+				Error_Time_Out = 0;
+				break;
+			case 0x08:
+				USART_u8SendData(0X0D);
+				Error_Time_Out = 0;
+				break;
+			default:
+				break;
+			}
+		}
+		else if (Error_State == TIMEOUT_STATE)
+		{
+			if (Error_Time_Out == Time_Out)
+			{
+				USART_u8SendData(0X0D);
+				if (Flags.STOP_Flag == 1)
+				{
+					CLCD_vSendString("Session Time Out");
+					Flags.STOP_Flag = 0;
+				}
+				Flags.OneTimeFlag = 1;
+				break;
+			}
+			Error_Time_Out++;
+		}
+	} while (KPD_Press != 0x08);
+}
+
+//======================================================================================================================================//
+
+void ISR_EXTI0_Interrupt(void)
+{
+	CLCD_vClearScreen();
+}
+
+void ISR_TIMER2_OVF_MODE()
+{
+	DIO_enumTogglePinVal(DIO_PORTB, DIO_PIN1);
 }

@@ -32,6 +32,8 @@ HAL_Layer/SERVO_MOTOR \
 MCAL_Layer/ADC \
 MCAL_Layer/DIO \
 MCAL_Layer/EEPROM \
+MCAL_Layer/EXTI \
+MCAL_Layer/GIE \
 MCAL_Layer/TIMER \
 MCAL_Layer/USART \
 
