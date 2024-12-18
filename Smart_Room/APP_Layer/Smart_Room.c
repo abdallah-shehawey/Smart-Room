@@ -30,13 +30,15 @@
 // Used Flags
 typedef struct
 {
-	unsigned char OneTimeFlag : 1;
-	unsigned char STOP_Flag : 1;
-	unsigned char Auto_Fan : 1;
-	unsigned char Page_One : 1;
-	unsigned char Lamp_One : 1;
-	unsigned char Lamp_Two : 1;
-	unsigned char Lamp_Three : 1;
+	u8 OneTimeFlag : 1;
+	u8 STOP_Flag : 1;
+	u8 Auto_Fan : 1;
+	u8 Page_One : 1;
+	u8 Lamp_One : 1;
+	u8 Lamp_Two : 1;
+	u8 Lamp_Three : 1;
+	u8 Temp_Detect : 3;
+	u8 Fan_ReturnSpeed : 1;
 } Flags_structConfig;
 
 LM35_Config LM35 = {ADC_CHANNEL0, 5, ADC_RES_10_BIT};
@@ -45,19 +47,22 @@ LDR_Config LDR2 = {ADC_CHANNEL2, 5, ADC_RES_10_BIT};
 LDR_Config LDR3 = {ADC_CHANNEL3, 5, ADC_RES_10_BIT};
 
 #define Time_Out 1000UL // Maximum Time Allow when not press any thing
+#define LS_Pin DIO_PIN0
+#define IR_Pin DIO_PIN2
 
-volatile u8 Error_State, KPD_Press, SPI_Recieve;
+volatile u8 Error_State, KPD_Press, LM35_Degree;
 volatile u8 Error_Time_Out = 0, Prescaler_Falg = 0; // To count time out allow for user
 extern u8 UserName[20];											// extern user name which intern with user to show on system
 extern u8 UserName_Length;
 volatile u8 LDR_LightPrec, LM35_Temp;
+volatile u8 Timer_Counter = 0, Fan_SaveSpeed = 0;
 
 LED_config Room_Led_1 = {DIO_PORTC, DIO_PIN5, HIGH};
 LED_config Room_Led_2 = {DIO_PORTD, DIO_PIN3, HIGH};
 LED_config Room_Led_3 = {DIO_PORTC, DIO_PIN4, HIGH};
 
 // Default flags value
-Flags_structConfig Flags = {1, 1, 0, 1, 0, 0, 0};
+Flags_structConfig Flags = {1, 1, 0, 1, 0, 0, 0, 0, 0};
 
 // Function ProtoType
 void Room();
@@ -74,11 +79,12 @@ void ISR_EXTI0_Interrupt(void); //ISR function name for external interrupt
 void ISR_TIMER2_OVF_MODE(void);
 void main()
 {
+	DIO_enumSetPinDir(DIO_PORTB, DIO_PIN0, DIO_PIN_INPUT);
+
 	// Set Pin Direction
-	DIO_enumSetPortDir(DIO_PORTC, DIO_PORT_OUTPUT);
-	DIO_enumSetPortDir(DIO_PORTD, 0XFE);
-	DIO_enumSetPinDir(DIO_PORTB, DIO_PIN0, DIO_PIN_OUTPUT);
-	DIO_enumSetPinDir(DIO_PORTB, DIO_PIN1, DIO_PIN_OUTPUT);
+	LED_vInit(Room_Led_1);
+	LED_vInit(Room_Led_2);
+	LED_vInit(Room_Led_3);
 
 	// Initialize CLCD Pins
 	CLCD_vInit();
@@ -101,7 +107,7 @@ void main()
 	TIMER2_vInit();
 
 	// Set callback function for TIMER2 overflow interrup
-		TIMER_u8SetCallBack(ISR_TIMER2_OVF_MODE, TIMER2_OVF_VECTOR_ID);
+	TIMER_u8SetCallBack(ISR_TIMER2_OVF_MODE, TIMER2_OVF_VECTOR_ID);
 
 	// Initialize Servo Motor
 	SM_vInit();
@@ -139,14 +145,14 @@ void main()
 			// Check username and password
 			// Sign_In();
 
-			CLCD_vClearScreen();
-			// print hello message
-			CLCD_vSetPosition(2, 7);
-			CLCD_vSendString("Welcome ");
-			CLCD_vSetPosition(3, ((20 - UserName_Length) / 2) + 1);
-			CLCD_vSendString(UserName);
-			_delay_ms(1000);
-			Flags.OneTimeFlag = 0; // to print it one time which system is open
+			//			CLCD_vClearScreen();
+			//			// print hello message
+			//			CLCD_vSetPosition(2, 7);
+			//			CLCD_vSendString("Welcome ");
+			//			CLCD_vSetPosition(3, ((20 - UserName_Length) / 2) + 1);
+			//			CLCD_vSendString(UserName);
+			//			_delay_ms(1000);
+			//			Flags.OneTimeFlag = 0; // to print it one time which system is open
 			Room();
 		}
 		else
@@ -257,6 +263,7 @@ void Room()
 				Error_Time_Out = 0;
 				CLCD_vClearScreen();
 				Flags.OneTimeFlag = 1; // to print it one time which system is open
+				Flags.Page_One = 1;
 				break;
 			default:
 				break;
@@ -268,8 +275,11 @@ void Room()
 			{
 				if (Flags.STOP_Flag == 1)
 				{
+					CLCD_vClearScreen();
 					CLCD_vSendString("Session Time Out");
+					_delay_ms(1000);
 					Flags.STOP_Flag = 0;
+					CLCD_vClearScreen();
 				}
 				Flags.OneTimeFlag = 1;
 				break;
@@ -328,6 +338,22 @@ void ROOM_LampOne(void)
 					break;
 				}
 			}
+			else if (Error_State == TIMEOUT_STATE)
+			{
+				if (Error_Time_Out == Time_Out)
+				{
+					USART_u8SendData(0X0D);
+					if (Flags.STOP_Flag == 1)
+					{
+						USART_u8SendStringSynch("Session Time Out");
+						Flags.STOP_Flag = 0;
+					}
+					USART_u8SendData(0X0D);
+					Flags.OneTimeFlag = 1;
+					break;
+				}
+				Error_Time_Out++;
+			}
 		}
 		else if (LDR_LightPrec < 50)
 		{
@@ -360,6 +386,23 @@ void ROOM_LampOne(void)
 				default:
 					break;
 				}
+			}
+			else if (Error_State == TIMEOUT_STATE)
+			{
+				if (Error_Time_Out == Time_Out)
+				{
+					if (Flags.STOP_Flag == 1)
+					{
+						CLCD_vClearScreen();
+						CLCD_vSendString("Session Time Out");
+						_delay_ms(1000);
+						Flags.STOP_Flag = 0;
+						CLCD_vClearScreen();
+					}
+					Flags.OneTimeFlag = 1;
+					break;
+				}
+				Error_Time_Out++;
 			}
 		}
 		else
@@ -416,6 +459,22 @@ void ROOM_LampTwo(void)
 					break;
 				}
 			}
+			else if (Error_State == TIMEOUT_STATE)
+			{
+				if (Error_Time_Out == Time_Out)
+				{
+					USART_u8SendData(0X0D);
+					if (Flags.STOP_Flag == 1)
+					{
+						USART_u8SendStringSynch("Session Time Out");
+						Flags.STOP_Flag = 0;
+					}
+					USART_u8SendData(0X0D);
+					Flags.OneTimeFlag = 1;
+					break;
+				}
+				Error_Time_Out++;
+			}
 		}
 		else if (LDR_LightPrec < 50)
 		{
@@ -448,6 +507,23 @@ void ROOM_LampTwo(void)
 				default:
 					break;
 				}
+			}
+			else if (Error_State == TIMEOUT_STATE)
+			{
+				if (Error_Time_Out == Time_Out)
+				{
+					if (Flags.STOP_Flag == 1)
+					{
+						CLCD_vClearScreen();
+						CLCD_vSendString("Session Time Out");
+						_delay_ms(1000);
+						Flags.STOP_Flag = 0;
+						CLCD_vClearScreen();
+					}
+					Flags.OneTimeFlag = 1;
+					break;
+				}
+				Error_Time_Out++;
 			}
 		}
 		else
@@ -504,6 +580,22 @@ void ROOM_LampThree(void)
 					break;
 				}
 			}
+			else if (Error_State == TIMEOUT_STATE)
+			{
+				if (Error_Time_Out == Time_Out)
+				{
+					USART_u8SendData(0X0D);
+					if (Flags.STOP_Flag == 1)
+					{
+						USART_u8SendStringSynch("Session Time Out");
+						Flags.STOP_Flag = 0;
+					}
+					USART_u8SendData(0X0D);
+					Flags.OneTimeFlag = 1;
+					break;
+				}
+				Error_Time_Out++;
+			}
 		}
 		else if (LDR_LightPrec < 50)
 		{
@@ -536,6 +628,23 @@ void ROOM_LampThree(void)
 					break;
 				}
 			}
+			else if (Error_State == TIMEOUT_STATE)
+			{
+				if (Error_Time_Out == Time_Out)
+				{
+					if (Flags.STOP_Flag == 1)
+					{
+						CLCD_vClearScreen();
+						CLCD_vSendString("Session Time Out");
+						_delay_ms(1000);
+						Flags.STOP_Flag = 0;
+						CLCD_vClearScreen();
+					}
+					Flags.OneTimeFlag = 1;
+					break;
+				}
+				Error_Time_Out++;
+			}
 		}
 		else
 		{
@@ -548,11 +657,13 @@ void Room_vFan()
 	CLCD_vClearScreen();
 	CLCD_vSendString("Fan Control : ");
 	CLCD_vSetPosition(2, 1);
-	CLCD_vSendString("1- Fan Off           ");
-	CLCD_vSendString("2- Speed 1");
-	CLCD_vSendString("3- Speed 2           ");
-	CLCD_vSendString("4- Speed 3");
-	CLCD_vSendString("5- Speed 4");
+	CLCD_vSendString("1- Off    ");
+	CLCD_vSendString("2- S 1");
+	CLCD_vSetPosition(3, 1);
+	CLCD_vSendString("3- S 2    ");
+	CLCD_vSendString("4- S 3");
+	CLCD_vSetPosition(4, 1);
+	CLCD_vSendString("5- S 4    ");
 
 	if (Flags.Auto_Fan == 1)
 	{
@@ -610,12 +721,15 @@ void Room_vFan()
 				break;
 			case 0x08:
 				Error_Time_Out = 0;
+				Flags.Page_One = 0;
+				CLCD_vClearScreen();
 				CLCD_vSendString("Room Options : ");
-				CLCD_vSendString("1- Led1 ON/OFF       ");
+				CLCD_vSetPosition(2, 1);
+				CLCD_vSendString("1- Led1 ON/OFF");
+				CLCD_vSetPosition(3, 1);
 				CLCD_vSendString("2- Led2 ON/OFF");
-				CLCD_vSendString("3- Led3 ON/OFF       ");
-				CLCD_vSendString("4- Room Fan");
-				CLCD_vSendString("5- Room Setting");
+				CLCD_vSetPosition(4, 1);
+				CLCD_vSendString("3- Led3 ON/OFF");
 				break;
 			default:
 				break;
@@ -625,13 +739,14 @@ void Room_vFan()
 		{
 			if (Error_Time_Out == Time_Out)
 			{
-				USART_u8SendData(0X0D);
 				if (Flags.STOP_Flag == 1)
 				{
-					USART_u8SendStringSynch("Session Time Out");
+					CLCD_vClearScreen();
+					CLCD_vSendString("Session Time Out");
+					_delay_ms(1000);
 					Flags.STOP_Flag = 0;
+					CLCD_vClearScreen();
 				}
-				USART_u8SendData(0X0D);
 				Flags.OneTimeFlag = 1;
 				break;
 			}
@@ -642,16 +757,14 @@ void Room_vFan()
 //======================================================================================================================================//
 void Room_vSetting()
 {
-	USART_u8SendStringSynch("Setting:");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("1- Change UserName");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("2- Change PassWord");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("3- Change UserName & PassWord");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("4- Auto Fan Control");
-	USART_u8SendData(0X0D);
+	CLCD_vClearScreen();
+	CLCD_vSendString("Setting:");
+	CLCD_vSetPosition(2, 1);
+	CLCD_vSendString("1- Change UserName");
+	CLCD_vSetPosition(3, 1);
+	CLCD_vSendString("2- Change PassWord");
+	CLCD_vSetPosition(4, 1);
+	CLCD_vSendString("3- Auto Fan Control");
 	do
 	{
 		Error_State = USART_u8ReceiveData(&KPD_Press);
@@ -660,55 +773,45 @@ void Room_vSetting()
 			switch (KPD_Press)
 			{
 			case '1':
-				USART_u8SendData(0X0D);
 				EEPROM_vWrite(EEPROM_UserNameStatus, 0XFF);
 				UserName_Set();
-				USART_u8SendStringSynch("Setting:");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("1- Change UserName");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("2- Change PassWord");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("2- Change UserName & PassWord");
-				USART_u8SendData(0X0D);
+				CLCD_vClearScreen();
+				CLCD_vSendString("Setting:");
+				CLCD_vSetPosition(2, 1);
+				CLCD_vSendString("1- Change UserName");
+				CLCD_vSetPosition(3, 1);
+				CLCD_vSendString("2- Change PassWord");
+				CLCD_vSetPosition(4, 1);
+				CLCD_vSendString("3- Auto Fan Control");
 				Error_Time_Out = 0;
 				break;
 			case '2':
 				USART_u8SendData(0X0D);
 				EEPROM_vWrite(EEPROM_PassWordStatus, 0XFF);
 				PassWord_Set();
-				USART_u8SendStringSynch("Setting:");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("1- Change UserName");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("2- Change PassWord");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("2- Change UserName & PassWord");
-				USART_u8SendData(0X0D);
+				CLCD_vClearScreen();
+				CLCD_vSendString("Setting:");
+				CLCD_vSetPosition(2, 1);
+				CLCD_vSendString("1- Change UserName");
+				CLCD_vSetPosition(3, 1);
+				CLCD_vSendString("2- Change PassWord");
+				CLCD_vSetPosition(4, 1);
+				CLCD_vSendString("3- Auto Fan Control");
 				Error_Time_Out = 0;
 				break;
 			case '3':
-				USART_u8SendData(0X0D);
-				EEPROM_vWrite(EEPROM_UserNameStatus, 0XFF);
-				EEPROM_vWrite(EEPROM_PassWordStatus, 0XFF);
-				UserName_Set();
-				PassWord_Set();
-				USART_u8SendStringSynch("Setting:");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("1- Change UserName");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("2- Change PassWord");
-				USART_u8SendData(0X0D);
-				USART_u8SendStringSynch("2- Change UserName & PassWord");
-				USART_u8SendData(0X0D);
-				Error_Time_Out = 0;
-				break;
-			case '4':
 				Auto_Fan_Control();
 				break;
 			case 0x08:
-				USART_u8SendData(0X0D);
 				Error_Time_Out = 0;
+				CLCD_vClearScreen();
+				CLCD_vSendString("Room Options : ");
+				CLCD_vSetPosition(2, 1);
+				CLCD_vSendString("4- Room Fan");
+				CLCD_vSetPosition(3, 1);
+				CLCD_vSendString("5- Room Door");
+				CLCD_vSetPosition(4, 1);
+				CLCD_vSendString("6- Room Setting");
 				break;
 			default:
 				break;
@@ -718,13 +821,14 @@ void Room_vSetting()
 		{
 			if (Error_Time_Out == Time_Out)
 			{
-				USART_u8SendData(0X0D);
 				if (Flags.STOP_Flag == 1)
 				{
-					USART_u8SendStringSynch("Session Time Out");
+					CLCD_vClearScreen();
+					CLCD_vSendString("Session Time Out");
+					_delay_ms(1000);
 					Flags.STOP_Flag = 0;
+					CLCD_vClearScreen();
 				}
-				USART_u8SendData(0X0D);
 				Flags.OneTimeFlag = 1;
 				break;
 			}
@@ -736,11 +840,11 @@ void Room_vSetting()
 //======================================================================================================================================//
 void Room_Door(void)
 {
-	USART_u8SendStringSynch("Reception Door : ");
-	USART_u8SendData(0X0D);
-	USART_u8SendStringSynch("1- Open              ");
-	USART_u8SendStringSynch("2- Lock");
-	USART_u8SendData(0X0D);
+	CLCD_vClearScreen();
+	CLCD_vSendString("Reception Door : ");
+	CLCD_vSetPosition(2, 1);
+	CLCD_vSendString("1- Open      ");
+	CLCD_vSendString("2- Lock");
 	do
 	{
 		Error_State = USART_u8ReceiveData(&KPD_Press);
@@ -775,13 +879,14 @@ void Room_Door(void)
 		{
 			if (Error_Time_Out == Time_Out)
 			{
-				USART_u8SendData(0X0D);
 				if (Flags.STOP_Flag == 1)
 				{
-					USART_u8SendStringSynch("Session Time Out");
+					CLCD_vClearScreen();
+					CLCD_vSendString("Session Time Out");
+					_delay_ms(1000);
 					Flags.STOP_Flag = 0;
+					CLCD_vClearScreen();
 				}
-				USART_u8SendData(0X0D);
 				Flags.OneTimeFlag = 1;
 				break;
 			}
@@ -792,8 +897,10 @@ void Room_Door(void)
 //======================================================================================================================================//
 void Auto_Fan_Control()
 {
+	CLCD_vClearScreen();
 	CLCD_vSendString("Auto Fan Control");
-	CLCD_vSendString("1- Open              ");
+	CLCD_vSetPosition(2, 1);
+	CLCD_vSendString("1- Open        ");
 	CLCD_vSendString("2- Close");
 
 	do
@@ -823,11 +930,13 @@ void Auto_Fan_Control()
 		{
 			if (Error_Time_Out == Time_Out)
 			{
-				USART_u8SendData(0X0D);
 				if (Flags.STOP_Flag == 1)
 				{
+					CLCD_vClearScreen();
 					CLCD_vSendString("Session Time Out");
+					_delay_ms(1000);
 					Flags.STOP_Flag = 0;
+					CLCD_vClearScreen();
 				}
 				Flags.OneTimeFlag = 1;
 				break;
@@ -838,13 +947,234 @@ void Auto_Fan_Control()
 }
 
 //======================================================================================================================================//
+void Fan_Speed()
+{
+	LM35_u8GetTemp(&LM35, &LM35_Degree);
+	if (Flags.Auto_Fan == 0)
+	{
+		if (Flags.Fan_ReturnSpeed == 1)
+		{
+			Flags.Temp_Detect = 0;
+			switch(Fan_SaveSpeed)
+			{
+			case 0:
+				TIMER0_vSetCTC(0);
+				Fan_SaveSpeed = 0;
+				break;
+			case 1:
+				TIMER0_vSetCTC(63);
+				Fan_SaveSpeed = 0;
+				break;
+			case 2:
+				TIMER0_vSetCTC(126);
+				Fan_SaveSpeed = 0;
+				break;
+			case 3:
+				TIMER0_vSetCTC(189);
+				Fan_SaveSpeed = 0;
+				break;
+			case 4:
+				TIMER0_vSetCTC(255);
+				Fan_SaveSpeed = 0;
+				break;
+			default :
+				break;
+			}
+			Flags.Fan_ReturnSpeed = 0;
+		}
+	}
+	else if (Flags.Auto_Fan == 1)
+	{
+		if (LM35_Degree < 20)
+		{
+			Flags.Temp_Detect = 0;
+			TIMER0_vSetCTC(0);
+			_delay_ms(100);
+			Timer0_vSetPrescaler(TIMER_NO_CLOCK_SOURCE);
+			Flags.Fan_ReturnSpeed = 1;
+		}
+		else if (LM35_Degree >= 20 && LM35_Degree <= 25)
+		{
+			if (Flags.Temp_Detect != 1)
+			{
+				if (Prescaler_Falg == 0) // To Set Prescaler One Time
+				{
+					Timer0_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
+					Prescaler_Falg = 1;
+				}
+				TIMER0_vSetCTC(50);
+				Flags.Temp_Detect = 1;
+				Flags.Fan_ReturnSpeed = 1;
+			}
+		}
+		else if (LM35_Degree >= 26 && LM35_Degree <= 30)
+		{
+			if (Flags.Temp_Detect != 2)
+			{
+				if (Prescaler_Falg == 0) // To Set Prescaler One Time
+				{
+					Timer0_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
+					Prescaler_Falg = 1;
+				}
+				TIMER0_vSetCTC(100);
+				Flags.Temp_Detect = 2;
+				Flags.Fan_ReturnSpeed = 1;
+			}
+		}
+		else if (LM35_Degree >= 31 && LM35_Degree <= 35)
+		{
+
+			if (Flags.Temp_Detect != 3)
+			{
+				if (Prescaler_Falg == 0) // To Set Prescaler One Time
+				{
+					Timer0_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
+					Prescaler_Falg = 1;
+				}
+				TIMER0_vSetCTC(150);
+				Flags.Temp_Detect = 3;
+				Flags.Fan_ReturnSpeed = 1;
+			}
+		}
+		else if (LM35_Degree >= 36 && LM35_Degree <= 40)
+		{
+			if (Flags.Temp_Detect != 4)
+			{
+				if (Prescaler_Falg == 0) // To Set Prescaler One Time
+				{
+					Timer0_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
+					Prescaler_Falg = 1;
+				}
+				TIMER0_vSetCTC(200);
+				Flags.Temp_Detect = 4;
+				Flags.Fan_ReturnSpeed = 1;
+			}
+		}
+		else if (LM35_Degree >= 41 && LM35_Degree <= 45)
+		{
+
+			if (Flags.Temp_Detect != 5)
+			{
+				if (Prescaler_Falg == 0) // To Set Prescaler One Time
+				{
+					Timer0_vSetPrescaler(TIMER_DIVISION_FACTOR_256);
+					Prescaler_Falg = 1;
+				}
+				TIMER0_vSetCTC(255);
+				Flags.Temp_Detect = 5;
+				Flags.Fan_ReturnSpeed = 1;
+			}
+		}
+		else
+		{
+
+		}
+	}
+}
+
+
+
+//======================================================================================================================================//
 
 void ISR_EXTI0_Interrupt(void)
 {
-	CLCD_vClearScreen();
-}
+	u8 LS_Status= 0;
+	DIO_enumReadPinVal(DIO_PORTB, LS_Pin, &LS_Status);
+	if (LS_Status == 1)
+	{
 
+	}
+	else if (LS_Status == 0)
+	{
+		//Turn on Led one when it is Dark
+		LDR_LightPrec = 0XFF;
+		LDR_u8GetLightPres(&LDR1, &LDR_LightPrec);
+		if (LDR_LightPrec < 50)
+		{
+			LED_vTog(Room_Led_1);
+		}
+		else
+		{
+
+		}
+		//Turn on Led two when it is Dark
+		LDR_LightPrec = 0XFF;
+		LDR_u8GetLightPres(&LDR2, &LDR_LightPrec);
+		if (LDR_LightPrec < 50)
+		{
+			LED_vTog(Room_Led_2);
+		}
+		else
+		{
+
+		}
+		//Turn on Led three when it is Dark
+		LDR_LightPrec = 0XFF;
+		LDR_u8GetLightPres(&LDR3, &LDR_LightPrec);
+		if (LDR_LightPrec < 50)
+		{
+			LED_vTog(Room_Led_3);
+		}
+		else
+		{
+
+		}
+	}
+	else
+	{
+
+	}
+
+
+}
+//======================================================================================================================================//
 void ISR_TIMER2_OVF_MODE()
 {
-	DIO_enumTogglePinVal(DIO_PORTB, DIO_PIN1);
+	Timer_Counter++;
+	u8 IR_PinRead = 0;
+	Fan_Speed();
+
+	DIO_enumReadPinVal(DIO_PORTD, IR_Pin, &IR_PinRead);
+	if (IR_PinRead == 1)
+	{
+		Timer_Counter = 0;
+	}
+	else if (IR_PinRead == 0 && Timer_Counter == 3)
+	{
+		//Turn on Led one when it is Dark
+		LDR_LightPrec = 0XFF;
+		LDR_u8GetLightPres(&LDR1, &LDR_LightPrec);
+		if (LDR_LightPrec > 50)
+		{
+			LED_vTog(Room_Led_1);
+		}
+		else
+		{
+
+		}
+		//Turn on Led two when it is Dark
+		LDR_LightPrec = 0XFF;
+		LDR_u8GetLightPres(&LDR2, &LDR_LightPrec);
+		if (LDR_LightPrec > 50)
+		{
+			LED_vTog(Room_Led_2);
+		}
+		else
+		{
+
+		}
+		//Turn on Led three when it is Dark
+		LDR_LightPrec = 0XFF;
+		LDR_u8GetLightPres(&LDR3, &LDR_LightPrec);
+		if (LDR_LightPrec > 50)
+		{
+			LED_vTog(Room_Led_3);
+		}
+		else
+		{
+
+		}
+	}
+
+
 }
