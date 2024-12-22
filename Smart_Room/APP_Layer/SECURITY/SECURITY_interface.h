@@ -8,11 +8,11 @@
 #ifndef APP_LAYER_SECURITY_H_
 #define APP_LAYER_SECURITY_H_
 
-#define CLCD_OUTPUT             1
-#define TERMINAL_OUTPUT         2
+#define CLCD_OUTPUT                       1
+#define TERMINAL_OUTPUT                   2
 
-#define KPD_INPUT               1
-#define TERMINAL_INPUT          2
+#define KPD_INPUT                         1
+#define TERMINAL_INPUT                    2
 
 #define NOTPRESSED                        0xFF
 

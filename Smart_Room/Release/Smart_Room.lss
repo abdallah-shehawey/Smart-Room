@@ -3,29 +3,29 @@ Smart_Room.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .text         00004556  00000000  00000000  00000094  2**1
+  0 .text         0000455e  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  1 .data         00000428  00800060  00004556  000045ea  2**0
+  1 .data         00000428  00800060  0000455e  000045f2  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  2 .bss          0000005c  00800488  00800488  00004a12  2**0
+  2 .bss          0000005c  00800488  00800488  00004a1a  2**0
                   ALLOC
-  3 .debug_aranges 00000200  00000000  00000000  00004a12  2**0
+  3 .debug_aranges 00000200  00000000  00000000  00004a1a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  4 .debug_pubnames 00000259  00000000  00000000  00004c12  2**0
+  4 .debug_pubnames 00000259  00000000  00000000  00004c1a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   000026d4  00000000  00000000  00004e6b  2**0
+  5 .debug_info   000026d4  00000000  00000000  00004e73  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 0000155d  00000000  00000000  0000753f  2**0
+  6 .debug_abbrev 0000155d  00000000  00000000  00007547  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000149d  00000000  00000000  00008a9c  2**0
+  7 .debug_line   0000149d  00000000  00000000  00008aa4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000220  00000000  00000000  00009f3c  2**2
+  8 .debug_frame  00000220  00000000  00000000  00009f44  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    00000363  00000000  00000000  0000a15c  2**0
+  9 .debug_str    00000363  00000000  00000000  0000a164  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000bb4  00000000  00000000  0000a4bf  2**0
+ 10 .debug_loc    00000bb4  00000000  00000000  0000a4c7  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000050  00000000  00000000  0000b073  2**0
+ 11 .debug_ranges 00000050  00000000  00000000  0000b07b  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -65,7 +65,7 @@ Disassembly of section .text:
       60:	14 e0       	ldi	r17, 0x04	; 4
       62:	a0 e6       	ldi	r26, 0x60	; 96
       64:	b0 e0       	ldi	r27, 0x00	; 0
-      66:	e6 e5       	ldi	r30, 0x56	; 86
+      66:	ee e5       	ldi	r30, 0x5E	; 94
       68:	f5 e4       	ldi	r31, 0x45	; 69
       6a:	02 c0       	rjmp	.+4      	; 0x70 <.do_copy_data_start>
 
@@ -91,8 +91,8 @@ Disassembly of section .text:
       80:	a4 3e       	cpi	r26, 0xE4	; 228
       82:	b1 07       	cpc	r27, r17
       84:	e1 f7       	brne	.-8      	; 0x7e <.do_clear_bss_loop>
-      86:	0e 94 90 21 	call	0x4320	; 0x4320 <main>
-      8a:	0c 94 a9 22 	jmp	0x4552	; 0x4552 <_exit>
+      86:	0e 94 94 21 	call	0x4328	; 0x4328 <main>
+      8a:	0c 94 ad 22 	jmp	0x455a	; 0x455a <_exit>
 
 0000008e <__bad_interrupt>:
       8e:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -259,7 +259,7 @@ Disassembly of section .text:
      1d4:	b0 e0       	ldi	r27, 0x00	; 0
      1d6:	ef ee       	ldi	r30, 0xEF	; 239
      1d8:	f0 e0       	ldi	r31, 0x00	; 0
-     1da:	0c 94 72 22 	jmp	0x44e4	; 0x44e4 <__prologue_saves__>
+     1da:	0c 94 76 22 	jmp	0x44ec	; 0x44ec <__prologue_saves__>
      1de:	7b 01       	movw	r14, r22
      1e0:	8c 01       	movw	r16, r24
      1e2:	20 e0       	ldi	r18, 0x00	; 0
@@ -409,14 +409,14 @@ Disassembly of section .text:
      318:	cd b7       	in	r28, 0x3d	; 61
      31a:	de b7       	in	r29, 0x3e	; 62
      31c:	e2 e1       	ldi	r30, 0x12	; 18
-     31e:	0c 94 8e 22 	jmp	0x451c	; 0x451c <__epilogue_restores__>
+     31e:	0c 94 92 22 	jmp	0x4524	; 0x4524 <__epilogue_restores__>
 
 00000322 <_fpadd_parts>:
      322:	a0 e0       	ldi	r26, 0x00	; 0
      324:	b0 e0       	ldi	r27, 0x00	; 0
      326:	e7 e9       	ldi	r30, 0x97	; 151
      328:	f1 e0       	ldi	r31, 0x01	; 1
-     32a:	0c 94 72 22 	jmp	0x44e4	; 0x44e4 <__prologue_saves__>
+     32a:	0c 94 76 22 	jmp	0x44ec	; 0x44ec <__prologue_saves__>
      32e:	dc 01       	movw	r26, r24
      330:	2b 01       	movw	r4, r22
      332:	fa 01       	movw	r30, r20
@@ -741,14 +741,14 @@ Disassembly of section .text:
      5b0:	cd b7       	in	r28, 0x3d	; 61
      5b2:	de b7       	in	r29, 0x3e	; 62
      5b4:	e2 e1       	ldi	r30, 0x12	; 18
-     5b6:	0c 94 8e 22 	jmp	0x451c	; 0x451c <__epilogue_restores__>
+     5b6:	0c 94 92 22 	jmp	0x4524	; 0x4524 <__epilogue_restores__>
 
 000005ba <__subsf3>:
      5ba:	a0 e2       	ldi	r26, 0x20	; 32
      5bc:	b0 e0       	ldi	r27, 0x00	; 0
      5be:	e3 ee       	ldi	r30, 0xE3	; 227
      5c0:	f2 e0       	ldi	r31, 0x02	; 2
-     5c2:	0c 94 7e 22 	jmp	0x44fc	; 0x44fc <__prologue_saves__+0x18>
+     5c2:	0c 94 82 22 	jmp	0x4504	; 0x4504 <__prologue_saves__+0x18>
      5c6:	69 83       	std	Y+1, r22	; 0x01
      5c8:	7a 83       	std	Y+2, r23	; 0x02
      5ca:	8b 83       	std	Y+3, r24	; 0x03
@@ -786,14 +786,14 @@ Disassembly of section .text:
      610:	0e 94 3a 07 	call	0xe74	; 0xe74 <__pack_f>
      614:	a0 96       	adiw	r28, 0x20	; 32
      616:	e6 e0       	ldi	r30, 0x06	; 6
-     618:	0c 94 9a 22 	jmp	0x4534	; 0x4534 <__epilogue_restores__+0x18>
+     618:	0c 94 9e 22 	jmp	0x453c	; 0x453c <__epilogue_restores__+0x18>
 
 0000061c <__addsf3>:
      61c:	a0 e2       	ldi	r26, 0x20	; 32
      61e:	b0 e0       	ldi	r27, 0x00	; 0
      620:	e4 e1       	ldi	r30, 0x14	; 20
      622:	f3 e0       	ldi	r31, 0x03	; 3
-     624:	0c 94 7e 22 	jmp	0x44fc	; 0x44fc <__prologue_saves__+0x18>
+     624:	0c 94 82 22 	jmp	0x4504	; 0x4504 <__prologue_saves__+0x18>
      628:	69 83       	std	Y+1, r22	; 0x01
      62a:	7a 83       	std	Y+2, r23	; 0x02
      62c:	8b 83       	std	Y+3, r24	; 0x03
@@ -827,14 +827,14 @@ Disassembly of section .text:
      66a:	0e 94 3a 07 	call	0xe74	; 0xe74 <__pack_f>
      66e:	a0 96       	adiw	r28, 0x20	; 32
      670:	e6 e0       	ldi	r30, 0x06	; 6
-     672:	0c 94 9a 22 	jmp	0x4534	; 0x4534 <__epilogue_restores__+0x18>
+     672:	0c 94 9e 22 	jmp	0x453c	; 0x453c <__epilogue_restores__+0x18>
 
 00000676 <__mulsf3>:
      676:	a0 e2       	ldi	r26, 0x20	; 32
      678:	b0 e0       	ldi	r27, 0x00	; 0
      67a:	e1 e4       	ldi	r30, 0x41	; 65
      67c:	f3 e0       	ldi	r31, 0x03	; 3
-     67e:	0c 94 72 22 	jmp	0x44e4	; 0x44e4 <__prologue_saves__>
+     67e:	0c 94 76 22 	jmp	0x44ec	; 0x44ec <__prologue_saves__>
      682:	69 83       	std	Y+1, r22	; 0x01
      684:	7a 83       	std	Y+2, r23	; 0x02
      686:	8b 83       	std	Y+3, r24	; 0x03
@@ -1074,14 +1074,14 @@ Disassembly of section .text:
      85e:	0e 94 3a 07 	call	0xe74	; 0xe74 <__pack_f>
      862:	a0 96       	adiw	r28, 0x20	; 32
      864:	e2 e1       	ldi	r30, 0x12	; 18
-     866:	0c 94 8e 22 	jmp	0x451c	; 0x451c <__epilogue_restores__>
+     866:	0c 94 92 22 	jmp	0x4524	; 0x4524 <__epilogue_restores__>
 
 0000086a <__divsf3>:
      86a:	a8 e1       	ldi	r26, 0x18	; 24
      86c:	b0 e0       	ldi	r27, 0x00	; 0
      86e:	eb e3       	ldi	r30, 0x3B	; 59
      870:	f4 e0       	ldi	r31, 0x04	; 4
-     872:	0c 94 7a 22 	jmp	0x44f4	; 0x44f4 <__prologue_saves__+0x10>
+     872:	0c 94 7e 22 	jmp	0x44fc	; 0x44fc <__prologue_saves__+0x10>
      876:	69 83       	std	Y+1, r22	; 0x01
      878:	7a 83       	std	Y+2, r23	; 0x02
      87a:	8b 83       	std	Y+3, r24	; 0x03
@@ -1243,14 +1243,14 @@ Disassembly of section .text:
      9b6:	0e 94 3a 07 	call	0xe74	; 0xe74 <__pack_f>
      9ba:	68 96       	adiw	r28, 0x18	; 24
      9bc:	ea e0       	ldi	r30, 0x0A	; 10
-     9be:	0c 94 96 22 	jmp	0x452c	; 0x452c <__epilogue_restores__+0x10>
+     9be:	0c 94 9a 22 	jmp	0x4534	; 0x4534 <__epilogue_restores__+0x10>
 
 000009c2 <__gesf2>:
      9c2:	a8 e1       	ldi	r26, 0x18	; 24
      9c4:	b0 e0       	ldi	r27, 0x00	; 0
      9c6:	e7 ee       	ldi	r30, 0xE7	; 231
      9c8:	f4 e0       	ldi	r31, 0x04	; 4
-     9ca:	0c 94 7e 22 	jmp	0x44fc	; 0x44fc <__prologue_saves__+0x18>
+     9ca:	0c 94 82 22 	jmp	0x4504	; 0x4504 <__prologue_saves__+0x18>
      9ce:	69 83       	std	Y+1, r22	; 0x01
      9d0:	7a 83       	std	Y+2, r23	; 0x02
      9d2:	8b 83       	std	Y+3, r24	; 0x03
@@ -1288,14 +1288,14 @@ Disassembly of section .text:
      a18:	8f ef       	ldi	r24, 0xFF	; 255
      a1a:	68 96       	adiw	r28, 0x18	; 24
      a1c:	e6 e0       	ldi	r30, 0x06	; 6
-     a1e:	0c 94 9a 22 	jmp	0x4534	; 0x4534 <__epilogue_restores__+0x18>
+     a1e:	0c 94 9e 22 	jmp	0x453c	; 0x453c <__epilogue_restores__+0x18>
 
 00000a22 <__ltsf2>:
      a22:	a8 e1       	ldi	r26, 0x18	; 24
      a24:	b0 e0       	ldi	r27, 0x00	; 0
      a26:	e7 e1       	ldi	r30, 0x17	; 23
      a28:	f5 e0       	ldi	r31, 0x05	; 5
-     a2a:	0c 94 7e 22 	jmp	0x44fc	; 0x44fc <__prologue_saves__+0x18>
+     a2a:	0c 94 82 22 	jmp	0x4504	; 0x4504 <__prologue_saves__+0x18>
      a2e:	69 83       	std	Y+1, r22	; 0x01
      a30:	7a 83       	std	Y+2, r23	; 0x02
      a32:	8b 83       	std	Y+3, r24	; 0x03
@@ -1333,14 +1333,14 @@ Disassembly of section .text:
      a78:	81 e0       	ldi	r24, 0x01	; 1
      a7a:	68 96       	adiw	r28, 0x18	; 24
      a7c:	e6 e0       	ldi	r30, 0x06	; 6
-     a7e:	0c 94 9a 22 	jmp	0x4534	; 0x4534 <__epilogue_restores__+0x18>
+     a7e:	0c 94 9e 22 	jmp	0x453c	; 0x453c <__epilogue_restores__+0x18>
 
 00000a82 <__floatsisf>:
      a82:	a8 e0       	ldi	r26, 0x08	; 8
      a84:	b0 e0       	ldi	r27, 0x00	; 0
      a86:	e7 e4       	ldi	r30, 0x47	; 71
      a88:	f5 e0       	ldi	r31, 0x05	; 5
-     a8a:	0c 94 7b 22 	jmp	0x44f6	; 0x44f6 <__prologue_saves__+0x12>
+     a8a:	0c 94 7f 22 	jmp	0x44fe	; 0x44fe <__prologue_saves__+0x12>
      a8e:	9b 01       	movw	r18, r22
      a90:	ac 01       	movw	r20, r24
      a92:	83 e0       	ldi	r24, 0x03	; 3
@@ -1425,14 +1425,14 @@ Disassembly of section .text:
      b32:	0e 94 3a 07 	call	0xe74	; 0xe74 <__pack_f>
      b36:	28 96       	adiw	r28, 0x08	; 8
      b38:	e9 e0       	ldi	r30, 0x09	; 9
-     b3a:	0c 94 97 22 	jmp	0x452e	; 0x452e <__epilogue_restores__+0x12>
+     b3a:	0c 94 9b 22 	jmp	0x4536	; 0x4536 <__epilogue_restores__+0x12>
 
 00000b3e <__fixsfsi>:
      b3e:	ac e0       	ldi	r26, 0x0C	; 12
      b40:	b0 e0       	ldi	r27, 0x00	; 0
      b42:	e5 ea       	ldi	r30, 0xA5	; 165
      b44:	f5 e0       	ldi	r31, 0x05	; 5
-     b46:	0c 94 82 22 	jmp	0x4504	; 0x4504 <__prologue_saves__+0x20>
+     b46:	0c 94 86 22 	jmp	0x450c	; 0x450c <__prologue_saves__+0x20>
      b4a:	69 83       	std	Y+1, r22	; 0x01
      b4c:	7a 83       	std	Y+2, r23	; 0x02
      b4e:	8b 83       	std	Y+3, r24	; 0x03
@@ -1508,14 +1508,14 @@ Disassembly of section .text:
      bdc:	ca 01       	movw	r24, r20
      bde:	2c 96       	adiw	r28, 0x0c	; 12
      be0:	e2 e0       	ldi	r30, 0x02	; 2
-     be2:	0c 94 9e 22 	jmp	0x453c	; 0x453c <__epilogue_restores__+0x20>
+     be2:	0c 94 a2 22 	jmp	0x4544	; 0x4544 <__epilogue_restores__+0x20>
 
 00000be6 <__floatunsisf>:
      be6:	a8 e0       	ldi	r26, 0x08	; 8
      be8:	b0 e0       	ldi	r27, 0x00	; 0
      bea:	e9 ef       	ldi	r30, 0xF9	; 249
      bec:	f5 e0       	ldi	r31, 0x05	; 5
-     bee:	0c 94 7a 22 	jmp	0x44f4	; 0x44f4 <__prologue_saves__+0x10>
+     bee:	0c 94 7e 22 	jmp	0x44fc	; 0x44fc <__prologue_saves__+0x10>
      bf2:	7b 01       	movw	r14, r22
      bf4:	8c 01       	movw	r16, r24
      bf6:	61 15       	cp	r22, r1
@@ -1627,7 +1627,7 @@ Disassembly of section .text:
      ccc:	0e 94 3a 07 	call	0xe74	; 0xe74 <__pack_f>
      cd0:	28 96       	adiw	r28, 0x08	; 8
      cd2:	ea e0       	ldi	r30, 0x0A	; 10
-     cd4:	0c 94 96 22 	jmp	0x452c	; 0x452c <__epilogue_restores__+0x10>
+     cd4:	0c 94 9a 22 	jmp	0x4534	; 0x4534 <__epilogue_restores__+0x10>
 
 00000cd8 <__ashldi3>:
      cd8:	ef 92       	push	r14
@@ -4809,7 +4809,7 @@ Disassembly of section .text:
     2514:	3a 81       	ldd	r19, Y+2	; 0x02
     2516:	40 e0       	ldi	r20, 0x00	; 0
     2518:	50 e0       	ldi	r21, 0x00	; 0
-    251a:	0e 94 02 22 	call	0x4404	; 0x4404 <__mulsi3>
+    251a:	0e 94 06 22 	call	0x440c	; 0x440c <__mulsi3>
     251e:	3a e0       	ldi	r19, 0x0A	; 10
     2520:	96 95       	lsr	r25
     2522:	87 95       	ror	r24
@@ -4827,7 +4827,7 @@ Disassembly of section .text:
     253a:	3a 81       	ldd	r19, Y+2	; 0x02
     253c:	40 e0       	ldi	r20, 0x00	; 0
     253e:	50 e0       	ldi	r21, 0x00	; 0
-    2540:	0e 94 02 22 	call	0x4404	; 0x4404 <__mulsi3>
+    2540:	0e 94 06 22 	call	0x440c	; 0x440c <__mulsi3>
     2544:	67 2f       	mov	r22, r23
     2546:	78 2f       	mov	r23, r24
     2548:	89 2f       	mov	r24, r25
@@ -4890,7 +4890,7 @@ Disassembly of section .text:
     25b8:	3a 81       	ldd	r19, Y+2	; 0x02
     25ba:	40 e0       	ldi	r20, 0x00	; 0
     25bc:	50 e0       	ldi	r21, 0x00	; 0
-    25be:	0e 94 02 22 	call	0x4404	; 0x4404 <__mulsi3>
+    25be:	0e 94 06 22 	call	0x440c	; 0x440c <__mulsi3>
     25c2:	5a e0       	ldi	r21, 0x0A	; 10
     25c4:	96 95       	lsr	r25
     25c6:	87 95       	ror	r24
@@ -4908,7 +4908,7 @@ Disassembly of section .text:
     25de:	3a 81       	ldd	r19, Y+2	; 0x02
     25e0:	40 e0       	ldi	r20, 0x00	; 0
     25e2:	50 e0       	ldi	r21, 0x00	; 0
-    25e4:	0e 94 02 22 	call	0x4404	; 0x4404 <__mulsi3>
+    25e4:	0e 94 06 22 	call	0x440c	; 0x440c <__mulsi3>
     25e8:	67 2f       	mov	r22, r23
     25ea:	78 2f       	mov	r23, r24
     25ec:	89 2f       	mov	r24, r25
@@ -4916,7 +4916,7 @@ Disassembly of section .text:
     25f0:	cb 01       	movw	r24, r22
     25f2:	6a e0       	ldi	r22, 0x0A	; 10
     25f4:	70 e0       	ldi	r23, 0x00	; 0
-    25f6:	0e 94 21 22 	call	0x4442	; 0x4442 <__udivmodhi4>
+    25f6:	0e 94 25 22 	call	0x444a	; 0x444a <__udivmodhi4>
     25fa:	f6 01       	movw	r30, r12
     25fc:	60 83       	st	Z, r22
     25fe:	80 e0       	ldi	r24, 0x00	; 0
@@ -5460,12 +5460,12 @@ Disassembly of section .text:
     2a52:	30 e0       	ldi	r19, 0x00	; 0
     2a54:	40 e0       	ldi	r20, 0x00	; 0
     2a56:	50 e0       	ldi	r21, 0x00	; 0
-    2a58:	0e 94 02 22 	call	0x4404	; 0x4404 <__mulsi3>
+    2a58:	0e 94 06 22 	call	0x440c	; 0x440c <__mulsi3>
     2a5c:	7b 01       	movw	r14, r22
     2a5e:	8c 01       	movw	r16, r24
     2a60:	c6 01       	movw	r24, r12
     2a62:	b5 01       	movw	r22, r10
-    2a64:	0e 94 57 22 	call	0x44ae	; 0x44ae <__divmodsi4>
+    2a64:	0e 94 5b 22 	call	0x44b6	; 0x44b6 <__divmodsi4>
     2a68:	3b 01       	movw	r6, r22
     2a6a:	4c 01       	movw	r8, r24
     2a6c:	6e 0c       	add	r6, r14
@@ -5478,7 +5478,7 @@ Disassembly of section .text:
     2a7a:	30 e0       	ldi	r19, 0x00	; 0
     2a7c:	40 e0       	ldi	r20, 0x00	; 0
     2a7e:	50 e0       	ldi	r21, 0x00	; 0
-    2a80:	0e 94 57 22 	call	0x44ae	; 0x44ae <__divmodsi4>
+    2a80:	0e 94 5b 22 	call	0x44b6	; 0x44b6 <__divmodsi4>
     2a84:	c9 01       	movw	r24, r18
     2a86:	da 01       	movw	r26, r20
     2a88:	5c 01       	movw	r10, r24
@@ -5495,7 +5495,7 @@ Disassembly of section .text:
     2a9e:	30 e0       	ldi	r19, 0x00	; 0
     2aa0:	40 e0       	ldi	r20, 0x00	; 0
     2aa2:	50 e0       	ldi	r21, 0x00	; 0
-    2aa4:	0e 94 35 22 	call	0x446a	; 0x446a <__udivmodsi4>
+    2aa4:	0e 94 39 22 	call	0x4472	; 0x4472 <__udivmodsi4>
     2aa8:	86 2f       	mov	r24, r22
     2aaa:	80 5d       	subi	r24, 0xD0	; 208
     2aac:	0e 94 bf 14 	call	0x297e	; 0x297e <CLCD_vSendData>
@@ -5505,7 +5505,7 @@ Disassembly of section .text:
     2ab6:	30 e0       	ldi	r19, 0x00	; 0
     2ab8:	40 e0       	ldi	r20, 0x00	; 0
     2aba:	50 e0       	ldi	r21, 0x00	; 0
-    2abc:	0e 94 35 22 	call	0x446a	; 0x446a <__udivmodsi4>
+    2abc:	0e 94 39 22 	call	0x4472	; 0x4472 <__udivmodsi4>
     2ac0:	c9 01       	movw	r24, r18
     2ac2:	da 01       	movw	r26, r20
     2ac4:	3c 01       	movw	r6, r24
@@ -6863,30 +6863,30 @@ Disassembly of section .text:
     381a:	0e 94 cd 0e 	call	0x1d9a	; 0x1d9a <DIO_enumReadPinVal>
     381e:	89 81       	ldd	r24, Y+1	; 0x01
     3820:	81 30       	cpi	r24, 0x01	; 1
-    3822:	19 f4       	brne	.+6      	; 0x382a <ISR_TIMER2_OVF_MODE+0x34>
-    3824:	10 92 b5 04 	sts	0x04B5, r1
-    3828:	47 c0       	rjmp	.+142    	; 0x38b8 <ISR_TIMER2_OVF_MODE+0xc2>
-    382a:	88 23       	and	r24, r24
-    382c:	09 f0       	breq	.+2      	; 0x3830 <ISR_TIMER2_OVF_MODE+0x3a>
-    382e:	44 c0       	rjmp	.+136    	; 0x38b8 <ISR_TIMER2_OVF_MODE+0xc2>
-    3830:	80 91 b5 04 	lds	r24, 0x04B5
-    3834:	83 30       	cpi	r24, 0x03	; 3
-    3836:	09 f0       	breq	.+2      	; 0x383a <ISR_TIMER2_OVF_MODE+0x44>
-    3838:	3f c0       	rjmp	.+126    	; 0x38b8 <ISR_TIMER2_OVF_MODE+0xc2>
-    383a:	8f ef       	ldi	r24, 0xFF	; 255
-    383c:	80 93 e1 04 	sts	0x04E1, r24
-    3840:	84 e7       	ldi	r24, 0x74	; 116
-    3842:	94 e0       	ldi	r25, 0x04	; 4
-    3844:	61 ee       	ldi	r22, 0xE1	; 225
-    3846:	74 e0       	ldi	r23, 0x04	; 4
-    3848:	0e 94 6c 13 	call	0x26d8	; 0x26d8 <LDR_u8GetLightPres>
-    384c:	80 91 e1 04 	lds	r24, 0x04E1
-    3850:	83 33       	cpi	r24, 0x33	; 51
-    3852:	40 f0       	brcs	.+16     	; 0x3864 <ISR_TIMER2_OVF_MODE+0x6e>
-    3854:	60 91 7d 04 	lds	r22, 0x047D
-    3858:	70 91 7e 04 	lds	r23, 0x047E
-    385c:	80 91 7f 04 	lds	r24, 0x047F
-    3860:	0e 94 0b 13 	call	0x2616	; 0x2616 <LED_vTog>
+    3822:	09 f4       	brne	.+2      	; 0x3826 <ISR_TIMER2_OVF_MODE+0x30>
+    3824:	4b c0       	rjmp	.+150    	; 0x38bc <ISR_TIMER2_OVF_MODE+0xc6>
+    3826:	88 23       	and	r24, r24
+    3828:	09 f0       	breq	.+2      	; 0x382c <ISR_TIMER2_OVF_MODE+0x36>
+    382a:	4a c0       	rjmp	.+148    	; 0x38c0 <ISR_TIMER2_OVF_MODE+0xca>
+    382c:	80 91 b5 04 	lds	r24, 0x04B5
+    3830:	83 30       	cpi	r24, 0x03	; 3
+    3832:	09 f0       	breq	.+2      	; 0x3836 <ISR_TIMER2_OVF_MODE+0x40>
+    3834:	45 c0       	rjmp	.+138    	; 0x38c0 <ISR_TIMER2_OVF_MODE+0xca>
+    3836:	8f ef       	ldi	r24, 0xFF	; 255
+    3838:	80 93 e1 04 	sts	0x04E1, r24
+    383c:	84 e7       	ldi	r24, 0x74	; 116
+    383e:	94 e0       	ldi	r25, 0x04	; 4
+    3840:	61 ee       	ldi	r22, 0xE1	; 225
+    3842:	74 e0       	ldi	r23, 0x04	; 4
+    3844:	0e 94 6c 13 	call	0x26d8	; 0x26d8 <LDR_u8GetLightPres>
+    3848:	80 91 e1 04 	lds	r24, 0x04E1
+    384c:	83 33       	cpi	r24, 0x33	; 51
+    384e:	50 f0       	brcs	.+20     	; 0x3864 <ISR_TIMER2_OVF_MODE+0x6e>
+    3850:	60 91 7d 04 	lds	r22, 0x047D
+    3854:	70 91 7e 04 	lds	r23, 0x047E
+    3858:	80 91 7f 04 	lds	r24, 0x047F
+    385c:	0e 94 0b 13 	call	0x2616	; 0x2616 <LED_vTog>
+    3860:	10 92 b5 04 	sts	0x04B5, r1
     3864:	8f ef       	ldi	r24, 0xFF	; 255
     3866:	80 93 e1 04 	sts	0x04E1, r24
     386a:	87 e7       	ldi	r24, 0x77	; 119
@@ -6896,1296 +6896,1298 @@ Disassembly of section .text:
     3872:	0e 94 6c 13 	call	0x26d8	; 0x26d8 <LDR_u8GetLightPres>
     3876:	80 91 e1 04 	lds	r24, 0x04E1
     387a:	83 33       	cpi	r24, 0x33	; 51
-    387c:	40 f0       	brcs	.+16     	; 0x388e <ISR_TIMER2_OVF_MODE+0x98>
+    387c:	50 f0       	brcs	.+20     	; 0x3892 <ISR_TIMER2_OVF_MODE+0x9c>
     387e:	60 91 80 04 	lds	r22, 0x0480
     3882:	70 91 81 04 	lds	r23, 0x0481
     3886:	80 91 82 04 	lds	r24, 0x0482
     388a:	0e 94 0b 13 	call	0x2616	; 0x2616 <LED_vTog>
-    388e:	8f ef       	ldi	r24, 0xFF	; 255
-    3890:	80 93 e1 04 	sts	0x04E1, r24
-    3894:	8a e7       	ldi	r24, 0x7A	; 122
-    3896:	94 e0       	ldi	r25, 0x04	; 4
-    3898:	61 ee       	ldi	r22, 0xE1	; 225
-    389a:	74 e0       	ldi	r23, 0x04	; 4
-    389c:	0e 94 6c 13 	call	0x26d8	; 0x26d8 <LDR_u8GetLightPres>
-    38a0:	80 91 e1 04 	lds	r24, 0x04E1
-    38a4:	83 33       	cpi	r24, 0x33	; 51
-    38a6:	40 f0       	brcs	.+16     	; 0x38b8 <ISR_TIMER2_OVF_MODE+0xc2>
-    38a8:	60 91 83 04 	lds	r22, 0x0483
-    38ac:	70 91 84 04 	lds	r23, 0x0484
-    38b0:	80 91 85 04 	lds	r24, 0x0485
-    38b4:	0e 94 0b 13 	call	0x2616	; 0x2616 <LED_vTog>
-    38b8:	0f 90       	pop	r0
-    38ba:	cf 91       	pop	r28
-    38bc:	df 91       	pop	r29
-    38be:	08 95       	ret
+    388e:	10 92 b5 04 	sts	0x04B5, r1
+    3892:	8f ef       	ldi	r24, 0xFF	; 255
+    3894:	80 93 e1 04 	sts	0x04E1, r24
+    3898:	8a e7       	ldi	r24, 0x7A	; 122
+    389a:	94 e0       	ldi	r25, 0x04	; 4
+    389c:	61 ee       	ldi	r22, 0xE1	; 225
+    389e:	74 e0       	ldi	r23, 0x04	; 4
+    38a0:	0e 94 6c 13 	call	0x26d8	; 0x26d8 <LDR_u8GetLightPres>
+    38a4:	80 91 e1 04 	lds	r24, 0x04E1
+    38a8:	83 33       	cpi	r24, 0x33	; 51
+    38aa:	50 f0       	brcs	.+20     	; 0x38c0 <ISR_TIMER2_OVF_MODE+0xca>
+    38ac:	60 91 83 04 	lds	r22, 0x0483
+    38b0:	70 91 84 04 	lds	r23, 0x0484
+    38b4:	80 91 85 04 	lds	r24, 0x0485
+    38b8:	0e 94 0b 13 	call	0x2616	; 0x2616 <LED_vTog>
+    38bc:	10 92 b5 04 	sts	0x04B5, r1
+    38c0:	0f 90       	pop	r0
+    38c2:	cf 91       	pop	r28
+    38c4:	df 91       	pop	r29
+    38c6:	08 95       	ret
 
-000038c0 <Room_vFan>:
-    38c0:	1f 93       	push	r17
-    38c2:	cf 93       	push	r28
-    38c4:	df 93       	push	r29
-    38c6:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    38ca:	88 e6       	ldi	r24, 0x68	; 104
-    38cc:	91 e0       	ldi	r25, 0x01	; 1
-    38ce:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    38d2:	82 e0       	ldi	r24, 0x02	; 2
-    38d4:	61 e0       	ldi	r22, 0x01	; 1
-    38d6:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    38da:	87 e7       	ldi	r24, 0x77	; 119
-    38dc:	91 e0       	ldi	r25, 0x01	; 1
-    38de:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    38e2:	82 e8       	ldi	r24, 0x82	; 130
+000038c8 <Room_vFan>:
+    38c8:	1f 93       	push	r17
+    38ca:	cf 93       	push	r28
+    38cc:	df 93       	push	r29
+    38ce:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    38d2:	88 e6       	ldi	r24, 0x68	; 104
+    38d4:	91 e0       	ldi	r25, 0x01	; 1
+    38d6:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    38da:	82 e0       	ldi	r24, 0x02	; 2
+    38dc:	61 e0       	ldi	r22, 0x01	; 1
+    38de:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    38e2:	87 e7       	ldi	r24, 0x77	; 119
     38e4:	91 e0       	ldi	r25, 0x01	; 1
     38e6:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    38ea:	83 e0       	ldi	r24, 0x03	; 3
-    38ec:	61 e0       	ldi	r22, 0x01	; 1
-    38ee:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    38f2:	89 e8       	ldi	r24, 0x89	; 137
-    38f4:	91 e0       	ldi	r25, 0x01	; 1
-    38f6:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    38fa:	84 e9       	ldi	r24, 0x94	; 148
+    38ea:	82 e8       	ldi	r24, 0x82	; 130
+    38ec:	91 e0       	ldi	r25, 0x01	; 1
+    38ee:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    38f2:	83 e0       	ldi	r24, 0x03	; 3
+    38f4:	61 e0       	ldi	r22, 0x01	; 1
+    38f6:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    38fa:	89 e8       	ldi	r24, 0x89	; 137
     38fc:	91 e0       	ldi	r25, 0x01	; 1
     38fe:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3902:	84 e0       	ldi	r24, 0x04	; 4
-    3904:	61 e0       	ldi	r22, 0x01	; 1
-    3906:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    390a:	8b e9       	ldi	r24, 0x9B	; 155
-    390c:	91 e0       	ldi	r25, 0x01	; 1
-    390e:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3912:	80 91 86 04 	lds	r24, 0x0486
-    3916:	82 ff       	sbrs	r24, 2
-    3918:	04 c0       	rjmp	.+8      	; 0x3922 <Room_vFan+0x62>
-    391a:	86 ea       	ldi	r24, 0xA6	; 166
-    391c:	91 e0       	ldi	r25, 0x01	; 1
-    391e:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3922:	11 e0       	ldi	r17, 0x01	; 1
-    3924:	c8 ec       	ldi	r28, 0xC8	; 200
-    3926:	d0 e0       	ldi	r29, 0x00	; 0
-    3928:	8c ec       	ldi	r24, 0xCC	; 204
-    392a:	94 e0       	ldi	r25, 0x04	; 4
-    392c:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
-    3930:	80 93 70 04 	sts	0x0470, r24
-    3934:	80 91 70 04 	lds	r24, 0x0470
-    3938:	88 23       	and	r24, r24
-    393a:	09 f0       	breq	.+2      	; 0x393e <Room_vFan+0x7e>
-    393c:	82 c0       	rjmp	.+260    	; 0x3a42 <Room_vFan+0x182>
-    393e:	80 91 cc 04 	lds	r24, 0x04CC
-    3942:	83 33       	cpi	r24, 0x33	; 51
-    3944:	79 f1       	breq	.+94     	; 0x39a4 <Room_vFan+0xe4>
-    3946:	84 33       	cpi	r24, 0x34	; 52
-    3948:	40 f4       	brcc	.+16     	; 0x395a <Room_vFan+0x9a>
-    394a:	81 33       	cpi	r24, 0x31	; 49
-    394c:	61 f0       	breq	.+24     	; 0x3966 <Room_vFan+0xa6>
-    394e:	82 33       	cpi	r24, 0x32	; 50
-    3950:	e0 f4       	brcc	.+56     	; 0x398a <Room_vFan+0xca>
-    3952:	88 30       	cpi	r24, 0x08	; 8
-    3954:	09 f0       	breq	.+2      	; 0x3958 <Room_vFan+0x98>
-    3956:	80 c0       	rjmp	.+256    	; 0x3a58 <Room_vFan+0x198>
-    3958:	4e c0       	rjmp	.+156    	; 0x39f6 <Room_vFan+0x136>
-    395a:	84 33       	cpi	r24, 0x34	; 52
-    395c:	81 f1       	breq	.+96     	; 0x39be <Room_vFan+0xfe>
-    395e:	85 33       	cpi	r24, 0x35	; 53
-    3960:	09 f0       	breq	.+2      	; 0x3964 <Room_vFan+0xa4>
-    3962:	7a c0       	rjmp	.+244    	; 0x3a58 <Room_vFan+0x198>
-    3964:	39 c0       	rjmp	.+114    	; 0x39d8 <Room_vFan+0x118>
-    3966:	10 92 b3 04 	sts	0x04B3, r1
-    396a:	80 e0       	ldi	r24, 0x00	; 0
-    396c:	0e 94 a6 0a 	call	0x154c	; 0x154c <TIMER0_vSetCTC>
-    3970:	88 ee       	ldi	r24, 0xE8	; 232
-    3972:	93 e0       	ldi	r25, 0x03	; 3
-    3974:	fe 01       	movw	r30, r28
-    3976:	31 97       	sbiw	r30, 0x01	; 1
-    3978:	f1 f7       	brne	.-4      	; 0x3976 <Room_vFan+0xb6>
-    397a:	01 97       	sbiw	r24, 0x01	; 1
-    397c:	d9 f7       	brne	.-10     	; 0x3974 <Room_vFan+0xb4>
-    397e:	80 e0       	ldi	r24, 0x00	; 0
-    3980:	0e 94 c5 0a 	call	0x158a	; 0x158a <Timer0_vSetPrescaler>
-    3984:	10 92 b4 04 	sts	0x04B4, r1
-    3988:	67 c0       	rjmp	.+206    	; 0x3a58 <Room_vFan+0x198>
-    398a:	10 92 b3 04 	sts	0x04B3, r1
-    398e:	80 91 b4 04 	lds	r24, 0x04B4
-    3992:	88 23       	and	r24, r24
-    3994:	29 f4       	brne	.+10     	; 0x39a0 <Room_vFan+0xe0>
-    3996:	84 e0       	ldi	r24, 0x04	; 4
-    3998:	0e 94 c5 0a 	call	0x158a	; 0x158a <Timer0_vSetPrescaler>
-    399c:	10 93 b4 04 	sts	0x04B4, r17
-    39a0:	8f e3       	ldi	r24, 0x3F	; 63
-    39a2:	26 c0       	rjmp	.+76     	; 0x39f0 <Room_vFan+0x130>
-    39a4:	10 92 b3 04 	sts	0x04B3, r1
-    39a8:	80 91 b4 04 	lds	r24, 0x04B4
-    39ac:	88 23       	and	r24, r24
-    39ae:	29 f4       	brne	.+10     	; 0x39ba <Room_vFan+0xfa>
-    39b0:	84 e0       	ldi	r24, 0x04	; 4
-    39b2:	0e 94 c5 0a 	call	0x158a	; 0x158a <Timer0_vSetPrescaler>
-    39b6:	10 93 b4 04 	sts	0x04B4, r17
-    39ba:	8e e7       	ldi	r24, 0x7E	; 126
-    39bc:	19 c0       	rjmp	.+50     	; 0x39f0 <Room_vFan+0x130>
-    39be:	10 92 b3 04 	sts	0x04B3, r1
-    39c2:	80 91 b4 04 	lds	r24, 0x04B4
-    39c6:	88 23       	and	r24, r24
-    39c8:	29 f4       	brne	.+10     	; 0x39d4 <Room_vFan+0x114>
-    39ca:	84 e0       	ldi	r24, 0x04	; 4
-    39cc:	0e 94 c5 0a 	call	0x158a	; 0x158a <Timer0_vSetPrescaler>
-    39d0:	10 93 b4 04 	sts	0x04B4, r17
-    39d4:	8d eb       	ldi	r24, 0xBD	; 189
-    39d6:	0c c0       	rjmp	.+24     	; 0x39f0 <Room_vFan+0x130>
-    39d8:	10 92 b3 04 	sts	0x04B3, r1
-    39dc:	80 91 b4 04 	lds	r24, 0x04B4
-    39e0:	88 23       	and	r24, r24
-    39e2:	29 f4       	brne	.+10     	; 0x39ee <Room_vFan+0x12e>
-    39e4:	84 e0       	ldi	r24, 0x04	; 4
-    39e6:	0e 94 c5 0a 	call	0x158a	; 0x158a <Timer0_vSetPrescaler>
-    39ea:	10 93 b4 04 	sts	0x04B4, r17
-    39ee:	8f ef       	ldi	r24, 0xFF	; 255
-    39f0:	0e 94 a6 0a 	call	0x154c	; 0x154c <TIMER0_vSetCTC>
-    39f4:	31 c0       	rjmp	.+98     	; 0x3a58 <Room_vFan+0x198>
-    39f6:	10 92 b3 04 	sts	0x04B3, r1
-    39fa:	80 91 86 04 	lds	r24, 0x0486
-    39fe:	87 7f       	andi	r24, 0xF7	; 247
-    3a00:	80 93 86 04 	sts	0x0486, r24
-    3a04:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    3a08:	82 ec       	ldi	r24, 0xC2	; 194
-    3a0a:	91 e0       	ldi	r25, 0x01	; 1
-    3a0c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3a10:	82 e0       	ldi	r24, 0x02	; 2
-    3a12:	61 e0       	ldi	r22, 0x01	; 1
-    3a14:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3a18:	82 ed       	ldi	r24, 0xD2	; 210
-    3a1a:	91 e0       	ldi	r25, 0x01	; 1
-    3a1c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3a20:	83 e0       	ldi	r24, 0x03	; 3
-    3a22:	61 e0       	ldi	r22, 0x01	; 1
-    3a24:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3a28:	81 ee       	ldi	r24, 0xE1	; 225
-    3a2a:	91 e0       	ldi	r25, 0x01	; 1
-    3a2c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3a30:	84 e0       	ldi	r24, 0x04	; 4
-    3a32:	61 e0       	ldi	r22, 0x01	; 1
-    3a34:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3a38:	80 ef       	ldi	r24, 0xF0	; 240
-    3a3a:	91 e0       	ldi	r25, 0x01	; 1
-    3a3c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3a40:	0b c0       	rjmp	.+22     	; 0x3a58 <Room_vFan+0x198>
-    3a42:	80 91 70 04 	lds	r24, 0x0470
-    3a46:	84 30       	cpi	r24, 0x04	; 4
-    3a48:	39 f4       	brne	.+14     	; 0x3a58 <Room_vFan+0x198>
-    3a4a:	80 91 b3 04 	lds	r24, 0x04B3
-    3a4e:	80 91 b3 04 	lds	r24, 0x04B3
-    3a52:	8f 5f       	subi	r24, 0xFF	; 255
-    3a54:	80 93 b3 04 	sts	0x04B3, r24
-    3a58:	80 91 cc 04 	lds	r24, 0x04CC
-    3a5c:	88 30       	cpi	r24, 0x08	; 8
-    3a5e:	09 f0       	breq	.+2      	; 0x3a62 <Room_vFan+0x1a2>
-    3a60:	63 cf       	rjmp	.-314    	; 0x3928 <Room_vFan+0x68>
-    3a62:	df 91       	pop	r29
-    3a64:	cf 91       	pop	r28
-    3a66:	1f 91       	pop	r17
-    3a68:	08 95       	ret
+    3902:	84 e9       	ldi	r24, 0x94	; 148
+    3904:	91 e0       	ldi	r25, 0x01	; 1
+    3906:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    390a:	84 e0       	ldi	r24, 0x04	; 4
+    390c:	61 e0       	ldi	r22, 0x01	; 1
+    390e:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3912:	8b e9       	ldi	r24, 0x9B	; 155
+    3914:	91 e0       	ldi	r25, 0x01	; 1
+    3916:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    391a:	80 91 86 04 	lds	r24, 0x0486
+    391e:	82 ff       	sbrs	r24, 2
+    3920:	04 c0       	rjmp	.+8      	; 0x392a <Room_vFan+0x62>
+    3922:	86 ea       	ldi	r24, 0xA6	; 166
+    3924:	91 e0       	ldi	r25, 0x01	; 1
+    3926:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    392a:	11 e0       	ldi	r17, 0x01	; 1
+    392c:	c8 ec       	ldi	r28, 0xC8	; 200
+    392e:	d0 e0       	ldi	r29, 0x00	; 0
+    3930:	8c ec       	ldi	r24, 0xCC	; 204
+    3932:	94 e0       	ldi	r25, 0x04	; 4
+    3934:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
+    3938:	80 93 70 04 	sts	0x0470, r24
+    393c:	80 91 70 04 	lds	r24, 0x0470
+    3940:	88 23       	and	r24, r24
+    3942:	09 f0       	breq	.+2      	; 0x3946 <Room_vFan+0x7e>
+    3944:	82 c0       	rjmp	.+260    	; 0x3a4a <Room_vFan+0x182>
+    3946:	80 91 cc 04 	lds	r24, 0x04CC
+    394a:	83 33       	cpi	r24, 0x33	; 51
+    394c:	79 f1       	breq	.+94     	; 0x39ac <Room_vFan+0xe4>
+    394e:	84 33       	cpi	r24, 0x34	; 52
+    3950:	40 f4       	brcc	.+16     	; 0x3962 <Room_vFan+0x9a>
+    3952:	81 33       	cpi	r24, 0x31	; 49
+    3954:	61 f0       	breq	.+24     	; 0x396e <Room_vFan+0xa6>
+    3956:	82 33       	cpi	r24, 0x32	; 50
+    3958:	e0 f4       	brcc	.+56     	; 0x3992 <Room_vFan+0xca>
+    395a:	88 30       	cpi	r24, 0x08	; 8
+    395c:	09 f0       	breq	.+2      	; 0x3960 <Room_vFan+0x98>
+    395e:	80 c0       	rjmp	.+256    	; 0x3a60 <Room_vFan+0x198>
+    3960:	4e c0       	rjmp	.+156    	; 0x39fe <Room_vFan+0x136>
+    3962:	84 33       	cpi	r24, 0x34	; 52
+    3964:	81 f1       	breq	.+96     	; 0x39c6 <Room_vFan+0xfe>
+    3966:	85 33       	cpi	r24, 0x35	; 53
+    3968:	09 f0       	breq	.+2      	; 0x396c <Room_vFan+0xa4>
+    396a:	7a c0       	rjmp	.+244    	; 0x3a60 <Room_vFan+0x198>
+    396c:	39 c0       	rjmp	.+114    	; 0x39e0 <Room_vFan+0x118>
+    396e:	10 92 b3 04 	sts	0x04B3, r1
+    3972:	80 e0       	ldi	r24, 0x00	; 0
+    3974:	0e 94 a6 0a 	call	0x154c	; 0x154c <TIMER0_vSetCTC>
+    3978:	88 ee       	ldi	r24, 0xE8	; 232
+    397a:	93 e0       	ldi	r25, 0x03	; 3
+    397c:	fe 01       	movw	r30, r28
+    397e:	31 97       	sbiw	r30, 0x01	; 1
+    3980:	f1 f7       	brne	.-4      	; 0x397e <Room_vFan+0xb6>
+    3982:	01 97       	sbiw	r24, 0x01	; 1
+    3984:	d9 f7       	brne	.-10     	; 0x397c <Room_vFan+0xb4>
+    3986:	80 e0       	ldi	r24, 0x00	; 0
+    3988:	0e 94 c5 0a 	call	0x158a	; 0x158a <Timer0_vSetPrescaler>
+    398c:	10 92 b4 04 	sts	0x04B4, r1
+    3990:	67 c0       	rjmp	.+206    	; 0x3a60 <Room_vFan+0x198>
+    3992:	10 92 b3 04 	sts	0x04B3, r1
+    3996:	80 91 b4 04 	lds	r24, 0x04B4
+    399a:	88 23       	and	r24, r24
+    399c:	29 f4       	brne	.+10     	; 0x39a8 <Room_vFan+0xe0>
+    399e:	84 e0       	ldi	r24, 0x04	; 4
+    39a0:	0e 94 c5 0a 	call	0x158a	; 0x158a <Timer0_vSetPrescaler>
+    39a4:	10 93 b4 04 	sts	0x04B4, r17
+    39a8:	8f e3       	ldi	r24, 0x3F	; 63
+    39aa:	26 c0       	rjmp	.+76     	; 0x39f8 <Room_vFan+0x130>
+    39ac:	10 92 b3 04 	sts	0x04B3, r1
+    39b0:	80 91 b4 04 	lds	r24, 0x04B4
+    39b4:	88 23       	and	r24, r24
+    39b6:	29 f4       	brne	.+10     	; 0x39c2 <Room_vFan+0xfa>
+    39b8:	84 e0       	ldi	r24, 0x04	; 4
+    39ba:	0e 94 c5 0a 	call	0x158a	; 0x158a <Timer0_vSetPrescaler>
+    39be:	10 93 b4 04 	sts	0x04B4, r17
+    39c2:	8e e7       	ldi	r24, 0x7E	; 126
+    39c4:	19 c0       	rjmp	.+50     	; 0x39f8 <Room_vFan+0x130>
+    39c6:	10 92 b3 04 	sts	0x04B3, r1
+    39ca:	80 91 b4 04 	lds	r24, 0x04B4
+    39ce:	88 23       	and	r24, r24
+    39d0:	29 f4       	brne	.+10     	; 0x39dc <Room_vFan+0x114>
+    39d2:	84 e0       	ldi	r24, 0x04	; 4
+    39d4:	0e 94 c5 0a 	call	0x158a	; 0x158a <Timer0_vSetPrescaler>
+    39d8:	10 93 b4 04 	sts	0x04B4, r17
+    39dc:	8d eb       	ldi	r24, 0xBD	; 189
+    39de:	0c c0       	rjmp	.+24     	; 0x39f8 <Room_vFan+0x130>
+    39e0:	10 92 b3 04 	sts	0x04B3, r1
+    39e4:	80 91 b4 04 	lds	r24, 0x04B4
+    39e8:	88 23       	and	r24, r24
+    39ea:	29 f4       	brne	.+10     	; 0x39f6 <Room_vFan+0x12e>
+    39ec:	84 e0       	ldi	r24, 0x04	; 4
+    39ee:	0e 94 c5 0a 	call	0x158a	; 0x158a <Timer0_vSetPrescaler>
+    39f2:	10 93 b4 04 	sts	0x04B4, r17
+    39f6:	8f ef       	ldi	r24, 0xFF	; 255
+    39f8:	0e 94 a6 0a 	call	0x154c	; 0x154c <TIMER0_vSetCTC>
+    39fc:	31 c0       	rjmp	.+98     	; 0x3a60 <Room_vFan+0x198>
+    39fe:	10 92 b3 04 	sts	0x04B3, r1
+    3a02:	80 91 86 04 	lds	r24, 0x0486
+    3a06:	87 7f       	andi	r24, 0xF7	; 247
+    3a08:	80 93 86 04 	sts	0x0486, r24
+    3a0c:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    3a10:	82 ec       	ldi	r24, 0xC2	; 194
+    3a12:	91 e0       	ldi	r25, 0x01	; 1
+    3a14:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3a18:	82 e0       	ldi	r24, 0x02	; 2
+    3a1a:	61 e0       	ldi	r22, 0x01	; 1
+    3a1c:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3a20:	82 ed       	ldi	r24, 0xD2	; 210
+    3a22:	91 e0       	ldi	r25, 0x01	; 1
+    3a24:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3a28:	83 e0       	ldi	r24, 0x03	; 3
+    3a2a:	61 e0       	ldi	r22, 0x01	; 1
+    3a2c:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3a30:	81 ee       	ldi	r24, 0xE1	; 225
+    3a32:	91 e0       	ldi	r25, 0x01	; 1
+    3a34:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3a38:	84 e0       	ldi	r24, 0x04	; 4
+    3a3a:	61 e0       	ldi	r22, 0x01	; 1
+    3a3c:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3a40:	80 ef       	ldi	r24, 0xF0	; 240
+    3a42:	91 e0       	ldi	r25, 0x01	; 1
+    3a44:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3a48:	0b c0       	rjmp	.+22     	; 0x3a60 <Room_vFan+0x198>
+    3a4a:	80 91 70 04 	lds	r24, 0x0470
+    3a4e:	84 30       	cpi	r24, 0x04	; 4
+    3a50:	39 f4       	brne	.+14     	; 0x3a60 <Room_vFan+0x198>
+    3a52:	80 91 b3 04 	lds	r24, 0x04B3
+    3a56:	80 91 b3 04 	lds	r24, 0x04B3
+    3a5a:	8f 5f       	subi	r24, 0xFF	; 255
+    3a5c:	80 93 b3 04 	sts	0x04B3, r24
+    3a60:	80 91 cc 04 	lds	r24, 0x04CC
+    3a64:	88 30       	cpi	r24, 0x08	; 8
+    3a66:	09 f0       	breq	.+2      	; 0x3a6a <Room_vFan+0x1a2>
+    3a68:	63 cf       	rjmp	.-314    	; 0x3930 <Room_vFan+0x68>
+    3a6a:	df 91       	pop	r29
+    3a6c:	cf 91       	pop	r28
+    3a6e:	1f 91       	pop	r17
+    3a70:	08 95       	ret
 
-00003a6a <ROOM_LampThree>:
-    3a6a:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    3a6e:	8f ef       	ldi	r24, 0xFF	; 255
-    3a70:	91 e0       	ldi	r25, 0x01	; 1
-    3a72:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3a76:	82 e0       	ldi	r24, 0x02	; 2
-    3a78:	61 e0       	ldi	r22, 0x01	; 1
-    3a7a:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3a7e:	8e e0       	ldi	r24, 0x0E	; 14
-    3a80:	92 e0       	ldi	r25, 0x02	; 2
-    3a82:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3a86:	8f ef       	ldi	r24, 0xFF	; 255
-    3a88:	80 93 cc 04 	sts	0x04CC, r24
-    3a8c:	8a e7       	ldi	r24, 0x7A	; 122
-    3a8e:	94 e0       	ldi	r25, 0x04	; 4
-    3a90:	61 ee       	ldi	r22, 0xE1	; 225
-    3a92:	74 e0       	ldi	r23, 0x04	; 4
-    3a94:	0e 94 6c 13 	call	0x26d8	; 0x26d8 <LDR_u8GetLightPres>
-    3a98:	80 91 cc 04 	lds	r24, 0x04CC
-    3a9c:	81 33       	cpi	r24, 0x31	; 49
-    3a9e:	a9 f4       	brne	.+42     	; 0x3aca <ROOM_LampThree+0x60>
-    3aa0:	80 91 e1 04 	lds	r24, 0x04E1
-    3aa4:	82 33       	cpi	r24, 0x32	; 50
-    3aa6:	88 f4       	brcc	.+34     	; 0x3aca <ROOM_LampThree+0x60>
-    3aa8:	80 91 86 04 	lds	r24, 0x0486
-    3aac:	86 fd       	sbrc	r24, 6
-    3aae:	0d c0       	rjmp	.+26     	; 0x3aca <ROOM_LampThree+0x60>
-    3ab0:	84 e0       	ldi	r24, 0x04	; 4
-    3ab2:	65 e0       	ldi	r22, 0x05	; 5
-    3ab4:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3ab8:	83 e2       	ldi	r24, 0x23	; 35
-    3aba:	92 e0       	ldi	r25, 0x02	; 2
-    3abc:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3ac0:	80 91 86 04 	lds	r24, 0x0486
-    3ac4:	80 64       	ori	r24, 0x40	; 64
-    3ac6:	80 93 86 04 	sts	0x0486, r24
-    3aca:	80 91 e1 04 	lds	r24, 0x04E1
-    3ace:	83 33       	cpi	r24, 0x33	; 51
-    3ad0:	00 f1       	brcs	.+64     	; 0x3b12 <ROOM_LampThree+0xa8>
-    3ad2:	80 91 86 04 	lds	r24, 0x0486
-    3ad6:	8f 7b       	andi	r24, 0xBF	; 191
-    3ad8:	80 93 86 04 	sts	0x0486, r24
-    3adc:	84 e0       	ldi	r24, 0x04	; 4
-    3ade:	65 e0       	ldi	r22, 0x05	; 5
-    3ae0:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3ae4:	84 e3       	ldi	r24, 0x34	; 52
-    3ae6:	92 e0       	ldi	r25, 0x02	; 2
-    3ae8:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3aec:	8c ec       	ldi	r24, 0xCC	; 204
-    3aee:	94 e0       	ldi	r25, 0x04	; 4
-    3af0:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
-    3af4:	80 93 70 04 	sts	0x0470, r24
-    3af8:	80 91 70 04 	lds	r24, 0x0470
-    3afc:	88 23       	and	r24, r24
-    3afe:	09 f0       	breq	.+2      	; 0x3b02 <ROOM_LampThree+0x98>
-    3b00:	51 c0       	rjmp	.+162    	; 0x3ba4 <ROOM_LampThree+0x13a>
-    3b02:	80 91 cc 04 	lds	r24, 0x04CC
-    3b06:	88 30       	cpi	r24, 0x08	; 8
-    3b08:	71 f1       	breq	.+92     	; 0x3b66 <ROOM_LampThree+0xfc>
-    3b0a:	82 33       	cpi	r24, 0x32	; 50
-    3b0c:	09 f0       	breq	.+2      	; 0x3b10 <ROOM_LampThree+0xa6>
-    3b0e:	55 c0       	rjmp	.+170    	; 0x3bba <ROOM_LampThree+0x150>
-    3b10:	21 c0       	rjmp	.+66     	; 0x3b54 <ROOM_LampThree+0xea>
-    3b12:	80 91 e1 04 	lds	r24, 0x04E1
-    3b16:	82 33       	cpi	r24, 0x32	; 50
-    3b18:	08 f0       	brcs	.+2      	; 0x3b1c <ROOM_LampThree+0xb2>
-    3b1a:	4f c0       	rjmp	.+158    	; 0x3bba <ROOM_LampThree+0x150>
-    3b1c:	84 e0       	ldi	r24, 0x04	; 4
-    3b1e:	65 e0       	ldi	r22, 0x05	; 5
-    3b20:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3b24:	80 91 86 04 	lds	r24, 0x0486
-    3b28:	86 fd       	sbrc	r24, 6
-    3b2a:	04 c0       	rjmp	.+8      	; 0x3b34 <ROOM_LampThree+0xca>
-    3b2c:	85 e4       	ldi	r24, 0x45	; 69
-    3b2e:	92 e0       	ldi	r25, 0x02	; 2
-    3b30:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3b34:	8c ec       	ldi	r24, 0xCC	; 204
-    3b36:	94 e0       	ldi	r25, 0x04	; 4
-    3b38:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
-    3b3c:	80 93 70 04 	sts	0x0470, r24
-    3b40:	80 91 70 04 	lds	r24, 0x0470
-    3b44:	88 23       	and	r24, r24
-    3b46:	71 f5       	brne	.+92     	; 0x3ba4 <ROOM_LampThree+0x13a>
-    3b48:	80 91 cc 04 	lds	r24, 0x04CC
-    3b4c:	88 30       	cpi	r24, 0x08	; 8
-    3b4e:	59 f0       	breq	.+22     	; 0x3b66 <ROOM_LampThree+0xfc>
-    3b50:	81 33       	cpi	r24, 0x31	; 49
-    3b52:	99 f5       	brne	.+102    	; 0x3bba <ROOM_LampThree+0x150>
-    3b54:	60 91 83 04 	lds	r22, 0x0483
-    3b58:	70 91 84 04 	lds	r23, 0x0484
-    3b5c:	80 91 85 04 	lds	r24, 0x0485
-    3b60:	0e 94 0b 13 	call	0x2616	; 0x2616 <LED_vTog>
-    3b64:	2a c0       	rjmp	.+84     	; 0x3bba <ROOM_LampThree+0x150>
-    3b66:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    3b6a:	82 ec       	ldi	r24, 0xC2	; 194
-    3b6c:	91 e0       	ldi	r25, 0x01	; 1
-    3b6e:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3b72:	82 e0       	ldi	r24, 0x02	; 2
-    3b74:	61 e0       	ldi	r22, 0x01	; 1
-    3b76:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3b7a:	82 ed       	ldi	r24, 0xD2	; 210
-    3b7c:	91 e0       	ldi	r25, 0x01	; 1
-    3b7e:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3b82:	83 e0       	ldi	r24, 0x03	; 3
-    3b84:	61 e0       	ldi	r22, 0x01	; 1
-    3b86:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3b8a:	81 ee       	ldi	r24, 0xE1	; 225
-    3b8c:	91 e0       	ldi	r25, 0x01	; 1
-    3b8e:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3b92:	84 e0       	ldi	r24, 0x04	; 4
-    3b94:	61 e0       	ldi	r22, 0x01	; 1
-    3b96:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3b9a:	80 ef       	ldi	r24, 0xF0	; 240
-    3b9c:	91 e0       	ldi	r25, 0x01	; 1
-    3b9e:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3ba2:	0b c0       	rjmp	.+22     	; 0x3bba <ROOM_LampThree+0x150>
-    3ba4:	80 91 70 04 	lds	r24, 0x0470
-    3ba8:	84 30       	cpi	r24, 0x04	; 4
-    3baa:	39 f4       	brne	.+14     	; 0x3bba <ROOM_LampThree+0x150>
-    3bac:	80 91 b3 04 	lds	r24, 0x04B3
-    3bb0:	80 91 b3 04 	lds	r24, 0x04B3
-    3bb4:	8f 5f       	subi	r24, 0xFF	; 255
-    3bb6:	80 93 b3 04 	sts	0x04B3, r24
-    3bba:	80 91 cc 04 	lds	r24, 0x04CC
-    3bbe:	88 30       	cpi	r24, 0x08	; 8
-    3bc0:	09 f0       	breq	.+2      	; 0x3bc4 <ROOM_LampThree+0x15a>
-    3bc2:	64 cf       	rjmp	.-312    	; 0x3a8c <ROOM_LampThree+0x22>
-    3bc4:	08 95       	ret
+00003a72 <ROOM_LampThree>:
+    3a72:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    3a76:	8f ef       	ldi	r24, 0xFF	; 255
+    3a78:	91 e0       	ldi	r25, 0x01	; 1
+    3a7a:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3a7e:	82 e0       	ldi	r24, 0x02	; 2
+    3a80:	61 e0       	ldi	r22, 0x01	; 1
+    3a82:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3a86:	8e e0       	ldi	r24, 0x0E	; 14
+    3a88:	92 e0       	ldi	r25, 0x02	; 2
+    3a8a:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3a8e:	8f ef       	ldi	r24, 0xFF	; 255
+    3a90:	80 93 cc 04 	sts	0x04CC, r24
+    3a94:	8a e7       	ldi	r24, 0x7A	; 122
+    3a96:	94 e0       	ldi	r25, 0x04	; 4
+    3a98:	61 ee       	ldi	r22, 0xE1	; 225
+    3a9a:	74 e0       	ldi	r23, 0x04	; 4
+    3a9c:	0e 94 6c 13 	call	0x26d8	; 0x26d8 <LDR_u8GetLightPres>
+    3aa0:	80 91 cc 04 	lds	r24, 0x04CC
+    3aa4:	81 33       	cpi	r24, 0x31	; 49
+    3aa6:	a9 f4       	brne	.+42     	; 0x3ad2 <ROOM_LampThree+0x60>
+    3aa8:	80 91 e1 04 	lds	r24, 0x04E1
+    3aac:	82 33       	cpi	r24, 0x32	; 50
+    3aae:	88 f4       	brcc	.+34     	; 0x3ad2 <ROOM_LampThree+0x60>
+    3ab0:	80 91 86 04 	lds	r24, 0x0486
+    3ab4:	86 fd       	sbrc	r24, 6
+    3ab6:	0d c0       	rjmp	.+26     	; 0x3ad2 <ROOM_LampThree+0x60>
+    3ab8:	84 e0       	ldi	r24, 0x04	; 4
+    3aba:	65 e0       	ldi	r22, 0x05	; 5
+    3abc:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3ac0:	83 e2       	ldi	r24, 0x23	; 35
+    3ac2:	92 e0       	ldi	r25, 0x02	; 2
+    3ac4:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3ac8:	80 91 86 04 	lds	r24, 0x0486
+    3acc:	80 64       	ori	r24, 0x40	; 64
+    3ace:	80 93 86 04 	sts	0x0486, r24
+    3ad2:	80 91 e1 04 	lds	r24, 0x04E1
+    3ad6:	83 33       	cpi	r24, 0x33	; 51
+    3ad8:	00 f1       	brcs	.+64     	; 0x3b1a <ROOM_LampThree+0xa8>
+    3ada:	80 91 86 04 	lds	r24, 0x0486
+    3ade:	8f 7b       	andi	r24, 0xBF	; 191
+    3ae0:	80 93 86 04 	sts	0x0486, r24
+    3ae4:	84 e0       	ldi	r24, 0x04	; 4
+    3ae6:	65 e0       	ldi	r22, 0x05	; 5
+    3ae8:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3aec:	84 e3       	ldi	r24, 0x34	; 52
+    3aee:	92 e0       	ldi	r25, 0x02	; 2
+    3af0:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3af4:	8c ec       	ldi	r24, 0xCC	; 204
+    3af6:	94 e0       	ldi	r25, 0x04	; 4
+    3af8:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
+    3afc:	80 93 70 04 	sts	0x0470, r24
+    3b00:	80 91 70 04 	lds	r24, 0x0470
+    3b04:	88 23       	and	r24, r24
+    3b06:	09 f0       	breq	.+2      	; 0x3b0a <ROOM_LampThree+0x98>
+    3b08:	51 c0       	rjmp	.+162    	; 0x3bac <ROOM_LampThree+0x13a>
+    3b0a:	80 91 cc 04 	lds	r24, 0x04CC
+    3b0e:	88 30       	cpi	r24, 0x08	; 8
+    3b10:	71 f1       	breq	.+92     	; 0x3b6e <ROOM_LampThree+0xfc>
+    3b12:	82 33       	cpi	r24, 0x32	; 50
+    3b14:	09 f0       	breq	.+2      	; 0x3b18 <ROOM_LampThree+0xa6>
+    3b16:	55 c0       	rjmp	.+170    	; 0x3bc2 <ROOM_LampThree+0x150>
+    3b18:	21 c0       	rjmp	.+66     	; 0x3b5c <ROOM_LampThree+0xea>
+    3b1a:	80 91 e1 04 	lds	r24, 0x04E1
+    3b1e:	82 33       	cpi	r24, 0x32	; 50
+    3b20:	08 f0       	brcs	.+2      	; 0x3b24 <ROOM_LampThree+0xb2>
+    3b22:	4f c0       	rjmp	.+158    	; 0x3bc2 <ROOM_LampThree+0x150>
+    3b24:	84 e0       	ldi	r24, 0x04	; 4
+    3b26:	65 e0       	ldi	r22, 0x05	; 5
+    3b28:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3b2c:	80 91 86 04 	lds	r24, 0x0486
+    3b30:	86 fd       	sbrc	r24, 6
+    3b32:	04 c0       	rjmp	.+8      	; 0x3b3c <ROOM_LampThree+0xca>
+    3b34:	85 e4       	ldi	r24, 0x45	; 69
+    3b36:	92 e0       	ldi	r25, 0x02	; 2
+    3b38:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3b3c:	8c ec       	ldi	r24, 0xCC	; 204
+    3b3e:	94 e0       	ldi	r25, 0x04	; 4
+    3b40:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
+    3b44:	80 93 70 04 	sts	0x0470, r24
+    3b48:	80 91 70 04 	lds	r24, 0x0470
+    3b4c:	88 23       	and	r24, r24
+    3b4e:	71 f5       	brne	.+92     	; 0x3bac <ROOM_LampThree+0x13a>
+    3b50:	80 91 cc 04 	lds	r24, 0x04CC
+    3b54:	88 30       	cpi	r24, 0x08	; 8
+    3b56:	59 f0       	breq	.+22     	; 0x3b6e <ROOM_LampThree+0xfc>
+    3b58:	81 33       	cpi	r24, 0x31	; 49
+    3b5a:	99 f5       	brne	.+102    	; 0x3bc2 <ROOM_LampThree+0x150>
+    3b5c:	60 91 83 04 	lds	r22, 0x0483
+    3b60:	70 91 84 04 	lds	r23, 0x0484
+    3b64:	80 91 85 04 	lds	r24, 0x0485
+    3b68:	0e 94 0b 13 	call	0x2616	; 0x2616 <LED_vTog>
+    3b6c:	2a c0       	rjmp	.+84     	; 0x3bc2 <ROOM_LampThree+0x150>
+    3b6e:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    3b72:	82 ec       	ldi	r24, 0xC2	; 194
+    3b74:	91 e0       	ldi	r25, 0x01	; 1
+    3b76:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3b7a:	82 e0       	ldi	r24, 0x02	; 2
+    3b7c:	61 e0       	ldi	r22, 0x01	; 1
+    3b7e:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3b82:	82 ed       	ldi	r24, 0xD2	; 210
+    3b84:	91 e0       	ldi	r25, 0x01	; 1
+    3b86:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3b8a:	83 e0       	ldi	r24, 0x03	; 3
+    3b8c:	61 e0       	ldi	r22, 0x01	; 1
+    3b8e:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3b92:	81 ee       	ldi	r24, 0xE1	; 225
+    3b94:	91 e0       	ldi	r25, 0x01	; 1
+    3b96:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3b9a:	84 e0       	ldi	r24, 0x04	; 4
+    3b9c:	61 e0       	ldi	r22, 0x01	; 1
+    3b9e:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3ba2:	80 ef       	ldi	r24, 0xF0	; 240
+    3ba4:	91 e0       	ldi	r25, 0x01	; 1
+    3ba6:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3baa:	0b c0       	rjmp	.+22     	; 0x3bc2 <ROOM_LampThree+0x150>
+    3bac:	80 91 70 04 	lds	r24, 0x0470
+    3bb0:	84 30       	cpi	r24, 0x04	; 4
+    3bb2:	39 f4       	brne	.+14     	; 0x3bc2 <ROOM_LampThree+0x150>
+    3bb4:	80 91 b3 04 	lds	r24, 0x04B3
+    3bb8:	80 91 b3 04 	lds	r24, 0x04B3
+    3bbc:	8f 5f       	subi	r24, 0xFF	; 255
+    3bbe:	80 93 b3 04 	sts	0x04B3, r24
+    3bc2:	80 91 cc 04 	lds	r24, 0x04CC
+    3bc6:	88 30       	cpi	r24, 0x08	; 8
+    3bc8:	09 f0       	breq	.+2      	; 0x3bcc <ROOM_LampThree+0x15a>
+    3bca:	64 cf       	rjmp	.-312    	; 0x3a94 <ROOM_LampThree+0x22>
+    3bcc:	08 95       	ret
 
-00003bc6 <ROOM_LampTwo>:
-    3bc6:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    3bca:	86 e5       	ldi	r24, 0x56	; 86
-    3bcc:	92 e0       	ldi	r25, 0x02	; 2
-    3bce:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3bd2:	82 e0       	ldi	r24, 0x02	; 2
-    3bd4:	61 e0       	ldi	r22, 0x01	; 1
-    3bd6:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3bda:	8e e0       	ldi	r24, 0x0E	; 14
-    3bdc:	92 e0       	ldi	r25, 0x02	; 2
-    3bde:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3be2:	8f ef       	ldi	r24, 0xFF	; 255
-    3be4:	80 93 cc 04 	sts	0x04CC, r24
-    3be8:	87 e7       	ldi	r24, 0x77	; 119
-    3bea:	94 e0       	ldi	r25, 0x04	; 4
-    3bec:	61 ee       	ldi	r22, 0xE1	; 225
-    3bee:	74 e0       	ldi	r23, 0x04	; 4
-    3bf0:	0e 94 6c 13 	call	0x26d8	; 0x26d8 <LDR_u8GetLightPres>
-    3bf4:	80 91 cc 04 	lds	r24, 0x04CC
-    3bf8:	81 33       	cpi	r24, 0x31	; 49
-    3bfa:	a9 f4       	brne	.+42     	; 0x3c26 <ROOM_LampTwo+0x60>
-    3bfc:	80 91 e1 04 	lds	r24, 0x04E1
-    3c00:	82 33       	cpi	r24, 0x32	; 50
-    3c02:	88 f4       	brcc	.+34     	; 0x3c26 <ROOM_LampTwo+0x60>
-    3c04:	80 91 86 04 	lds	r24, 0x0486
-    3c08:	85 fd       	sbrc	r24, 5
-    3c0a:	0d c0       	rjmp	.+26     	; 0x3c26 <ROOM_LampTwo+0x60>
-    3c0c:	84 e0       	ldi	r24, 0x04	; 4
-    3c0e:	65 e0       	ldi	r22, 0x05	; 5
-    3c10:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3c14:	83 e2       	ldi	r24, 0x23	; 35
-    3c16:	92 e0       	ldi	r25, 0x02	; 2
-    3c18:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3c1c:	80 91 86 04 	lds	r24, 0x0486
-    3c20:	80 62       	ori	r24, 0x20	; 32
-    3c22:	80 93 86 04 	sts	0x0486, r24
-    3c26:	80 91 e1 04 	lds	r24, 0x04E1
-    3c2a:	83 33       	cpi	r24, 0x33	; 51
-    3c2c:	00 f1       	brcs	.+64     	; 0x3c6e <ROOM_LampTwo+0xa8>
-    3c2e:	80 91 86 04 	lds	r24, 0x0486
-    3c32:	8f 7d       	andi	r24, 0xDF	; 223
-    3c34:	80 93 86 04 	sts	0x0486, r24
-    3c38:	84 e0       	ldi	r24, 0x04	; 4
-    3c3a:	65 e0       	ldi	r22, 0x05	; 5
-    3c3c:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3c40:	84 e3       	ldi	r24, 0x34	; 52
-    3c42:	92 e0       	ldi	r25, 0x02	; 2
-    3c44:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3c48:	8c ec       	ldi	r24, 0xCC	; 204
-    3c4a:	94 e0       	ldi	r25, 0x04	; 4
-    3c4c:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
-    3c50:	80 93 70 04 	sts	0x0470, r24
-    3c54:	80 91 70 04 	lds	r24, 0x0470
-    3c58:	88 23       	and	r24, r24
-    3c5a:	09 f0       	breq	.+2      	; 0x3c5e <ROOM_LampTwo+0x98>
-    3c5c:	5a c0       	rjmp	.+180    	; 0x3d12 <ROOM_LampTwo+0x14c>
-    3c5e:	80 91 cc 04 	lds	r24, 0x04CC
-    3c62:	88 30       	cpi	r24, 0x08	; 8
-    3c64:	b9 f1       	breq	.+110    	; 0x3cd4 <ROOM_LampTwo+0x10e>
-    3c66:	82 33       	cpi	r24, 0x32	; 50
-    3c68:	09 f0       	breq	.+2      	; 0x3c6c <ROOM_LampTwo+0xa6>
-    3c6a:	5e c0       	rjmp	.+188    	; 0x3d28 <ROOM_LampTwo+0x162>
-    3c6c:	24 c0       	rjmp	.+72     	; 0x3cb6 <ROOM_LampTwo+0xf0>
-    3c6e:	80 91 e1 04 	lds	r24, 0x04E1
-    3c72:	82 33       	cpi	r24, 0x32	; 50
-    3c74:	08 f0       	brcs	.+2      	; 0x3c78 <ROOM_LampTwo+0xb2>
-    3c76:	58 c0       	rjmp	.+176    	; 0x3d28 <ROOM_LampTwo+0x162>
-    3c78:	84 e0       	ldi	r24, 0x04	; 4
-    3c7a:	65 e0       	ldi	r22, 0x05	; 5
-    3c7c:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3c80:	80 91 86 04 	lds	r24, 0x0486
-    3c84:	85 fd       	sbrc	r24, 5
-    3c86:	04 c0       	rjmp	.+8      	; 0x3c90 <ROOM_LampTwo+0xca>
-    3c88:	85 e4       	ldi	r24, 0x45	; 69
-    3c8a:	92 e0       	ldi	r25, 0x02	; 2
-    3c8c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3c90:	8c ec       	ldi	r24, 0xCC	; 204
-    3c92:	94 e0       	ldi	r25, 0x04	; 4
-    3c94:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
-    3c98:	80 93 70 04 	sts	0x0470, r24
-    3c9c:	80 91 70 04 	lds	r24, 0x0470
-    3ca0:	88 23       	and	r24, r24
-    3ca2:	b9 f5       	brne	.+110    	; 0x3d12 <ROOM_LampTwo+0x14c>
-    3ca4:	80 91 cc 04 	lds	r24, 0x04CC
-    3ca8:	81 33       	cpi	r24, 0x31	; 49
-    3caa:	29 f0       	breq	.+10     	; 0x3cb6 <ROOM_LampTwo+0xf0>
-    3cac:	82 33       	cpi	r24, 0x32	; 50
-    3cae:	61 f0       	breq	.+24     	; 0x3cc8 <ROOM_LampTwo+0x102>
-    3cb0:	88 30       	cpi	r24, 0x08	; 8
-    3cb2:	d1 f5       	brne	.+116    	; 0x3d28 <ROOM_LampTwo+0x162>
-    3cb4:	0f c0       	rjmp	.+30     	; 0x3cd4 <ROOM_LampTwo+0x10e>
-    3cb6:	60 91 80 04 	lds	r22, 0x0480
-    3cba:	70 91 81 04 	lds	r23, 0x0481
-    3cbe:	80 91 82 04 	lds	r24, 0x0482
-    3cc2:	0e 94 0b 13 	call	0x2616	; 0x2616 <LED_vTog>
-    3cc6:	30 c0       	rjmp	.+96     	; 0x3d28 <ROOM_LampTwo+0x162>
-    3cc8:	80 91 86 04 	lds	r24, 0x0486
-    3ccc:	8f 7d       	andi	r24, 0xDF	; 223
-    3cce:	80 93 86 04 	sts	0x0486, r24
-    3cd2:	2a c0       	rjmp	.+84     	; 0x3d28 <ROOM_LampTwo+0x162>
-    3cd4:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    3cd8:	82 ec       	ldi	r24, 0xC2	; 194
-    3cda:	91 e0       	ldi	r25, 0x01	; 1
-    3cdc:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3ce0:	82 e0       	ldi	r24, 0x02	; 2
-    3ce2:	61 e0       	ldi	r22, 0x01	; 1
-    3ce4:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3ce8:	82 ed       	ldi	r24, 0xD2	; 210
-    3cea:	91 e0       	ldi	r25, 0x01	; 1
-    3cec:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3cf0:	83 e0       	ldi	r24, 0x03	; 3
-    3cf2:	61 e0       	ldi	r22, 0x01	; 1
-    3cf4:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3cf8:	81 ee       	ldi	r24, 0xE1	; 225
-    3cfa:	91 e0       	ldi	r25, 0x01	; 1
-    3cfc:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3d00:	84 e0       	ldi	r24, 0x04	; 4
-    3d02:	61 e0       	ldi	r22, 0x01	; 1
-    3d04:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3d08:	80 ef       	ldi	r24, 0xF0	; 240
-    3d0a:	91 e0       	ldi	r25, 0x01	; 1
-    3d0c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3d10:	0b c0       	rjmp	.+22     	; 0x3d28 <ROOM_LampTwo+0x162>
-    3d12:	80 91 70 04 	lds	r24, 0x0470
-    3d16:	84 30       	cpi	r24, 0x04	; 4
-    3d18:	39 f4       	brne	.+14     	; 0x3d28 <ROOM_LampTwo+0x162>
-    3d1a:	80 91 b3 04 	lds	r24, 0x04B3
-    3d1e:	80 91 b3 04 	lds	r24, 0x04B3
-    3d22:	8f 5f       	subi	r24, 0xFF	; 255
-    3d24:	80 93 b3 04 	sts	0x04B3, r24
-    3d28:	80 91 cc 04 	lds	r24, 0x04CC
-    3d2c:	88 30       	cpi	r24, 0x08	; 8
-    3d2e:	09 f0       	breq	.+2      	; 0x3d32 <ROOM_LampTwo+0x16c>
-    3d30:	5b cf       	rjmp	.-330    	; 0x3be8 <ROOM_LampTwo+0x22>
-    3d32:	08 95       	ret
+00003bce <ROOM_LampTwo>:
+    3bce:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    3bd2:	86 e5       	ldi	r24, 0x56	; 86
+    3bd4:	92 e0       	ldi	r25, 0x02	; 2
+    3bd6:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3bda:	82 e0       	ldi	r24, 0x02	; 2
+    3bdc:	61 e0       	ldi	r22, 0x01	; 1
+    3bde:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3be2:	8e e0       	ldi	r24, 0x0E	; 14
+    3be4:	92 e0       	ldi	r25, 0x02	; 2
+    3be6:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3bea:	8f ef       	ldi	r24, 0xFF	; 255
+    3bec:	80 93 cc 04 	sts	0x04CC, r24
+    3bf0:	87 e7       	ldi	r24, 0x77	; 119
+    3bf2:	94 e0       	ldi	r25, 0x04	; 4
+    3bf4:	61 ee       	ldi	r22, 0xE1	; 225
+    3bf6:	74 e0       	ldi	r23, 0x04	; 4
+    3bf8:	0e 94 6c 13 	call	0x26d8	; 0x26d8 <LDR_u8GetLightPres>
+    3bfc:	80 91 cc 04 	lds	r24, 0x04CC
+    3c00:	81 33       	cpi	r24, 0x31	; 49
+    3c02:	a9 f4       	brne	.+42     	; 0x3c2e <ROOM_LampTwo+0x60>
+    3c04:	80 91 e1 04 	lds	r24, 0x04E1
+    3c08:	82 33       	cpi	r24, 0x32	; 50
+    3c0a:	88 f4       	brcc	.+34     	; 0x3c2e <ROOM_LampTwo+0x60>
+    3c0c:	80 91 86 04 	lds	r24, 0x0486
+    3c10:	85 fd       	sbrc	r24, 5
+    3c12:	0d c0       	rjmp	.+26     	; 0x3c2e <ROOM_LampTwo+0x60>
+    3c14:	84 e0       	ldi	r24, 0x04	; 4
+    3c16:	65 e0       	ldi	r22, 0x05	; 5
+    3c18:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3c1c:	83 e2       	ldi	r24, 0x23	; 35
+    3c1e:	92 e0       	ldi	r25, 0x02	; 2
+    3c20:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3c24:	80 91 86 04 	lds	r24, 0x0486
+    3c28:	80 62       	ori	r24, 0x20	; 32
+    3c2a:	80 93 86 04 	sts	0x0486, r24
+    3c2e:	80 91 e1 04 	lds	r24, 0x04E1
+    3c32:	83 33       	cpi	r24, 0x33	; 51
+    3c34:	00 f1       	brcs	.+64     	; 0x3c76 <ROOM_LampTwo+0xa8>
+    3c36:	80 91 86 04 	lds	r24, 0x0486
+    3c3a:	8f 7d       	andi	r24, 0xDF	; 223
+    3c3c:	80 93 86 04 	sts	0x0486, r24
+    3c40:	84 e0       	ldi	r24, 0x04	; 4
+    3c42:	65 e0       	ldi	r22, 0x05	; 5
+    3c44:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3c48:	84 e3       	ldi	r24, 0x34	; 52
+    3c4a:	92 e0       	ldi	r25, 0x02	; 2
+    3c4c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3c50:	8c ec       	ldi	r24, 0xCC	; 204
+    3c52:	94 e0       	ldi	r25, 0x04	; 4
+    3c54:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
+    3c58:	80 93 70 04 	sts	0x0470, r24
+    3c5c:	80 91 70 04 	lds	r24, 0x0470
+    3c60:	88 23       	and	r24, r24
+    3c62:	09 f0       	breq	.+2      	; 0x3c66 <ROOM_LampTwo+0x98>
+    3c64:	5a c0       	rjmp	.+180    	; 0x3d1a <ROOM_LampTwo+0x14c>
+    3c66:	80 91 cc 04 	lds	r24, 0x04CC
+    3c6a:	88 30       	cpi	r24, 0x08	; 8
+    3c6c:	b9 f1       	breq	.+110    	; 0x3cdc <ROOM_LampTwo+0x10e>
+    3c6e:	82 33       	cpi	r24, 0x32	; 50
+    3c70:	09 f0       	breq	.+2      	; 0x3c74 <ROOM_LampTwo+0xa6>
+    3c72:	5e c0       	rjmp	.+188    	; 0x3d30 <ROOM_LampTwo+0x162>
+    3c74:	24 c0       	rjmp	.+72     	; 0x3cbe <ROOM_LampTwo+0xf0>
+    3c76:	80 91 e1 04 	lds	r24, 0x04E1
+    3c7a:	82 33       	cpi	r24, 0x32	; 50
+    3c7c:	08 f0       	brcs	.+2      	; 0x3c80 <ROOM_LampTwo+0xb2>
+    3c7e:	58 c0       	rjmp	.+176    	; 0x3d30 <ROOM_LampTwo+0x162>
+    3c80:	84 e0       	ldi	r24, 0x04	; 4
+    3c82:	65 e0       	ldi	r22, 0x05	; 5
+    3c84:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3c88:	80 91 86 04 	lds	r24, 0x0486
+    3c8c:	85 fd       	sbrc	r24, 5
+    3c8e:	04 c0       	rjmp	.+8      	; 0x3c98 <ROOM_LampTwo+0xca>
+    3c90:	85 e4       	ldi	r24, 0x45	; 69
+    3c92:	92 e0       	ldi	r25, 0x02	; 2
+    3c94:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3c98:	8c ec       	ldi	r24, 0xCC	; 204
+    3c9a:	94 e0       	ldi	r25, 0x04	; 4
+    3c9c:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
+    3ca0:	80 93 70 04 	sts	0x0470, r24
+    3ca4:	80 91 70 04 	lds	r24, 0x0470
+    3ca8:	88 23       	and	r24, r24
+    3caa:	b9 f5       	brne	.+110    	; 0x3d1a <ROOM_LampTwo+0x14c>
+    3cac:	80 91 cc 04 	lds	r24, 0x04CC
+    3cb0:	81 33       	cpi	r24, 0x31	; 49
+    3cb2:	29 f0       	breq	.+10     	; 0x3cbe <ROOM_LampTwo+0xf0>
+    3cb4:	82 33       	cpi	r24, 0x32	; 50
+    3cb6:	61 f0       	breq	.+24     	; 0x3cd0 <ROOM_LampTwo+0x102>
+    3cb8:	88 30       	cpi	r24, 0x08	; 8
+    3cba:	d1 f5       	brne	.+116    	; 0x3d30 <ROOM_LampTwo+0x162>
+    3cbc:	0f c0       	rjmp	.+30     	; 0x3cdc <ROOM_LampTwo+0x10e>
+    3cbe:	60 91 80 04 	lds	r22, 0x0480
+    3cc2:	70 91 81 04 	lds	r23, 0x0481
+    3cc6:	80 91 82 04 	lds	r24, 0x0482
+    3cca:	0e 94 0b 13 	call	0x2616	; 0x2616 <LED_vTog>
+    3cce:	30 c0       	rjmp	.+96     	; 0x3d30 <ROOM_LampTwo+0x162>
+    3cd0:	80 91 86 04 	lds	r24, 0x0486
+    3cd4:	8f 7d       	andi	r24, 0xDF	; 223
+    3cd6:	80 93 86 04 	sts	0x0486, r24
+    3cda:	2a c0       	rjmp	.+84     	; 0x3d30 <ROOM_LampTwo+0x162>
+    3cdc:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    3ce0:	82 ec       	ldi	r24, 0xC2	; 194
+    3ce2:	91 e0       	ldi	r25, 0x01	; 1
+    3ce4:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3ce8:	82 e0       	ldi	r24, 0x02	; 2
+    3cea:	61 e0       	ldi	r22, 0x01	; 1
+    3cec:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3cf0:	82 ed       	ldi	r24, 0xD2	; 210
+    3cf2:	91 e0       	ldi	r25, 0x01	; 1
+    3cf4:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3cf8:	83 e0       	ldi	r24, 0x03	; 3
+    3cfa:	61 e0       	ldi	r22, 0x01	; 1
+    3cfc:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3d00:	81 ee       	ldi	r24, 0xE1	; 225
+    3d02:	91 e0       	ldi	r25, 0x01	; 1
+    3d04:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3d08:	84 e0       	ldi	r24, 0x04	; 4
+    3d0a:	61 e0       	ldi	r22, 0x01	; 1
+    3d0c:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3d10:	80 ef       	ldi	r24, 0xF0	; 240
+    3d12:	91 e0       	ldi	r25, 0x01	; 1
+    3d14:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3d18:	0b c0       	rjmp	.+22     	; 0x3d30 <ROOM_LampTwo+0x162>
+    3d1a:	80 91 70 04 	lds	r24, 0x0470
+    3d1e:	84 30       	cpi	r24, 0x04	; 4
+    3d20:	39 f4       	brne	.+14     	; 0x3d30 <ROOM_LampTwo+0x162>
+    3d22:	80 91 b3 04 	lds	r24, 0x04B3
+    3d26:	80 91 b3 04 	lds	r24, 0x04B3
+    3d2a:	8f 5f       	subi	r24, 0xFF	; 255
+    3d2c:	80 93 b3 04 	sts	0x04B3, r24
+    3d30:	80 91 cc 04 	lds	r24, 0x04CC
+    3d34:	88 30       	cpi	r24, 0x08	; 8
+    3d36:	09 f0       	breq	.+2      	; 0x3d3a <ROOM_LampTwo+0x16c>
+    3d38:	5b cf       	rjmp	.-330    	; 0x3bf0 <ROOM_LampTwo+0x22>
+    3d3a:	08 95       	ret
 
-00003d34 <ROOM_LampOne>:
-    3d34:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    3d38:	85 e6       	ldi	r24, 0x65	; 101
-    3d3a:	92 e0       	ldi	r25, 0x02	; 2
-    3d3c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3d40:	82 e0       	ldi	r24, 0x02	; 2
-    3d42:	61 e0       	ldi	r22, 0x01	; 1
-    3d44:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3d48:	8e e0       	ldi	r24, 0x0E	; 14
-    3d4a:	92 e0       	ldi	r25, 0x02	; 2
-    3d4c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3d50:	8f ef       	ldi	r24, 0xFF	; 255
-    3d52:	80 93 cc 04 	sts	0x04CC, r24
-    3d56:	84 e7       	ldi	r24, 0x74	; 116
-    3d58:	94 e0       	ldi	r25, 0x04	; 4
-    3d5a:	61 ee       	ldi	r22, 0xE1	; 225
-    3d5c:	74 e0       	ldi	r23, 0x04	; 4
-    3d5e:	0e 94 6c 13 	call	0x26d8	; 0x26d8 <LDR_u8GetLightPres>
-    3d62:	80 91 cc 04 	lds	r24, 0x04CC
-    3d66:	81 33       	cpi	r24, 0x31	; 49
-    3d68:	a9 f4       	brne	.+42     	; 0x3d94 <ROOM_LampOne+0x60>
-    3d6a:	80 91 e1 04 	lds	r24, 0x04E1
-    3d6e:	82 33       	cpi	r24, 0x32	; 50
-    3d70:	88 f4       	brcc	.+34     	; 0x3d94 <ROOM_LampOne+0x60>
-    3d72:	80 91 86 04 	lds	r24, 0x0486
-    3d76:	84 fd       	sbrc	r24, 4
-    3d78:	0d c0       	rjmp	.+26     	; 0x3d94 <ROOM_LampOne+0x60>
-    3d7a:	84 e0       	ldi	r24, 0x04	; 4
-    3d7c:	65 e0       	ldi	r22, 0x05	; 5
-    3d7e:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3d82:	83 e2       	ldi	r24, 0x23	; 35
-    3d84:	92 e0       	ldi	r25, 0x02	; 2
-    3d86:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3d8a:	80 91 86 04 	lds	r24, 0x0486
-    3d8e:	80 61       	ori	r24, 0x10	; 16
-    3d90:	80 93 86 04 	sts	0x0486, r24
-    3d94:	80 91 e1 04 	lds	r24, 0x04E1
-    3d98:	83 33       	cpi	r24, 0x33	; 51
-    3d9a:	00 f1       	brcs	.+64     	; 0x3ddc <ROOM_LampOne+0xa8>
-    3d9c:	80 91 86 04 	lds	r24, 0x0486
-    3da0:	8f 7e       	andi	r24, 0xEF	; 239
-    3da2:	80 93 86 04 	sts	0x0486, r24
-    3da6:	84 e0       	ldi	r24, 0x04	; 4
-    3da8:	65 e0       	ldi	r22, 0x05	; 5
-    3daa:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3dae:	84 e3       	ldi	r24, 0x34	; 52
-    3db0:	92 e0       	ldi	r25, 0x02	; 2
-    3db2:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3db6:	8c ec       	ldi	r24, 0xCC	; 204
-    3db8:	94 e0       	ldi	r25, 0x04	; 4
-    3dba:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
-    3dbe:	80 93 70 04 	sts	0x0470, r24
-    3dc2:	80 91 70 04 	lds	r24, 0x0470
-    3dc6:	88 23       	and	r24, r24
-    3dc8:	09 f0       	breq	.+2      	; 0x3dcc <ROOM_LampOne+0x98>
-    3dca:	5a c0       	rjmp	.+180    	; 0x3e80 <ROOM_LampOne+0x14c>
-    3dcc:	80 91 cc 04 	lds	r24, 0x04CC
-    3dd0:	88 30       	cpi	r24, 0x08	; 8
-    3dd2:	b9 f1       	breq	.+110    	; 0x3e42 <ROOM_LampOne+0x10e>
-    3dd4:	82 33       	cpi	r24, 0x32	; 50
-    3dd6:	09 f0       	breq	.+2      	; 0x3dda <ROOM_LampOne+0xa6>
-    3dd8:	5e c0       	rjmp	.+188    	; 0x3e96 <ROOM_LampOne+0x162>
-    3dda:	24 c0       	rjmp	.+72     	; 0x3e24 <ROOM_LampOne+0xf0>
-    3ddc:	80 91 e1 04 	lds	r24, 0x04E1
-    3de0:	82 33       	cpi	r24, 0x32	; 50
-    3de2:	08 f0       	brcs	.+2      	; 0x3de6 <ROOM_LampOne+0xb2>
-    3de4:	58 c0       	rjmp	.+176    	; 0x3e96 <ROOM_LampOne+0x162>
-    3de6:	84 e0       	ldi	r24, 0x04	; 4
-    3de8:	65 e0       	ldi	r22, 0x05	; 5
-    3dea:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3dee:	80 91 86 04 	lds	r24, 0x0486
-    3df2:	84 fd       	sbrc	r24, 4
-    3df4:	04 c0       	rjmp	.+8      	; 0x3dfe <ROOM_LampOne+0xca>
-    3df6:	85 e4       	ldi	r24, 0x45	; 69
-    3df8:	92 e0       	ldi	r25, 0x02	; 2
-    3dfa:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3dfe:	8c ec       	ldi	r24, 0xCC	; 204
-    3e00:	94 e0       	ldi	r25, 0x04	; 4
-    3e02:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
-    3e06:	80 93 70 04 	sts	0x0470, r24
-    3e0a:	80 91 70 04 	lds	r24, 0x0470
-    3e0e:	88 23       	and	r24, r24
-    3e10:	b9 f5       	brne	.+110    	; 0x3e80 <ROOM_LampOne+0x14c>
-    3e12:	80 91 cc 04 	lds	r24, 0x04CC
-    3e16:	81 33       	cpi	r24, 0x31	; 49
-    3e18:	29 f0       	breq	.+10     	; 0x3e24 <ROOM_LampOne+0xf0>
-    3e1a:	82 33       	cpi	r24, 0x32	; 50
-    3e1c:	61 f0       	breq	.+24     	; 0x3e36 <ROOM_LampOne+0x102>
-    3e1e:	88 30       	cpi	r24, 0x08	; 8
-    3e20:	d1 f5       	brne	.+116    	; 0x3e96 <ROOM_LampOne+0x162>
-    3e22:	0f c0       	rjmp	.+30     	; 0x3e42 <ROOM_LampOne+0x10e>
-    3e24:	60 91 7d 04 	lds	r22, 0x047D
-    3e28:	70 91 7e 04 	lds	r23, 0x047E
-    3e2c:	80 91 7f 04 	lds	r24, 0x047F
-    3e30:	0e 94 0b 13 	call	0x2616	; 0x2616 <LED_vTog>
-    3e34:	30 c0       	rjmp	.+96     	; 0x3e96 <ROOM_LampOne+0x162>
-    3e36:	80 91 86 04 	lds	r24, 0x0486
-    3e3a:	8f 7e       	andi	r24, 0xEF	; 239
-    3e3c:	80 93 86 04 	sts	0x0486, r24
-    3e40:	2a c0       	rjmp	.+84     	; 0x3e96 <ROOM_LampOne+0x162>
-    3e42:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    3e46:	82 ec       	ldi	r24, 0xC2	; 194
-    3e48:	91 e0       	ldi	r25, 0x01	; 1
-    3e4a:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3e4e:	82 e0       	ldi	r24, 0x02	; 2
-    3e50:	61 e0       	ldi	r22, 0x01	; 1
-    3e52:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3e56:	82 ed       	ldi	r24, 0xD2	; 210
-    3e58:	91 e0       	ldi	r25, 0x01	; 1
-    3e5a:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3e5e:	83 e0       	ldi	r24, 0x03	; 3
-    3e60:	61 e0       	ldi	r22, 0x01	; 1
-    3e62:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3e66:	81 ee       	ldi	r24, 0xE1	; 225
-    3e68:	91 e0       	ldi	r25, 0x01	; 1
-    3e6a:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3e6e:	84 e0       	ldi	r24, 0x04	; 4
-    3e70:	61 e0       	ldi	r22, 0x01	; 1
-    3e72:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3e76:	80 ef       	ldi	r24, 0xF0	; 240
-    3e78:	91 e0       	ldi	r25, 0x01	; 1
-    3e7a:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3e7e:	0b c0       	rjmp	.+22     	; 0x3e96 <ROOM_LampOne+0x162>
-    3e80:	80 91 70 04 	lds	r24, 0x0470
-    3e84:	84 30       	cpi	r24, 0x04	; 4
-    3e86:	39 f4       	brne	.+14     	; 0x3e96 <ROOM_LampOne+0x162>
-    3e88:	80 91 b3 04 	lds	r24, 0x04B3
-    3e8c:	80 91 b3 04 	lds	r24, 0x04B3
-    3e90:	8f 5f       	subi	r24, 0xFF	; 255
-    3e92:	80 93 b3 04 	sts	0x04B3, r24
-    3e96:	80 91 cc 04 	lds	r24, 0x04CC
-    3e9a:	88 30       	cpi	r24, 0x08	; 8
-    3e9c:	09 f0       	breq	.+2      	; 0x3ea0 <ROOM_LampOne+0x16c>
-    3e9e:	5b cf       	rjmp	.-330    	; 0x3d56 <ROOM_LampOne+0x22>
-    3ea0:	08 95       	ret
+00003d3c <ROOM_LampOne>:
+    3d3c:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    3d40:	85 e6       	ldi	r24, 0x65	; 101
+    3d42:	92 e0       	ldi	r25, 0x02	; 2
+    3d44:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3d48:	82 e0       	ldi	r24, 0x02	; 2
+    3d4a:	61 e0       	ldi	r22, 0x01	; 1
+    3d4c:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3d50:	8e e0       	ldi	r24, 0x0E	; 14
+    3d52:	92 e0       	ldi	r25, 0x02	; 2
+    3d54:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3d58:	8f ef       	ldi	r24, 0xFF	; 255
+    3d5a:	80 93 cc 04 	sts	0x04CC, r24
+    3d5e:	84 e7       	ldi	r24, 0x74	; 116
+    3d60:	94 e0       	ldi	r25, 0x04	; 4
+    3d62:	61 ee       	ldi	r22, 0xE1	; 225
+    3d64:	74 e0       	ldi	r23, 0x04	; 4
+    3d66:	0e 94 6c 13 	call	0x26d8	; 0x26d8 <LDR_u8GetLightPres>
+    3d6a:	80 91 cc 04 	lds	r24, 0x04CC
+    3d6e:	81 33       	cpi	r24, 0x31	; 49
+    3d70:	a9 f4       	brne	.+42     	; 0x3d9c <ROOM_LampOne+0x60>
+    3d72:	80 91 e1 04 	lds	r24, 0x04E1
+    3d76:	82 33       	cpi	r24, 0x32	; 50
+    3d78:	88 f4       	brcc	.+34     	; 0x3d9c <ROOM_LampOne+0x60>
+    3d7a:	80 91 86 04 	lds	r24, 0x0486
+    3d7e:	84 fd       	sbrc	r24, 4
+    3d80:	0d c0       	rjmp	.+26     	; 0x3d9c <ROOM_LampOne+0x60>
+    3d82:	84 e0       	ldi	r24, 0x04	; 4
+    3d84:	65 e0       	ldi	r22, 0x05	; 5
+    3d86:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3d8a:	83 e2       	ldi	r24, 0x23	; 35
+    3d8c:	92 e0       	ldi	r25, 0x02	; 2
+    3d8e:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3d92:	80 91 86 04 	lds	r24, 0x0486
+    3d96:	80 61       	ori	r24, 0x10	; 16
+    3d98:	80 93 86 04 	sts	0x0486, r24
+    3d9c:	80 91 e1 04 	lds	r24, 0x04E1
+    3da0:	83 33       	cpi	r24, 0x33	; 51
+    3da2:	00 f1       	brcs	.+64     	; 0x3de4 <ROOM_LampOne+0xa8>
+    3da4:	80 91 86 04 	lds	r24, 0x0486
+    3da8:	8f 7e       	andi	r24, 0xEF	; 239
+    3daa:	80 93 86 04 	sts	0x0486, r24
+    3dae:	84 e0       	ldi	r24, 0x04	; 4
+    3db0:	65 e0       	ldi	r22, 0x05	; 5
+    3db2:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3db6:	84 e3       	ldi	r24, 0x34	; 52
+    3db8:	92 e0       	ldi	r25, 0x02	; 2
+    3dba:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3dbe:	8c ec       	ldi	r24, 0xCC	; 204
+    3dc0:	94 e0       	ldi	r25, 0x04	; 4
+    3dc2:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
+    3dc6:	80 93 70 04 	sts	0x0470, r24
+    3dca:	80 91 70 04 	lds	r24, 0x0470
+    3dce:	88 23       	and	r24, r24
+    3dd0:	09 f0       	breq	.+2      	; 0x3dd4 <ROOM_LampOne+0x98>
+    3dd2:	5a c0       	rjmp	.+180    	; 0x3e88 <ROOM_LampOne+0x14c>
+    3dd4:	80 91 cc 04 	lds	r24, 0x04CC
+    3dd8:	88 30       	cpi	r24, 0x08	; 8
+    3dda:	b9 f1       	breq	.+110    	; 0x3e4a <ROOM_LampOne+0x10e>
+    3ddc:	82 33       	cpi	r24, 0x32	; 50
+    3dde:	09 f0       	breq	.+2      	; 0x3de2 <ROOM_LampOne+0xa6>
+    3de0:	5e c0       	rjmp	.+188    	; 0x3e9e <ROOM_LampOne+0x162>
+    3de2:	24 c0       	rjmp	.+72     	; 0x3e2c <ROOM_LampOne+0xf0>
+    3de4:	80 91 e1 04 	lds	r24, 0x04E1
+    3de8:	82 33       	cpi	r24, 0x32	; 50
+    3dea:	08 f0       	brcs	.+2      	; 0x3dee <ROOM_LampOne+0xb2>
+    3dec:	58 c0       	rjmp	.+176    	; 0x3e9e <ROOM_LampOne+0x162>
+    3dee:	84 e0       	ldi	r24, 0x04	; 4
+    3df0:	65 e0       	ldi	r22, 0x05	; 5
+    3df2:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3df6:	80 91 86 04 	lds	r24, 0x0486
+    3dfa:	84 fd       	sbrc	r24, 4
+    3dfc:	04 c0       	rjmp	.+8      	; 0x3e06 <ROOM_LampOne+0xca>
+    3dfe:	85 e4       	ldi	r24, 0x45	; 69
+    3e00:	92 e0       	ldi	r25, 0x02	; 2
+    3e02:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3e06:	8c ec       	ldi	r24, 0xCC	; 204
+    3e08:	94 e0       	ldi	r25, 0x04	; 4
+    3e0a:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
+    3e0e:	80 93 70 04 	sts	0x0470, r24
+    3e12:	80 91 70 04 	lds	r24, 0x0470
+    3e16:	88 23       	and	r24, r24
+    3e18:	b9 f5       	brne	.+110    	; 0x3e88 <ROOM_LampOne+0x14c>
+    3e1a:	80 91 cc 04 	lds	r24, 0x04CC
+    3e1e:	81 33       	cpi	r24, 0x31	; 49
+    3e20:	29 f0       	breq	.+10     	; 0x3e2c <ROOM_LampOne+0xf0>
+    3e22:	82 33       	cpi	r24, 0x32	; 50
+    3e24:	61 f0       	breq	.+24     	; 0x3e3e <ROOM_LampOne+0x102>
+    3e26:	88 30       	cpi	r24, 0x08	; 8
+    3e28:	d1 f5       	brne	.+116    	; 0x3e9e <ROOM_LampOne+0x162>
+    3e2a:	0f c0       	rjmp	.+30     	; 0x3e4a <ROOM_LampOne+0x10e>
+    3e2c:	60 91 7d 04 	lds	r22, 0x047D
+    3e30:	70 91 7e 04 	lds	r23, 0x047E
+    3e34:	80 91 7f 04 	lds	r24, 0x047F
+    3e38:	0e 94 0b 13 	call	0x2616	; 0x2616 <LED_vTog>
+    3e3c:	30 c0       	rjmp	.+96     	; 0x3e9e <ROOM_LampOne+0x162>
+    3e3e:	80 91 86 04 	lds	r24, 0x0486
+    3e42:	8f 7e       	andi	r24, 0xEF	; 239
+    3e44:	80 93 86 04 	sts	0x0486, r24
+    3e48:	2a c0       	rjmp	.+84     	; 0x3e9e <ROOM_LampOne+0x162>
+    3e4a:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    3e4e:	82 ec       	ldi	r24, 0xC2	; 194
+    3e50:	91 e0       	ldi	r25, 0x01	; 1
+    3e52:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3e56:	82 e0       	ldi	r24, 0x02	; 2
+    3e58:	61 e0       	ldi	r22, 0x01	; 1
+    3e5a:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3e5e:	82 ed       	ldi	r24, 0xD2	; 210
+    3e60:	91 e0       	ldi	r25, 0x01	; 1
+    3e62:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3e66:	83 e0       	ldi	r24, 0x03	; 3
+    3e68:	61 e0       	ldi	r22, 0x01	; 1
+    3e6a:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3e6e:	81 ee       	ldi	r24, 0xE1	; 225
+    3e70:	91 e0       	ldi	r25, 0x01	; 1
+    3e72:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3e76:	84 e0       	ldi	r24, 0x04	; 4
+    3e78:	61 e0       	ldi	r22, 0x01	; 1
+    3e7a:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3e7e:	80 ef       	ldi	r24, 0xF0	; 240
+    3e80:	91 e0       	ldi	r25, 0x01	; 1
+    3e82:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3e86:	0b c0       	rjmp	.+22     	; 0x3e9e <ROOM_LampOne+0x162>
+    3e88:	80 91 70 04 	lds	r24, 0x0470
+    3e8c:	84 30       	cpi	r24, 0x04	; 4
+    3e8e:	39 f4       	brne	.+14     	; 0x3e9e <ROOM_LampOne+0x162>
+    3e90:	80 91 b3 04 	lds	r24, 0x04B3
+    3e94:	80 91 b3 04 	lds	r24, 0x04B3
+    3e98:	8f 5f       	subi	r24, 0xFF	; 255
+    3e9a:	80 93 b3 04 	sts	0x04B3, r24
+    3e9e:	80 91 cc 04 	lds	r24, 0x04CC
+    3ea2:	88 30       	cpi	r24, 0x08	; 8
+    3ea4:	09 f0       	breq	.+2      	; 0x3ea8 <ROOM_LampOne+0x16c>
+    3ea6:	5b cf       	rjmp	.-330    	; 0x3d5e <ROOM_LampOne+0x22>
+    3ea8:	08 95       	ret
 
-00003ea2 <Auto_Fan_Control>:
-    3ea2:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    3ea6:	84 e7       	ldi	r24, 0x74	; 116
-    3ea8:	92 e0       	ldi	r25, 0x02	; 2
-    3eaa:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3eae:	82 e0       	ldi	r24, 0x02	; 2
-    3eb0:	61 e0       	ldi	r22, 0x01	; 1
-    3eb2:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3eb6:	85 e8       	ldi	r24, 0x85	; 133
-    3eb8:	92 e0       	ldi	r25, 0x02	; 2
-    3eba:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3ebe:	85 e9       	ldi	r24, 0x95	; 149
+00003eaa <Auto_Fan_Control>:
+    3eaa:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    3eae:	84 e7       	ldi	r24, 0x74	; 116
+    3eb0:	92 e0       	ldi	r25, 0x02	; 2
+    3eb2:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3eb6:	82 e0       	ldi	r24, 0x02	; 2
+    3eb8:	61 e0       	ldi	r22, 0x01	; 1
+    3eba:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3ebe:	85 e8       	ldi	r24, 0x85	; 133
     3ec0:	92 e0       	ldi	r25, 0x02	; 2
     3ec2:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3ec6:	8c ec       	ldi	r24, 0xCC	; 204
-    3ec8:	94 e0       	ldi	r25, 0x04	; 4
-    3eca:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
-    3ece:	80 93 70 04 	sts	0x0470, r24
-    3ed2:	80 91 70 04 	lds	r24, 0x0470
-    3ed6:	88 23       	and	r24, r24
-    3ed8:	c9 f4       	brne	.+50     	; 0x3f0c <Auto_Fan_Control+0x6a>
-    3eda:	80 91 cc 04 	lds	r24, 0x04CC
-    3ede:	81 33       	cpi	r24, 0x31	; 49
-    3ee0:	29 f0       	breq	.+10     	; 0x3eec <Auto_Fan_Control+0x4a>
-    3ee2:	82 33       	cpi	r24, 0x32	; 50
-    3ee4:	39 f0       	breq	.+14     	; 0x3ef4 <Auto_Fan_Control+0x52>
-    3ee6:	88 30       	cpi	r24, 0x08	; 8
-    3ee8:	e1 f4       	brne	.+56     	; 0x3f22 <Auto_Fan_Control+0x80>
-    3eea:	0c c0       	rjmp	.+24     	; 0x3f04 <Auto_Fan_Control+0x62>
-    3eec:	80 91 86 04 	lds	r24, 0x0486
-    3ef0:	84 60       	ori	r24, 0x04	; 4
-    3ef2:	03 c0       	rjmp	.+6      	; 0x3efa <Auto_Fan_Control+0x58>
+    3ec6:	85 e9       	ldi	r24, 0x95	; 149
+    3ec8:	92 e0       	ldi	r25, 0x02	; 2
+    3eca:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3ece:	8c ec       	ldi	r24, 0xCC	; 204
+    3ed0:	94 e0       	ldi	r25, 0x04	; 4
+    3ed2:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
+    3ed6:	80 93 70 04 	sts	0x0470, r24
+    3eda:	80 91 70 04 	lds	r24, 0x0470
+    3ede:	88 23       	and	r24, r24
+    3ee0:	c9 f4       	brne	.+50     	; 0x3f14 <Auto_Fan_Control+0x6a>
+    3ee2:	80 91 cc 04 	lds	r24, 0x04CC
+    3ee6:	81 33       	cpi	r24, 0x31	; 49
+    3ee8:	29 f0       	breq	.+10     	; 0x3ef4 <Auto_Fan_Control+0x4a>
+    3eea:	82 33       	cpi	r24, 0x32	; 50
+    3eec:	39 f0       	breq	.+14     	; 0x3efc <Auto_Fan_Control+0x52>
+    3eee:	88 30       	cpi	r24, 0x08	; 8
+    3ef0:	e1 f4       	brne	.+56     	; 0x3f2a <Auto_Fan_Control+0x80>
+    3ef2:	0c c0       	rjmp	.+24     	; 0x3f0c <Auto_Fan_Control+0x62>
     3ef4:	80 91 86 04 	lds	r24, 0x0486
-    3ef8:	8b 7f       	andi	r24, 0xFB	; 251
-    3efa:	80 93 86 04 	sts	0x0486, r24
-    3efe:	10 92 b3 04 	sts	0x04B3, r1
-    3f02:	0f c0       	rjmp	.+30     	; 0x3f22 <Auto_Fan_Control+0x80>
-    3f04:	8d e0       	ldi	r24, 0x0D	; 13
-    3f06:	0e 94 ee 08 	call	0x11dc	; 0x11dc <USART_u8SendData>
-    3f0a:	f9 cf       	rjmp	.-14     	; 0x3efe <Auto_Fan_Control+0x5c>
-    3f0c:	80 91 70 04 	lds	r24, 0x0470
-    3f10:	84 30       	cpi	r24, 0x04	; 4
-    3f12:	39 f4       	brne	.+14     	; 0x3f22 <Auto_Fan_Control+0x80>
-    3f14:	80 91 b3 04 	lds	r24, 0x04B3
-    3f18:	80 91 b3 04 	lds	r24, 0x04B3
-    3f1c:	8f 5f       	subi	r24, 0xFF	; 255
-    3f1e:	80 93 b3 04 	sts	0x04B3, r24
-    3f22:	80 91 cc 04 	lds	r24, 0x04CC
-    3f26:	88 30       	cpi	r24, 0x08	; 8
-    3f28:	71 f6       	brne	.-100    	; 0x3ec6 <Auto_Fan_Control+0x24>
-    3f2a:	08 95       	ret
+    3ef8:	84 60       	ori	r24, 0x04	; 4
+    3efa:	03 c0       	rjmp	.+6      	; 0x3f02 <Auto_Fan_Control+0x58>
+    3efc:	80 91 86 04 	lds	r24, 0x0486
+    3f00:	8b 7f       	andi	r24, 0xFB	; 251
+    3f02:	80 93 86 04 	sts	0x0486, r24
+    3f06:	10 92 b3 04 	sts	0x04B3, r1
+    3f0a:	0f c0       	rjmp	.+30     	; 0x3f2a <Auto_Fan_Control+0x80>
+    3f0c:	8d e0       	ldi	r24, 0x0D	; 13
+    3f0e:	0e 94 ee 08 	call	0x11dc	; 0x11dc <USART_u8SendData>
+    3f12:	f9 cf       	rjmp	.-14     	; 0x3f06 <Auto_Fan_Control+0x5c>
+    3f14:	80 91 70 04 	lds	r24, 0x0470
+    3f18:	84 30       	cpi	r24, 0x04	; 4
+    3f1a:	39 f4       	brne	.+14     	; 0x3f2a <Auto_Fan_Control+0x80>
+    3f1c:	80 91 b3 04 	lds	r24, 0x04B3
+    3f20:	80 91 b3 04 	lds	r24, 0x04B3
+    3f24:	8f 5f       	subi	r24, 0xFF	; 255
+    3f26:	80 93 b3 04 	sts	0x04B3, r24
+    3f2a:	80 91 cc 04 	lds	r24, 0x04CC
+    3f2e:	88 30       	cpi	r24, 0x08	; 8
+    3f30:	71 f6       	brne	.-100    	; 0x3ece <Auto_Fan_Control+0x24>
+    3f32:	08 95       	ret
 
-00003f2c <Room_Door>:
-    3f2c:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    3f30:	8e e9       	ldi	r24, 0x9E	; 158
-    3f32:	92 e0       	ldi	r25, 0x02	; 2
-    3f34:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3f38:	82 e0       	ldi	r24, 0x02	; 2
-    3f3a:	61 e0       	ldi	r22, 0x01	; 1
-    3f3c:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3f40:	80 eb       	ldi	r24, 0xB0	; 176
-    3f42:	92 e0       	ldi	r25, 0x02	; 2
-    3f44:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3f48:	8e eb       	ldi	r24, 0xBE	; 190
+00003f34 <Room_Door>:
+    3f34:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    3f38:	8e e9       	ldi	r24, 0x9E	; 158
+    3f3a:	92 e0       	ldi	r25, 0x02	; 2
+    3f3c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3f40:	82 e0       	ldi	r24, 0x02	; 2
+    3f42:	61 e0       	ldi	r22, 0x01	; 1
+    3f44:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3f48:	80 eb       	ldi	r24, 0xB0	; 176
     3f4a:	92 e0       	ldi	r25, 0x02	; 2
     3f4c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3f50:	8c ec       	ldi	r24, 0xCC	; 204
-    3f52:	94 e0       	ldi	r25, 0x04	; 4
-    3f54:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
-    3f58:	80 93 70 04 	sts	0x0470, r24
-    3f5c:	80 91 70 04 	lds	r24, 0x0470
-    3f60:	88 23       	and	r24, r24
-    3f62:	b9 f5       	brne	.+110    	; 0x3fd2 <Room_Door+0xa6>
-    3f64:	80 91 cc 04 	lds	r24, 0x04CC
-    3f68:	81 33       	cpi	r24, 0x31	; 49
-    3f6a:	29 f0       	breq	.+10     	; 0x3f76 <Room_Door+0x4a>
-    3f6c:	82 33       	cpi	r24, 0x32	; 50
-    3f6e:	31 f0       	breq	.+12     	; 0x3f7c <Room_Door+0x50>
-    3f70:	88 30       	cpi	r24, 0x08	; 8
-    3f72:	d1 f5       	brne	.+116    	; 0x3fe8 <Room_Door+0xbc>
-    3f74:	0a c0       	rjmp	.+20     	; 0x3f8a <Room_Door+0x5e>
-    3f76:	80 e0       	ldi	r24, 0x00	; 0
-    3f78:	90 e0       	ldi	r25, 0x00	; 0
-    3f7a:	02 c0       	rjmp	.+4      	; 0x3f80 <Room_Door+0x54>
-    3f7c:	8a e5       	ldi	r24, 0x5A	; 90
-    3f7e:	90 e0       	ldi	r25, 0x00	; 0
-    3f80:	0e 94 3b 12 	call	0x2476	; 0x2476 <SM_vTimer1Degree>
-    3f84:	10 92 b3 04 	sts	0x04B3, r1
-    3f88:	2f c0       	rjmp	.+94     	; 0x3fe8 <Room_Door+0xbc>
-    3f8a:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    3f8e:	82 ec       	ldi	r24, 0xC2	; 194
-    3f90:	91 e0       	ldi	r25, 0x01	; 1
-    3f92:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3f96:	82 e0       	ldi	r24, 0x02	; 2
-    3f98:	61 e0       	ldi	r22, 0x01	; 1
-    3f9a:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3f9e:	82 ed       	ldi	r24, 0xD2	; 210
-    3fa0:	91 e0       	ldi	r25, 0x01	; 1
-    3fa2:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3fa6:	83 e0       	ldi	r24, 0x03	; 3
-    3fa8:	61 e0       	ldi	r22, 0x01	; 1
-    3faa:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3fae:	81 ee       	ldi	r24, 0xE1	; 225
-    3fb0:	91 e0       	ldi	r25, 0x01	; 1
-    3fb2:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3fb6:	84 e0       	ldi	r24, 0x04	; 4
-    3fb8:	61 e0       	ldi	r22, 0x01	; 1
-    3fba:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    3fbe:	80 ef       	ldi	r24, 0xF0	; 240
-    3fc0:	91 e0       	ldi	r25, 0x01	; 1
-    3fc2:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    3fc6:	80 91 86 04 	lds	r24, 0x0486
-    3fca:	87 7f       	andi	r24, 0xF7	; 247
-    3fcc:	80 93 86 04 	sts	0x0486, r24
-    3fd0:	0b c0       	rjmp	.+22     	; 0x3fe8 <Room_Door+0xbc>
-    3fd2:	80 91 70 04 	lds	r24, 0x0470
-    3fd6:	84 30       	cpi	r24, 0x04	; 4
-    3fd8:	39 f4       	brne	.+14     	; 0x3fe8 <Room_Door+0xbc>
-    3fda:	80 91 b3 04 	lds	r24, 0x04B3
-    3fde:	80 91 b3 04 	lds	r24, 0x04B3
-    3fe2:	8f 5f       	subi	r24, 0xFF	; 255
-    3fe4:	80 93 b3 04 	sts	0x04B3, r24
-    3fe8:	80 91 cc 04 	lds	r24, 0x04CC
-    3fec:	88 30       	cpi	r24, 0x08	; 8
-    3fee:	09 f0       	breq	.+2      	; 0x3ff2 <Room_Door+0xc6>
-    3ff0:	af cf       	rjmp	.-162    	; 0x3f50 <Room_Door+0x24>
-    3ff2:	08 95       	ret
+    3f50:	8e eb       	ldi	r24, 0xBE	; 190
+    3f52:	92 e0       	ldi	r25, 0x02	; 2
+    3f54:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3f58:	8c ec       	ldi	r24, 0xCC	; 204
+    3f5a:	94 e0       	ldi	r25, 0x04	; 4
+    3f5c:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
+    3f60:	80 93 70 04 	sts	0x0470, r24
+    3f64:	80 91 70 04 	lds	r24, 0x0470
+    3f68:	88 23       	and	r24, r24
+    3f6a:	b9 f5       	brne	.+110    	; 0x3fda <Room_Door+0xa6>
+    3f6c:	80 91 cc 04 	lds	r24, 0x04CC
+    3f70:	81 33       	cpi	r24, 0x31	; 49
+    3f72:	29 f0       	breq	.+10     	; 0x3f7e <Room_Door+0x4a>
+    3f74:	82 33       	cpi	r24, 0x32	; 50
+    3f76:	31 f0       	breq	.+12     	; 0x3f84 <Room_Door+0x50>
+    3f78:	88 30       	cpi	r24, 0x08	; 8
+    3f7a:	d1 f5       	brne	.+116    	; 0x3ff0 <Room_Door+0xbc>
+    3f7c:	0a c0       	rjmp	.+20     	; 0x3f92 <Room_Door+0x5e>
+    3f7e:	80 e0       	ldi	r24, 0x00	; 0
+    3f80:	90 e0       	ldi	r25, 0x00	; 0
+    3f82:	02 c0       	rjmp	.+4      	; 0x3f88 <Room_Door+0x54>
+    3f84:	8a e5       	ldi	r24, 0x5A	; 90
+    3f86:	90 e0       	ldi	r25, 0x00	; 0
+    3f88:	0e 94 3b 12 	call	0x2476	; 0x2476 <SM_vTimer1Degree>
+    3f8c:	10 92 b3 04 	sts	0x04B3, r1
+    3f90:	2f c0       	rjmp	.+94     	; 0x3ff0 <Room_Door+0xbc>
+    3f92:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    3f96:	82 ec       	ldi	r24, 0xC2	; 194
+    3f98:	91 e0       	ldi	r25, 0x01	; 1
+    3f9a:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3f9e:	82 e0       	ldi	r24, 0x02	; 2
+    3fa0:	61 e0       	ldi	r22, 0x01	; 1
+    3fa2:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3fa6:	82 ed       	ldi	r24, 0xD2	; 210
+    3fa8:	91 e0       	ldi	r25, 0x01	; 1
+    3faa:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3fae:	83 e0       	ldi	r24, 0x03	; 3
+    3fb0:	61 e0       	ldi	r22, 0x01	; 1
+    3fb2:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3fb6:	81 ee       	ldi	r24, 0xE1	; 225
+    3fb8:	91 e0       	ldi	r25, 0x01	; 1
+    3fba:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3fbe:	84 e0       	ldi	r24, 0x04	; 4
+    3fc0:	61 e0       	ldi	r22, 0x01	; 1
+    3fc2:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    3fc6:	80 ef       	ldi	r24, 0xF0	; 240
+    3fc8:	91 e0       	ldi	r25, 0x01	; 1
+    3fca:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    3fce:	80 91 86 04 	lds	r24, 0x0486
+    3fd2:	87 7f       	andi	r24, 0xF7	; 247
+    3fd4:	80 93 86 04 	sts	0x0486, r24
+    3fd8:	0b c0       	rjmp	.+22     	; 0x3ff0 <Room_Door+0xbc>
+    3fda:	80 91 70 04 	lds	r24, 0x0470
+    3fde:	84 30       	cpi	r24, 0x04	; 4
+    3fe0:	39 f4       	brne	.+14     	; 0x3ff0 <Room_Door+0xbc>
+    3fe2:	80 91 b3 04 	lds	r24, 0x04B3
+    3fe6:	80 91 b3 04 	lds	r24, 0x04B3
+    3fea:	8f 5f       	subi	r24, 0xFF	; 255
+    3fec:	80 93 b3 04 	sts	0x04B3, r24
+    3ff0:	80 91 cc 04 	lds	r24, 0x04CC
+    3ff4:	88 30       	cpi	r24, 0x08	; 8
+    3ff6:	09 f0       	breq	.+2      	; 0x3ffa <Room_Door+0xc6>
+    3ff8:	af cf       	rjmp	.-162    	; 0x3f58 <Room_Door+0x24>
+    3ffa:	08 95       	ret
 
-00003ff4 <Room_vSetting>:
-    3ff4:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    3ff8:	86 ec       	ldi	r24, 0xC6	; 198
-    3ffa:	92 e0       	ldi	r25, 0x02	; 2
-    3ffc:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    4000:	82 e0       	ldi	r24, 0x02	; 2
-    4002:	61 e0       	ldi	r22, 0x01	; 1
-    4004:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    4008:	8f ec       	ldi	r24, 0xCF	; 207
-    400a:	92 e0       	ldi	r25, 0x02	; 2
-    400c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    4010:	83 e0       	ldi	r24, 0x03	; 3
-    4012:	61 e0       	ldi	r22, 0x01	; 1
-    4014:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    4018:	82 ee       	ldi	r24, 0xE2	; 226
-    401a:	92 e0       	ldi	r25, 0x02	; 2
-    401c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    4020:	84 e0       	ldi	r24, 0x04	; 4
-    4022:	61 e0       	ldi	r22, 0x01	; 1
-    4024:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    4028:	85 ef       	ldi	r24, 0xF5	; 245
-    402a:	92 e0       	ldi	r25, 0x02	; 2
-    402c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    4030:	8c ec       	ldi	r24, 0xCC	; 204
-    4032:	94 e0       	ldi	r25, 0x04	; 4
-    4034:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
-    4038:	80 93 70 04 	sts	0x0470, r24
-    403c:	80 91 70 04 	lds	r24, 0x0470
-    4040:	88 23       	and	r24, r24
-    4042:	09 f0       	breq	.+2      	; 0x4046 <Room_vSetting+0x52>
-    4044:	67 c0       	rjmp	.+206    	; 0x4114 <Room_vSetting+0x120>
-    4046:	80 91 cc 04 	lds	r24, 0x04CC
-    404a:	82 33       	cpi	r24, 0x32	; 50
-    404c:	a1 f0       	breq	.+40     	; 0x4076 <Room_vSetting+0x82>
-    404e:	83 33       	cpi	r24, 0x33	; 51
-    4050:	30 f4       	brcc	.+12     	; 0x405e <Room_vSetting+0x6a>
-    4052:	88 30       	cpi	r24, 0x08	; 8
-    4054:	f1 f1       	breq	.+124    	; 0x40d2 <Room_vSetting+0xde>
-    4056:	81 33       	cpi	r24, 0x31	; 49
-    4058:	09 f0       	breq	.+2      	; 0x405c <Room_vSetting+0x68>
-    405a:	67 c0       	rjmp	.+206    	; 0x412a <Room_vSetting+0x136>
-    405c:	04 c0       	rjmp	.+8      	; 0x4066 <Room_vSetting+0x72>
-    405e:	83 33       	cpi	r24, 0x33	; 51
-    4060:	09 f0       	breq	.+2      	; 0x4064 <Room_vSetting+0x70>
-    4062:	63 c0       	rjmp	.+198    	; 0x412a <Room_vSetting+0x136>
-    4064:	33 c0       	rjmp	.+102    	; 0x40cc <Room_vSetting+0xd8>
-    4066:	80 e1       	ldi	r24, 0x10	; 16
-    4068:	90 e0       	ldi	r25, 0x00	; 0
-    406a:	6f ef       	ldi	r22, 0xFF	; 255
-    406c:	0e 94 c4 0d 	call	0x1b88	; 0x1b88 <EEPROM_vWrite>
-    4070:	0e 94 f5 18 	call	0x31ea	; 0x31ea <UserName_Set>
-    4074:	0a c0       	rjmp	.+20     	; 0x408a <Room_vSetting+0x96>
-    4076:	8d e0       	ldi	r24, 0x0D	; 13
-    4078:	0e 94 ee 08 	call	0x11dc	; 0x11dc <USART_u8SendData>
-    407c:	81 e1       	ldi	r24, 0x11	; 17
-    407e:	90 e0       	ldi	r25, 0x00	; 0
-    4080:	6f ef       	ldi	r22, 0xFF	; 255
-    4082:	0e 94 c4 0d 	call	0x1b88	; 0x1b88 <EEPROM_vWrite>
-    4086:	0e 94 f6 17 	call	0x2fec	; 0x2fec <PassWord_Set>
-    408a:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    408e:	86 ec       	ldi	r24, 0xC6	; 198
-    4090:	92 e0       	ldi	r25, 0x02	; 2
-    4092:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    4096:	82 e0       	ldi	r24, 0x02	; 2
-    4098:	61 e0       	ldi	r22, 0x01	; 1
-    409a:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    409e:	8f ec       	ldi	r24, 0xCF	; 207
-    40a0:	92 e0       	ldi	r25, 0x02	; 2
-    40a2:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    40a6:	83 e0       	ldi	r24, 0x03	; 3
-    40a8:	61 e0       	ldi	r22, 0x01	; 1
-    40aa:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    40ae:	82 ee       	ldi	r24, 0xE2	; 226
-    40b0:	92 e0       	ldi	r25, 0x02	; 2
-    40b2:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    40b6:	84 e0       	ldi	r24, 0x04	; 4
-    40b8:	61 e0       	ldi	r22, 0x01	; 1
-    40ba:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    40be:	85 ef       	ldi	r24, 0xF5	; 245
-    40c0:	92 e0       	ldi	r25, 0x02	; 2
-    40c2:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    40c6:	10 92 b3 04 	sts	0x04B3, r1
-    40ca:	2f c0       	rjmp	.+94     	; 0x412a <Room_vSetting+0x136>
-    40cc:	0e 94 51 1f 	call	0x3ea2	; 0x3ea2 <Auto_Fan_Control>
-    40d0:	2c c0       	rjmp	.+88     	; 0x412a <Room_vSetting+0x136>
-    40d2:	10 92 b3 04 	sts	0x04B3, r1
-    40d6:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    40da:	82 ec       	ldi	r24, 0xC2	; 194
-    40dc:	91 e0       	ldi	r25, 0x01	; 1
-    40de:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    40e2:	82 e0       	ldi	r24, 0x02	; 2
-    40e4:	61 e0       	ldi	r22, 0x01	; 1
-    40e6:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    40ea:	89 e0       	ldi	r24, 0x09	; 9
-    40ec:	93 e0       	ldi	r25, 0x03	; 3
-    40ee:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    40f2:	83 e0       	ldi	r24, 0x03	; 3
-    40f4:	61 e0       	ldi	r22, 0x01	; 1
-    40f6:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    40fa:	85 e1       	ldi	r24, 0x15	; 21
-    40fc:	93 e0       	ldi	r25, 0x03	; 3
-    40fe:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    4102:	84 e0       	ldi	r24, 0x04	; 4
-    4104:	61 e0       	ldi	r22, 0x01	; 1
-    4106:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    410a:	82 e2       	ldi	r24, 0x22	; 34
-    410c:	93 e0       	ldi	r25, 0x03	; 3
-    410e:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    4112:	0b c0       	rjmp	.+22     	; 0x412a <Room_vSetting+0x136>
-    4114:	80 91 70 04 	lds	r24, 0x0470
-    4118:	84 30       	cpi	r24, 0x04	; 4
-    411a:	39 f4       	brne	.+14     	; 0x412a <Room_vSetting+0x136>
-    411c:	80 91 b3 04 	lds	r24, 0x04B3
-    4120:	80 91 b3 04 	lds	r24, 0x04B3
-    4124:	8f 5f       	subi	r24, 0xFF	; 255
-    4126:	80 93 b3 04 	sts	0x04B3, r24
-    412a:	80 91 cc 04 	lds	r24, 0x04CC
-    412e:	88 30       	cpi	r24, 0x08	; 8
-    4130:	09 f0       	breq	.+2      	; 0x4134 <Room_vSetting+0x140>
-    4132:	7e cf       	rjmp	.-260    	; 0x4030 <Room_vSetting+0x3c>
-    4134:	08 95       	ret
+00003ffc <Room_vSetting>:
+    3ffc:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    4000:	86 ec       	ldi	r24, 0xC6	; 198
+    4002:	92 e0       	ldi	r25, 0x02	; 2
+    4004:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    4008:	82 e0       	ldi	r24, 0x02	; 2
+    400a:	61 e0       	ldi	r22, 0x01	; 1
+    400c:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    4010:	8f ec       	ldi	r24, 0xCF	; 207
+    4012:	92 e0       	ldi	r25, 0x02	; 2
+    4014:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    4018:	83 e0       	ldi	r24, 0x03	; 3
+    401a:	61 e0       	ldi	r22, 0x01	; 1
+    401c:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    4020:	82 ee       	ldi	r24, 0xE2	; 226
+    4022:	92 e0       	ldi	r25, 0x02	; 2
+    4024:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    4028:	84 e0       	ldi	r24, 0x04	; 4
+    402a:	61 e0       	ldi	r22, 0x01	; 1
+    402c:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    4030:	85 ef       	ldi	r24, 0xF5	; 245
+    4032:	92 e0       	ldi	r25, 0x02	; 2
+    4034:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    4038:	8c ec       	ldi	r24, 0xCC	; 204
+    403a:	94 e0       	ldi	r25, 0x04	; 4
+    403c:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
+    4040:	80 93 70 04 	sts	0x0470, r24
+    4044:	80 91 70 04 	lds	r24, 0x0470
+    4048:	88 23       	and	r24, r24
+    404a:	09 f0       	breq	.+2      	; 0x404e <Room_vSetting+0x52>
+    404c:	67 c0       	rjmp	.+206    	; 0x411c <Room_vSetting+0x120>
+    404e:	80 91 cc 04 	lds	r24, 0x04CC
+    4052:	82 33       	cpi	r24, 0x32	; 50
+    4054:	a1 f0       	breq	.+40     	; 0x407e <Room_vSetting+0x82>
+    4056:	83 33       	cpi	r24, 0x33	; 51
+    4058:	30 f4       	brcc	.+12     	; 0x4066 <Room_vSetting+0x6a>
+    405a:	88 30       	cpi	r24, 0x08	; 8
+    405c:	f1 f1       	breq	.+124    	; 0x40da <Room_vSetting+0xde>
+    405e:	81 33       	cpi	r24, 0x31	; 49
+    4060:	09 f0       	breq	.+2      	; 0x4064 <Room_vSetting+0x68>
+    4062:	67 c0       	rjmp	.+206    	; 0x4132 <Room_vSetting+0x136>
+    4064:	04 c0       	rjmp	.+8      	; 0x406e <Room_vSetting+0x72>
+    4066:	83 33       	cpi	r24, 0x33	; 51
+    4068:	09 f0       	breq	.+2      	; 0x406c <Room_vSetting+0x70>
+    406a:	63 c0       	rjmp	.+198    	; 0x4132 <Room_vSetting+0x136>
+    406c:	33 c0       	rjmp	.+102    	; 0x40d4 <Room_vSetting+0xd8>
+    406e:	80 e1       	ldi	r24, 0x10	; 16
+    4070:	90 e0       	ldi	r25, 0x00	; 0
+    4072:	6f ef       	ldi	r22, 0xFF	; 255
+    4074:	0e 94 c4 0d 	call	0x1b88	; 0x1b88 <EEPROM_vWrite>
+    4078:	0e 94 f5 18 	call	0x31ea	; 0x31ea <UserName_Set>
+    407c:	0a c0       	rjmp	.+20     	; 0x4092 <Room_vSetting+0x96>
+    407e:	8d e0       	ldi	r24, 0x0D	; 13
+    4080:	0e 94 ee 08 	call	0x11dc	; 0x11dc <USART_u8SendData>
+    4084:	81 e1       	ldi	r24, 0x11	; 17
+    4086:	90 e0       	ldi	r25, 0x00	; 0
+    4088:	6f ef       	ldi	r22, 0xFF	; 255
+    408a:	0e 94 c4 0d 	call	0x1b88	; 0x1b88 <EEPROM_vWrite>
+    408e:	0e 94 f6 17 	call	0x2fec	; 0x2fec <PassWord_Set>
+    4092:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    4096:	86 ec       	ldi	r24, 0xC6	; 198
+    4098:	92 e0       	ldi	r25, 0x02	; 2
+    409a:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    409e:	82 e0       	ldi	r24, 0x02	; 2
+    40a0:	61 e0       	ldi	r22, 0x01	; 1
+    40a2:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    40a6:	8f ec       	ldi	r24, 0xCF	; 207
+    40a8:	92 e0       	ldi	r25, 0x02	; 2
+    40aa:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    40ae:	83 e0       	ldi	r24, 0x03	; 3
+    40b0:	61 e0       	ldi	r22, 0x01	; 1
+    40b2:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    40b6:	82 ee       	ldi	r24, 0xE2	; 226
+    40b8:	92 e0       	ldi	r25, 0x02	; 2
+    40ba:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    40be:	84 e0       	ldi	r24, 0x04	; 4
+    40c0:	61 e0       	ldi	r22, 0x01	; 1
+    40c2:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    40c6:	85 ef       	ldi	r24, 0xF5	; 245
+    40c8:	92 e0       	ldi	r25, 0x02	; 2
+    40ca:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    40ce:	10 92 b3 04 	sts	0x04B3, r1
+    40d2:	2f c0       	rjmp	.+94     	; 0x4132 <Room_vSetting+0x136>
+    40d4:	0e 94 55 1f 	call	0x3eaa	; 0x3eaa <Auto_Fan_Control>
+    40d8:	2c c0       	rjmp	.+88     	; 0x4132 <Room_vSetting+0x136>
+    40da:	10 92 b3 04 	sts	0x04B3, r1
+    40de:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    40e2:	82 ec       	ldi	r24, 0xC2	; 194
+    40e4:	91 e0       	ldi	r25, 0x01	; 1
+    40e6:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    40ea:	82 e0       	ldi	r24, 0x02	; 2
+    40ec:	61 e0       	ldi	r22, 0x01	; 1
+    40ee:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    40f2:	89 e0       	ldi	r24, 0x09	; 9
+    40f4:	93 e0       	ldi	r25, 0x03	; 3
+    40f6:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    40fa:	83 e0       	ldi	r24, 0x03	; 3
+    40fc:	61 e0       	ldi	r22, 0x01	; 1
+    40fe:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    4102:	85 e1       	ldi	r24, 0x15	; 21
+    4104:	93 e0       	ldi	r25, 0x03	; 3
+    4106:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    410a:	84 e0       	ldi	r24, 0x04	; 4
+    410c:	61 e0       	ldi	r22, 0x01	; 1
+    410e:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    4112:	82 e2       	ldi	r24, 0x22	; 34
+    4114:	93 e0       	ldi	r25, 0x03	; 3
+    4116:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    411a:	0b c0       	rjmp	.+22     	; 0x4132 <Room_vSetting+0x136>
+    411c:	80 91 70 04 	lds	r24, 0x0470
+    4120:	84 30       	cpi	r24, 0x04	; 4
+    4122:	39 f4       	brne	.+14     	; 0x4132 <Room_vSetting+0x136>
+    4124:	80 91 b3 04 	lds	r24, 0x04B3
+    4128:	80 91 b3 04 	lds	r24, 0x04B3
+    412c:	8f 5f       	subi	r24, 0xFF	; 255
+    412e:	80 93 b3 04 	sts	0x04B3, r24
+    4132:	80 91 cc 04 	lds	r24, 0x04CC
+    4136:	88 30       	cpi	r24, 0x08	; 8
+    4138:	09 f0       	breq	.+2      	; 0x413c <Room_vSetting+0x140>
+    413a:	7e cf       	rjmp	.-260    	; 0x4038 <Room_vSetting+0x3c>
+    413c:	08 95       	ret
 
-00004136 <Room>:
-    4136:	1f 93       	push	r17
-    4138:	80 91 86 04 	lds	r24, 0x0486
-    413c:	83 fd       	sbrc	r24, 3
-    413e:	22 c0       	rjmp	.+68     	; 0x4184 <Room+0x4e>
-    4140:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    4144:	82 ec       	ldi	r24, 0xC2	; 194
-    4146:	91 e0       	ldi	r25, 0x01	; 1
-    4148:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    414c:	82 e0       	ldi	r24, 0x02	; 2
-    414e:	61 e0       	ldi	r22, 0x01	; 1
-    4150:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    4154:	89 e0       	ldi	r24, 0x09	; 9
-    4156:	93 e0       	ldi	r25, 0x03	; 3
-    4158:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    415c:	83 e0       	ldi	r24, 0x03	; 3
-    415e:	61 e0       	ldi	r22, 0x01	; 1
-    4160:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    4164:	85 e1       	ldi	r24, 0x15	; 21
-    4166:	93 e0       	ldi	r25, 0x03	; 3
-    4168:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    416c:	84 e0       	ldi	r24, 0x04	; 4
-    416e:	61 e0       	ldi	r22, 0x01	; 1
-    4170:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    4174:	82 e2       	ldi	r24, 0x22	; 34
-    4176:	93 e0       	ldi	r25, 0x03	; 3
-    4178:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    417c:	80 91 86 04 	lds	r24, 0x0486
-    4180:	88 60       	ori	r24, 0x08	; 8
-    4182:	21 c0       	rjmp	.+66     	; 0x41c6 <Room+0x90>
-    4184:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    4188:	82 ec       	ldi	r24, 0xC2	; 194
-    418a:	91 e0       	ldi	r25, 0x01	; 1
-    418c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    4190:	82 e0       	ldi	r24, 0x02	; 2
-    4192:	61 e0       	ldi	r22, 0x01	; 1
-    4194:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    4198:	82 ed       	ldi	r24, 0xD2	; 210
-    419a:	91 e0       	ldi	r25, 0x01	; 1
-    419c:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    41a0:	83 e0       	ldi	r24, 0x03	; 3
-    41a2:	61 e0       	ldi	r22, 0x01	; 1
-    41a4:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    41a8:	81 ee       	ldi	r24, 0xE1	; 225
-    41aa:	91 e0       	ldi	r25, 0x01	; 1
-    41ac:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    41b0:	84 e0       	ldi	r24, 0x04	; 4
-    41b2:	61 e0       	ldi	r22, 0x01	; 1
-    41b4:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    41b8:	80 ef       	ldi	r24, 0xF0	; 240
-    41ba:	91 e0       	ldi	r25, 0x01	; 1
-    41bc:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    41c0:	80 91 86 04 	lds	r24, 0x0486
-    41c4:	87 7f       	andi	r24, 0xF7	; 247
-    41c6:	80 93 86 04 	sts	0x0486, r24
-    41ca:	1f ef       	ldi	r17, 0xFF	; 255
-    41cc:	10 93 cc 04 	sts	0x04CC, r17
-    41d0:	8c ec       	ldi	r24, 0xCC	; 204
-    41d2:	94 e0       	ldi	r25, 0x04	; 4
-    41d4:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
-    41d8:	80 93 70 04 	sts	0x0470, r24
-    41dc:	80 91 70 04 	lds	r24, 0x0470
-    41e0:	88 23       	and	r24, r24
-    41e2:	09 f0       	breq	.+2      	; 0x41e6 <Room+0xb0>
-    41e4:	8b c0       	rjmp	.+278    	; 0x42fc <Room+0x1c6>
-    41e6:	80 91 cc 04 	lds	r24, 0x04CC
-    41ea:	83 33       	cpi	r24, 0x33	; 51
-    41ec:	f9 f0       	breq	.+62     	; 0x422c <Room+0xf6>
-    41ee:	84 33       	cpi	r24, 0x34	; 52
-    41f0:	58 f4       	brcc	.+22     	; 0x4208 <Room+0xd2>
-    41f2:	81 33       	cpi	r24, 0x31	; 49
-    41f4:	89 f0       	breq	.+34     	; 0x4218 <Room+0xe2>
-    41f6:	82 33       	cpi	r24, 0x32	; 50
-    41f8:	a0 f4       	brcc	.+40     	; 0x4222 <Room+0xec>
-    41fa:	88 30       	cpi	r24, 0x08	; 8
-    41fc:	09 f4       	brne	.+2      	; 0x4200 <Room+0xca>
-    41fe:	76 c0       	rjmp	.+236    	; 0x42ec <Room+0x1b6>
-    4200:	80 33       	cpi	r24, 0x30	; 48
-    4202:	09 f0       	breq	.+2      	; 0x4206 <Room+0xd0>
-    4204:	86 c0       	rjmp	.+268    	; 0x4312 <Room+0x1dc>
-    4206:	28 c0       	rjmp	.+80     	; 0x4258 <Room+0x122>
-    4208:	85 33       	cpi	r24, 0x35	; 53
-    420a:	d1 f0       	breq	.+52     	; 0x4240 <Room+0x10a>
-    420c:	85 33       	cpi	r24, 0x35	; 53
-    420e:	98 f0       	brcs	.+38     	; 0x4236 <Room+0x100>
-    4210:	86 33       	cpi	r24, 0x36	; 54
-    4212:	09 f0       	breq	.+2      	; 0x4216 <Room+0xe0>
-    4214:	7e c0       	rjmp	.+252    	; 0x4312 <Room+0x1dc>
-    4216:	19 c0       	rjmp	.+50     	; 0x424a <Room+0x114>
-    4218:	10 92 b3 04 	sts	0x04B3, r1
-    421c:	0e 94 9a 1e 	call	0x3d34	; 0x3d34 <ROOM_LampOne>
-    4220:	18 c0       	rjmp	.+48     	; 0x4252 <Room+0x11c>
-    4222:	10 92 b3 04 	sts	0x04B3, r1
-    4226:	0e 94 e3 1d 	call	0x3bc6	; 0x3bc6 <ROOM_LampTwo>
-    422a:	13 c0       	rjmp	.+38     	; 0x4252 <Room+0x11c>
-    422c:	10 92 b3 04 	sts	0x04B3, r1
-    4230:	0e 94 35 1d 	call	0x3a6a	; 0x3a6a <ROOM_LampThree>
-    4234:	0e c0       	rjmp	.+28     	; 0x4252 <Room+0x11c>
-    4236:	10 92 b3 04 	sts	0x04B3, r1
-    423a:	0e 94 60 1c 	call	0x38c0	; 0x38c0 <Room_vFan>
-    423e:	09 c0       	rjmp	.+18     	; 0x4252 <Room+0x11c>
-    4240:	10 92 b3 04 	sts	0x04B3, r1
-    4244:	0e 94 96 1f 	call	0x3f2c	; 0x3f2c <Room_Door>
-    4248:	04 c0       	rjmp	.+8      	; 0x4252 <Room+0x11c>
-    424a:	10 92 b3 04 	sts	0x04B3, r1
-    424e:	0e 94 fa 1f 	call	0x3ff4	; 0x3ff4 <Room_vSetting>
-    4252:	10 93 cc 04 	sts	0x04CC, r17
-    4256:	5d c0       	rjmp	.+186    	; 0x4312 <Room+0x1dc>
-    4258:	80 91 86 04 	lds	r24, 0x0486
-    425c:	83 fd       	sbrc	r24, 3
-    425e:	22 c0       	rjmp	.+68     	; 0x42a4 <Room+0x16e>
-    4260:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    4264:	82 ec       	ldi	r24, 0xC2	; 194
-    4266:	91 e0       	ldi	r25, 0x01	; 1
-    4268:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    426c:	82 e0       	ldi	r24, 0x02	; 2
-    426e:	61 e0       	ldi	r22, 0x01	; 1
-    4270:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    4274:	89 e0       	ldi	r24, 0x09	; 9
-    4276:	93 e0       	ldi	r25, 0x03	; 3
-    4278:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    427c:	83 e0       	ldi	r24, 0x03	; 3
-    427e:	61 e0       	ldi	r22, 0x01	; 1
-    4280:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    4284:	85 e1       	ldi	r24, 0x15	; 21
-    4286:	93 e0       	ldi	r25, 0x03	; 3
-    4288:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    428c:	84 e0       	ldi	r24, 0x04	; 4
-    428e:	61 e0       	ldi	r22, 0x01	; 1
-    4290:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    4294:	82 e2       	ldi	r24, 0x22	; 34
-    4296:	93 e0       	ldi	r25, 0x03	; 3
-    4298:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    429c:	80 91 86 04 	lds	r24, 0x0486
-    42a0:	88 60       	ori	r24, 0x08	; 8
-    42a2:	21 c0       	rjmp	.+66     	; 0x42e6 <Room+0x1b0>
-    42a4:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    42a8:	82 ec       	ldi	r24, 0xC2	; 194
-    42aa:	91 e0       	ldi	r25, 0x01	; 1
-    42ac:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    42b0:	82 e0       	ldi	r24, 0x02	; 2
-    42b2:	61 e0       	ldi	r22, 0x01	; 1
-    42b4:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    42b8:	82 ed       	ldi	r24, 0xD2	; 210
-    42ba:	91 e0       	ldi	r25, 0x01	; 1
-    42bc:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    42c0:	83 e0       	ldi	r24, 0x03	; 3
-    42c2:	61 e0       	ldi	r22, 0x01	; 1
-    42c4:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    42c8:	81 ee       	ldi	r24, 0xE1	; 225
-    42ca:	91 e0       	ldi	r25, 0x01	; 1
-    42cc:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    42d0:	84 e0       	ldi	r24, 0x04	; 4
-    42d2:	61 e0       	ldi	r22, 0x01	; 1
-    42d4:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
-    42d8:	80 ef       	ldi	r24, 0xF0	; 240
-    42da:	91 e0       	ldi	r25, 0x01	; 1
-    42dc:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    42e0:	80 91 86 04 	lds	r24, 0x0486
-    42e4:	87 7f       	andi	r24, 0xF7	; 247
-    42e6:	80 93 86 04 	sts	0x0486, r24
-    42ea:	13 c0       	rjmp	.+38     	; 0x4312 <Room+0x1dc>
-    42ec:	10 92 b3 04 	sts	0x04B3, r1
-    42f0:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
-    42f4:	80 91 86 04 	lds	r24, 0x0486
-    42f8:	89 60       	ori	r24, 0x09	; 9
-    42fa:	f5 cf       	rjmp	.-22     	; 0x42e6 <Room+0x1b0>
-    42fc:	80 91 70 04 	lds	r24, 0x0470
-    4300:	84 30       	cpi	r24, 0x04	; 4
-    4302:	39 f4       	brne	.+14     	; 0x4312 <Room+0x1dc>
-    4304:	80 91 b3 04 	lds	r24, 0x04B3
-    4308:	80 91 b3 04 	lds	r24, 0x04B3
-    430c:	8f 5f       	subi	r24, 0xFF	; 255
-    430e:	80 93 b3 04 	sts	0x04B3, r24
-    4312:	80 91 cc 04 	lds	r24, 0x04CC
-    4316:	88 30       	cpi	r24, 0x08	; 8
-    4318:	09 f0       	breq	.+2      	; 0x431c <Room+0x1e6>
-    431a:	58 cf       	rjmp	.-336    	; 0x41cc <Room+0x96>
-    431c:	1f 91       	pop	r17
-    431e:	08 95       	ret
+0000413e <Room>:
+    413e:	1f 93       	push	r17
+    4140:	80 91 86 04 	lds	r24, 0x0486
+    4144:	83 fd       	sbrc	r24, 3
+    4146:	22 c0       	rjmp	.+68     	; 0x418c <Room+0x4e>
+    4148:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    414c:	82 ec       	ldi	r24, 0xC2	; 194
+    414e:	91 e0       	ldi	r25, 0x01	; 1
+    4150:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    4154:	82 e0       	ldi	r24, 0x02	; 2
+    4156:	61 e0       	ldi	r22, 0x01	; 1
+    4158:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    415c:	89 e0       	ldi	r24, 0x09	; 9
+    415e:	93 e0       	ldi	r25, 0x03	; 3
+    4160:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    4164:	83 e0       	ldi	r24, 0x03	; 3
+    4166:	61 e0       	ldi	r22, 0x01	; 1
+    4168:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    416c:	85 e1       	ldi	r24, 0x15	; 21
+    416e:	93 e0       	ldi	r25, 0x03	; 3
+    4170:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    4174:	84 e0       	ldi	r24, 0x04	; 4
+    4176:	61 e0       	ldi	r22, 0x01	; 1
+    4178:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    417c:	82 e2       	ldi	r24, 0x22	; 34
+    417e:	93 e0       	ldi	r25, 0x03	; 3
+    4180:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    4184:	80 91 86 04 	lds	r24, 0x0486
+    4188:	88 60       	ori	r24, 0x08	; 8
+    418a:	21 c0       	rjmp	.+66     	; 0x41ce <Room+0x90>
+    418c:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    4190:	82 ec       	ldi	r24, 0xC2	; 194
+    4192:	91 e0       	ldi	r25, 0x01	; 1
+    4194:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    4198:	82 e0       	ldi	r24, 0x02	; 2
+    419a:	61 e0       	ldi	r22, 0x01	; 1
+    419c:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    41a0:	82 ed       	ldi	r24, 0xD2	; 210
+    41a2:	91 e0       	ldi	r25, 0x01	; 1
+    41a4:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    41a8:	83 e0       	ldi	r24, 0x03	; 3
+    41aa:	61 e0       	ldi	r22, 0x01	; 1
+    41ac:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    41b0:	81 ee       	ldi	r24, 0xE1	; 225
+    41b2:	91 e0       	ldi	r25, 0x01	; 1
+    41b4:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    41b8:	84 e0       	ldi	r24, 0x04	; 4
+    41ba:	61 e0       	ldi	r22, 0x01	; 1
+    41bc:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    41c0:	80 ef       	ldi	r24, 0xF0	; 240
+    41c2:	91 e0       	ldi	r25, 0x01	; 1
+    41c4:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    41c8:	80 91 86 04 	lds	r24, 0x0486
+    41cc:	87 7f       	andi	r24, 0xF7	; 247
+    41ce:	80 93 86 04 	sts	0x0486, r24
+    41d2:	1f ef       	ldi	r17, 0xFF	; 255
+    41d4:	10 93 cc 04 	sts	0x04CC, r17
+    41d8:	8c ec       	ldi	r24, 0xCC	; 204
+    41da:	94 e0       	ldi	r25, 0x04	; 4
+    41dc:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
+    41e0:	80 93 70 04 	sts	0x0470, r24
+    41e4:	80 91 70 04 	lds	r24, 0x0470
+    41e8:	88 23       	and	r24, r24
+    41ea:	09 f0       	breq	.+2      	; 0x41ee <Room+0xb0>
+    41ec:	8b c0       	rjmp	.+278    	; 0x4304 <Room+0x1c6>
+    41ee:	80 91 cc 04 	lds	r24, 0x04CC
+    41f2:	83 33       	cpi	r24, 0x33	; 51
+    41f4:	f9 f0       	breq	.+62     	; 0x4234 <Room+0xf6>
+    41f6:	84 33       	cpi	r24, 0x34	; 52
+    41f8:	58 f4       	brcc	.+22     	; 0x4210 <Room+0xd2>
+    41fa:	81 33       	cpi	r24, 0x31	; 49
+    41fc:	89 f0       	breq	.+34     	; 0x4220 <Room+0xe2>
+    41fe:	82 33       	cpi	r24, 0x32	; 50
+    4200:	a0 f4       	brcc	.+40     	; 0x422a <Room+0xec>
+    4202:	88 30       	cpi	r24, 0x08	; 8
+    4204:	09 f4       	brne	.+2      	; 0x4208 <Room+0xca>
+    4206:	76 c0       	rjmp	.+236    	; 0x42f4 <Room+0x1b6>
+    4208:	80 33       	cpi	r24, 0x30	; 48
+    420a:	09 f0       	breq	.+2      	; 0x420e <Room+0xd0>
+    420c:	86 c0       	rjmp	.+268    	; 0x431a <Room+0x1dc>
+    420e:	28 c0       	rjmp	.+80     	; 0x4260 <Room+0x122>
+    4210:	85 33       	cpi	r24, 0x35	; 53
+    4212:	d1 f0       	breq	.+52     	; 0x4248 <Room+0x10a>
+    4214:	85 33       	cpi	r24, 0x35	; 53
+    4216:	98 f0       	brcs	.+38     	; 0x423e <Room+0x100>
+    4218:	86 33       	cpi	r24, 0x36	; 54
+    421a:	09 f0       	breq	.+2      	; 0x421e <Room+0xe0>
+    421c:	7e c0       	rjmp	.+252    	; 0x431a <Room+0x1dc>
+    421e:	19 c0       	rjmp	.+50     	; 0x4252 <Room+0x114>
+    4220:	10 92 b3 04 	sts	0x04B3, r1
+    4224:	0e 94 9e 1e 	call	0x3d3c	; 0x3d3c <ROOM_LampOne>
+    4228:	18 c0       	rjmp	.+48     	; 0x425a <Room+0x11c>
+    422a:	10 92 b3 04 	sts	0x04B3, r1
+    422e:	0e 94 e7 1d 	call	0x3bce	; 0x3bce <ROOM_LampTwo>
+    4232:	13 c0       	rjmp	.+38     	; 0x425a <Room+0x11c>
+    4234:	10 92 b3 04 	sts	0x04B3, r1
+    4238:	0e 94 39 1d 	call	0x3a72	; 0x3a72 <ROOM_LampThree>
+    423c:	0e c0       	rjmp	.+28     	; 0x425a <Room+0x11c>
+    423e:	10 92 b3 04 	sts	0x04B3, r1
+    4242:	0e 94 64 1c 	call	0x38c8	; 0x38c8 <Room_vFan>
+    4246:	09 c0       	rjmp	.+18     	; 0x425a <Room+0x11c>
+    4248:	10 92 b3 04 	sts	0x04B3, r1
+    424c:	0e 94 9a 1f 	call	0x3f34	; 0x3f34 <Room_Door>
+    4250:	04 c0       	rjmp	.+8      	; 0x425a <Room+0x11c>
+    4252:	10 92 b3 04 	sts	0x04B3, r1
+    4256:	0e 94 fe 1f 	call	0x3ffc	; 0x3ffc <Room_vSetting>
+    425a:	10 93 cc 04 	sts	0x04CC, r17
+    425e:	5d c0       	rjmp	.+186    	; 0x431a <Room+0x1dc>
+    4260:	80 91 86 04 	lds	r24, 0x0486
+    4264:	83 fd       	sbrc	r24, 3
+    4266:	22 c0       	rjmp	.+68     	; 0x42ac <Room+0x16e>
+    4268:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    426c:	82 ec       	ldi	r24, 0xC2	; 194
+    426e:	91 e0       	ldi	r25, 0x01	; 1
+    4270:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    4274:	82 e0       	ldi	r24, 0x02	; 2
+    4276:	61 e0       	ldi	r22, 0x01	; 1
+    4278:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    427c:	89 e0       	ldi	r24, 0x09	; 9
+    427e:	93 e0       	ldi	r25, 0x03	; 3
+    4280:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    4284:	83 e0       	ldi	r24, 0x03	; 3
+    4286:	61 e0       	ldi	r22, 0x01	; 1
+    4288:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    428c:	85 e1       	ldi	r24, 0x15	; 21
+    428e:	93 e0       	ldi	r25, 0x03	; 3
+    4290:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    4294:	84 e0       	ldi	r24, 0x04	; 4
+    4296:	61 e0       	ldi	r22, 0x01	; 1
+    4298:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    429c:	82 e2       	ldi	r24, 0x22	; 34
+    429e:	93 e0       	ldi	r25, 0x03	; 3
+    42a0:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    42a4:	80 91 86 04 	lds	r24, 0x0486
+    42a8:	88 60       	ori	r24, 0x08	; 8
+    42aa:	21 c0       	rjmp	.+66     	; 0x42ee <Room+0x1b0>
+    42ac:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    42b0:	82 ec       	ldi	r24, 0xC2	; 194
+    42b2:	91 e0       	ldi	r25, 0x01	; 1
+    42b4:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    42b8:	82 e0       	ldi	r24, 0x02	; 2
+    42ba:	61 e0       	ldi	r22, 0x01	; 1
+    42bc:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    42c0:	82 ed       	ldi	r24, 0xD2	; 210
+    42c2:	91 e0       	ldi	r25, 0x01	; 1
+    42c4:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    42c8:	83 e0       	ldi	r24, 0x03	; 3
+    42ca:	61 e0       	ldi	r22, 0x01	; 1
+    42cc:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    42d0:	81 ee       	ldi	r24, 0xE1	; 225
+    42d2:	91 e0       	ldi	r25, 0x01	; 1
+    42d4:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    42d8:	84 e0       	ldi	r24, 0x04	; 4
+    42da:	61 e0       	ldi	r22, 0x01	; 1
+    42dc:	0e 94 93 14 	call	0x2926	; 0x2926 <CLCD_vSetPosition>
+    42e0:	80 ef       	ldi	r24, 0xF0	; 240
+    42e2:	91 e0       	ldi	r25, 0x01	; 1
+    42e4:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    42e8:	80 91 86 04 	lds	r24, 0x0486
+    42ec:	87 7f       	andi	r24, 0xF7	; 247
+    42ee:	80 93 86 04 	sts	0x0486, r24
+    42f2:	13 c0       	rjmp	.+38     	; 0x431a <Room+0x1dc>
+    42f4:	10 92 b3 04 	sts	0x04B3, r1
+    42f8:	0e 94 b7 14 	call	0x296e	; 0x296e <CLCD_vClearScreen>
+    42fc:	80 91 86 04 	lds	r24, 0x0486
+    4300:	89 60       	ori	r24, 0x09	; 9
+    4302:	f5 cf       	rjmp	.-22     	; 0x42ee <Room+0x1b0>
+    4304:	80 91 70 04 	lds	r24, 0x0470
+    4308:	84 30       	cpi	r24, 0x04	; 4
+    430a:	39 f4       	brne	.+14     	; 0x431a <Room+0x1dc>
+    430c:	80 91 b3 04 	lds	r24, 0x04B3
+    4310:	80 91 b3 04 	lds	r24, 0x04B3
+    4314:	8f 5f       	subi	r24, 0xFF	; 255
+    4316:	80 93 b3 04 	sts	0x04B3, r24
+    431a:	80 91 cc 04 	lds	r24, 0x04CC
+    431e:	88 30       	cpi	r24, 0x08	; 8
+    4320:	09 f0       	breq	.+2      	; 0x4324 <Room+0x1e6>
+    4322:	58 cf       	rjmp	.-336    	; 0x41d4 <Room+0x96>
+    4324:	1f 91       	pop	r17
+    4326:	08 95       	ret
 
-00004320 <main>:
-    4320:	81 e0       	ldi	r24, 0x01	; 1
-    4322:	60 e0       	ldi	r22, 0x00	; 0
-    4324:	40 e0       	ldi	r20, 0x00	; 0
-    4326:	0e 94 d1 0d 	call	0x1ba2	; 0x1ba2 <DIO_enumSetPinDir>
-    432a:	60 91 7d 04 	lds	r22, 0x047D
-    432e:	70 91 7e 04 	lds	r23, 0x047E
-    4332:	80 91 7f 04 	lds	r24, 0x047F
-    4336:	0e 94 57 13 	call	0x26ae	; 0x26ae <LED_vInit>
-    433a:	60 91 80 04 	lds	r22, 0x0480
-    433e:	70 91 81 04 	lds	r23, 0x0481
-    4342:	80 91 82 04 	lds	r24, 0x0482
-    4346:	0e 94 57 13 	call	0x26ae	; 0x26ae <LED_vInit>
-    434a:	60 91 83 04 	lds	r22, 0x0483
-    434e:	70 91 84 04 	lds	r23, 0x0484
-    4352:	80 91 85 04 	lds	r24, 0x0485
-    4356:	0e 94 57 13 	call	0x26ae	; 0x26ae <LED_vInit>
-    435a:	0e 94 ce 15 	call	0x2b9c	; 0x2b9c <CLCD_vInit>
-    435e:	0e 94 dc 10 	call	0x21b8	; 0x21b8 <ADC_vInit>
-    4362:	0e 94 e0 08 	call	0x11c0	; 0x11c0 <USART_vInit>
-    4366:	0e 94 14 1a 	call	0x3428	; 0x3428 <EEPROM_vInit>
-    436a:	83 e0       	ldi	r24, 0x03	; 3
-    436c:	65 e0       	ldi	r22, 0x05	; 5
-    436e:	41 e0       	ldi	r20, 0x01	; 1
-    4370:	0e 94 d1 0d 	call	0x1ba2	; 0x1ba2 <DIO_enumSetPinDir>
-    4374:	0e 94 55 0a 	call	0x14aa	; 0x14aa <TIMER1_vInit>
-    4378:	81 e0       	ldi	r24, 0x01	; 1
-    437a:	63 e0       	ldi	r22, 0x03	; 3
-    437c:	41 e0       	ldi	r20, 0x01	; 1
-    437e:	0e 94 d1 0d 	call	0x1ba2	; 0x1ba2 <DIO_enumSetPinDir>
-    4382:	0e 94 42 0a 	call	0x1484	; 0x1484 <TIMER0_vInit>
-    4386:	0e 94 8b 0a 	call	0x1516	; 0x1516 <TIMER2_vInit>
-    438a:	8b ef       	ldi	r24, 0xFB	; 251
-    438c:	9b e1       	ldi	r25, 0x1B	; 27
-    438e:	65 e0       	ldi	r22, 0x05	; 5
-    4390:	0e 94 ff 0a 	call	0x15fe	; 0x15fe <TIMER_u8SetCallBack>
-    4394:	0e 94 5d 12 	call	0x24ba	; 0x24ba <SM_vInit>
-    4398:	8a e5       	ldi	r24, 0x5A	; 90
-    439a:	90 e0       	ldi	r25, 0x00	; 0
-    439c:	0e 94 3b 12 	call	0x2476	; 0x2476 <SM_vTimer1Degree>
-    43a0:	0e 94 55 0c 	call	0x18aa	; 0x18aa <GIE_vEnable>
-    43a4:	86 e0       	ldi	r24, 0x06	; 6
-    43a6:	0e 94 f6 0c 	call	0x19ec	; 0x19ec <EXTI_vEnableInterrupt>
-    43aa:	81 e0       	ldi	r24, 0x01	; 1
-    43ac:	66 e0       	ldi	r22, 0x06	; 6
-    43ae:	0e 94 64 0c 	call	0x18c8	; 0x18c8 <EXTI_vSetSignal>
-    43b2:	8a e7       	ldi	r24, 0x7A	; 122
-    43b4:	9a e1       	ldi	r25, 0x1A	; 26
-    43b6:	66 e0       	ldi	r22, 0x06	; 6
-    43b8:	0e 94 26 0d 	call	0x1a4c	; 0x1a4c <EXTI_vSetCallBack>
-    43bc:	83 e0       	ldi	r24, 0x03	; 3
-    43be:	62 e0       	ldi	r22, 0x02	; 2
-    43c0:	40 e0       	ldi	r20, 0x00	; 0
-    43c2:	0e 94 d1 0d 	call	0x1ba2	; 0x1ba2 <DIO_enumSetPinDir>
-    43c6:	80 91 86 04 	lds	r24, 0x0486
-    43ca:	80 ff       	sbrs	r24, 0
-    43cc:	1a c0       	rjmp	.+52     	; 0x4402 <main+0xe2>
-    43ce:	10 92 b3 04 	sts	0x04B3, r1
-    43d2:	82 60       	ori	r24, 0x02	; 2
-    43d4:	80 93 86 04 	sts	0x0486, r24
-    43d8:	82 e3       	ldi	r24, 0x32	; 50
-    43da:	93 e0       	ldi	r25, 0x03	; 3
-    43dc:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
-    43e0:	8c ec       	ldi	r24, 0xCC	; 204
-    43e2:	94 e0       	ldi	r25, 0x04	; 4
-    43e4:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
-    43e8:	80 93 70 04 	sts	0x0470, r24
-    43ec:	80 91 70 04 	lds	r24, 0x0470
-    43f0:	88 23       	and	r24, r24
-    43f2:	b1 f7       	brne	.-20     	; 0x43e0 <main+0xc0>
-    43f4:	80 91 cc 04 	lds	r24, 0x04CC
-    43f8:	8d 30       	cpi	r24, 0x0D	; 13
-    43fa:	91 f7       	brne	.-28     	; 0x43e0 <main+0xc0>
-    43fc:	0e 94 9b 20 	call	0x4136	; 0x4136 <Room>
-    4400:	e2 cf       	rjmp	.-60     	; 0x43c6 <main+0xa6>
-    4402:	ff cf       	rjmp	.-2      	; 0x4402 <main+0xe2>
+00004328 <main>:
+    4328:	81 e0       	ldi	r24, 0x01	; 1
+    432a:	60 e0       	ldi	r22, 0x00	; 0
+    432c:	40 e0       	ldi	r20, 0x00	; 0
+    432e:	0e 94 d1 0d 	call	0x1ba2	; 0x1ba2 <DIO_enumSetPinDir>
+    4332:	60 91 7d 04 	lds	r22, 0x047D
+    4336:	70 91 7e 04 	lds	r23, 0x047E
+    433a:	80 91 7f 04 	lds	r24, 0x047F
+    433e:	0e 94 57 13 	call	0x26ae	; 0x26ae <LED_vInit>
+    4342:	60 91 80 04 	lds	r22, 0x0480
+    4346:	70 91 81 04 	lds	r23, 0x0481
+    434a:	80 91 82 04 	lds	r24, 0x0482
+    434e:	0e 94 57 13 	call	0x26ae	; 0x26ae <LED_vInit>
+    4352:	60 91 83 04 	lds	r22, 0x0483
+    4356:	70 91 84 04 	lds	r23, 0x0484
+    435a:	80 91 85 04 	lds	r24, 0x0485
+    435e:	0e 94 57 13 	call	0x26ae	; 0x26ae <LED_vInit>
+    4362:	0e 94 ce 15 	call	0x2b9c	; 0x2b9c <CLCD_vInit>
+    4366:	0e 94 dc 10 	call	0x21b8	; 0x21b8 <ADC_vInit>
+    436a:	0e 94 e0 08 	call	0x11c0	; 0x11c0 <USART_vInit>
+    436e:	0e 94 14 1a 	call	0x3428	; 0x3428 <EEPROM_vInit>
+    4372:	83 e0       	ldi	r24, 0x03	; 3
+    4374:	65 e0       	ldi	r22, 0x05	; 5
+    4376:	41 e0       	ldi	r20, 0x01	; 1
+    4378:	0e 94 d1 0d 	call	0x1ba2	; 0x1ba2 <DIO_enumSetPinDir>
+    437c:	0e 94 55 0a 	call	0x14aa	; 0x14aa <TIMER1_vInit>
+    4380:	81 e0       	ldi	r24, 0x01	; 1
+    4382:	63 e0       	ldi	r22, 0x03	; 3
+    4384:	41 e0       	ldi	r20, 0x01	; 1
+    4386:	0e 94 d1 0d 	call	0x1ba2	; 0x1ba2 <DIO_enumSetPinDir>
+    438a:	0e 94 42 0a 	call	0x1484	; 0x1484 <TIMER0_vInit>
+    438e:	0e 94 8b 0a 	call	0x1516	; 0x1516 <TIMER2_vInit>
+    4392:	8b ef       	ldi	r24, 0xFB	; 251
+    4394:	9b e1       	ldi	r25, 0x1B	; 27
+    4396:	65 e0       	ldi	r22, 0x05	; 5
+    4398:	0e 94 ff 0a 	call	0x15fe	; 0x15fe <TIMER_u8SetCallBack>
+    439c:	0e 94 5d 12 	call	0x24ba	; 0x24ba <SM_vInit>
+    43a0:	8a e5       	ldi	r24, 0x5A	; 90
+    43a2:	90 e0       	ldi	r25, 0x00	; 0
+    43a4:	0e 94 3b 12 	call	0x2476	; 0x2476 <SM_vTimer1Degree>
+    43a8:	0e 94 55 0c 	call	0x18aa	; 0x18aa <GIE_vEnable>
+    43ac:	86 e0       	ldi	r24, 0x06	; 6
+    43ae:	0e 94 f6 0c 	call	0x19ec	; 0x19ec <EXTI_vEnableInterrupt>
+    43b2:	81 e0       	ldi	r24, 0x01	; 1
+    43b4:	66 e0       	ldi	r22, 0x06	; 6
+    43b6:	0e 94 64 0c 	call	0x18c8	; 0x18c8 <EXTI_vSetSignal>
+    43ba:	8a e7       	ldi	r24, 0x7A	; 122
+    43bc:	9a e1       	ldi	r25, 0x1A	; 26
+    43be:	66 e0       	ldi	r22, 0x06	; 6
+    43c0:	0e 94 26 0d 	call	0x1a4c	; 0x1a4c <EXTI_vSetCallBack>
+    43c4:	83 e0       	ldi	r24, 0x03	; 3
+    43c6:	62 e0       	ldi	r22, 0x02	; 2
+    43c8:	40 e0       	ldi	r20, 0x00	; 0
+    43ca:	0e 94 d1 0d 	call	0x1ba2	; 0x1ba2 <DIO_enumSetPinDir>
+    43ce:	80 91 86 04 	lds	r24, 0x0486
+    43d2:	80 ff       	sbrs	r24, 0
+    43d4:	1a c0       	rjmp	.+52     	; 0x440a <main+0xe2>
+    43d6:	10 92 b3 04 	sts	0x04B3, r1
+    43da:	82 60       	ori	r24, 0x02	; 2
+    43dc:	80 93 86 04 	sts	0x0486, r24
+    43e0:	82 e3       	ldi	r24, 0x32	; 50
+    43e2:	93 e0       	ldi	r25, 0x03	; 3
+    43e4:	0e 94 bb 15 	call	0x2b76	; 0x2b76 <CLCD_vSendString>
+    43e8:	8c ec       	ldi	r24, 0xCC	; 204
+    43ea:	94 e0       	ldi	r25, 0x04	; 4
+    43ec:	0e 94 14 09 	call	0x1228	; 0x1228 <USART_u8ReceiveData>
+    43f0:	80 93 70 04 	sts	0x0470, r24
+    43f4:	80 91 70 04 	lds	r24, 0x0470
+    43f8:	88 23       	and	r24, r24
+    43fa:	b1 f7       	brne	.-20     	; 0x43e8 <main+0xc0>
+    43fc:	80 91 cc 04 	lds	r24, 0x04CC
+    4400:	8d 30       	cpi	r24, 0x0D	; 13
+    4402:	91 f7       	brne	.-28     	; 0x43e8 <main+0xc0>
+    4404:	0e 94 9f 20 	call	0x413e	; 0x413e <Room>
+    4408:	e2 cf       	rjmp	.-60     	; 0x43ce <main+0xa6>
+    440a:	ff cf       	rjmp	.-2      	; 0x440a <main+0xe2>
 
-00004404 <__mulsi3>:
-    4404:	62 9f       	mul	r22, r18
-    4406:	d0 01       	movw	r26, r0
-    4408:	73 9f       	mul	r23, r19
-    440a:	f0 01       	movw	r30, r0
-    440c:	82 9f       	mul	r24, r18
-    440e:	e0 0d       	add	r30, r0
-    4410:	f1 1d       	adc	r31, r1
-    4412:	64 9f       	mul	r22, r20
-    4414:	e0 0d       	add	r30, r0
-    4416:	f1 1d       	adc	r31, r1
-    4418:	92 9f       	mul	r25, r18
-    441a:	f0 0d       	add	r31, r0
-    441c:	83 9f       	mul	r24, r19
-    441e:	f0 0d       	add	r31, r0
-    4420:	74 9f       	mul	r23, r20
+0000440c <__mulsi3>:
+    440c:	62 9f       	mul	r22, r18
+    440e:	d0 01       	movw	r26, r0
+    4410:	73 9f       	mul	r23, r19
+    4412:	f0 01       	movw	r30, r0
+    4414:	82 9f       	mul	r24, r18
+    4416:	e0 0d       	add	r30, r0
+    4418:	f1 1d       	adc	r31, r1
+    441a:	64 9f       	mul	r22, r20
+    441c:	e0 0d       	add	r30, r0
+    441e:	f1 1d       	adc	r31, r1
+    4420:	92 9f       	mul	r25, r18
     4422:	f0 0d       	add	r31, r0
-    4424:	65 9f       	mul	r22, r21
+    4424:	83 9f       	mul	r24, r19
     4426:	f0 0d       	add	r31, r0
-    4428:	99 27       	eor	r25, r25
-    442a:	72 9f       	mul	r23, r18
-    442c:	b0 0d       	add	r27, r0
-    442e:	e1 1d       	adc	r30, r1
-    4430:	f9 1f       	adc	r31, r25
-    4432:	63 9f       	mul	r22, r19
+    4428:	74 9f       	mul	r23, r20
+    442a:	f0 0d       	add	r31, r0
+    442c:	65 9f       	mul	r22, r21
+    442e:	f0 0d       	add	r31, r0
+    4430:	99 27       	eor	r25, r25
+    4432:	72 9f       	mul	r23, r18
     4434:	b0 0d       	add	r27, r0
     4436:	e1 1d       	adc	r30, r1
     4438:	f9 1f       	adc	r31, r25
-    443a:	bd 01       	movw	r22, r26
-    443c:	cf 01       	movw	r24, r30
-    443e:	11 24       	eor	r1, r1
-    4440:	08 95       	ret
+    443a:	63 9f       	mul	r22, r19
+    443c:	b0 0d       	add	r27, r0
+    443e:	e1 1d       	adc	r30, r1
+    4440:	f9 1f       	adc	r31, r25
+    4442:	bd 01       	movw	r22, r26
+    4444:	cf 01       	movw	r24, r30
+    4446:	11 24       	eor	r1, r1
+    4448:	08 95       	ret
 
-00004442 <__udivmodhi4>:
-    4442:	aa 1b       	sub	r26, r26
-    4444:	bb 1b       	sub	r27, r27
-    4446:	51 e1       	ldi	r21, 0x11	; 17
-    4448:	07 c0       	rjmp	.+14     	; 0x4458 <__udivmodhi4_ep>
+0000444a <__udivmodhi4>:
+    444a:	aa 1b       	sub	r26, r26
+    444c:	bb 1b       	sub	r27, r27
+    444e:	51 e1       	ldi	r21, 0x11	; 17
+    4450:	07 c0       	rjmp	.+14     	; 0x4460 <__udivmodhi4_ep>
 
-0000444a <__udivmodhi4_loop>:
-    444a:	aa 1f       	adc	r26, r26
-    444c:	bb 1f       	adc	r27, r27
-    444e:	a6 17       	cp	r26, r22
-    4450:	b7 07       	cpc	r27, r23
-    4452:	10 f0       	brcs	.+4      	; 0x4458 <__udivmodhi4_ep>
-    4454:	a6 1b       	sub	r26, r22
-    4456:	b7 0b       	sbc	r27, r23
+00004452 <__udivmodhi4_loop>:
+    4452:	aa 1f       	adc	r26, r26
+    4454:	bb 1f       	adc	r27, r27
+    4456:	a6 17       	cp	r26, r22
+    4458:	b7 07       	cpc	r27, r23
+    445a:	10 f0       	brcs	.+4      	; 0x4460 <__udivmodhi4_ep>
+    445c:	a6 1b       	sub	r26, r22
+    445e:	b7 0b       	sbc	r27, r23
 
-00004458 <__udivmodhi4_ep>:
-    4458:	88 1f       	adc	r24, r24
-    445a:	99 1f       	adc	r25, r25
-    445c:	5a 95       	dec	r21
-    445e:	a9 f7       	brne	.-22     	; 0x444a <__udivmodhi4_loop>
-    4460:	80 95       	com	r24
-    4462:	90 95       	com	r25
-    4464:	bc 01       	movw	r22, r24
-    4466:	cd 01       	movw	r24, r26
-    4468:	08 95       	ret
+00004460 <__udivmodhi4_ep>:
+    4460:	88 1f       	adc	r24, r24
+    4462:	99 1f       	adc	r25, r25
+    4464:	5a 95       	dec	r21
+    4466:	a9 f7       	brne	.-22     	; 0x4452 <__udivmodhi4_loop>
+    4468:	80 95       	com	r24
+    446a:	90 95       	com	r25
+    446c:	bc 01       	movw	r22, r24
+    446e:	cd 01       	movw	r24, r26
+    4470:	08 95       	ret
 
-0000446a <__udivmodsi4>:
-    446a:	a1 e2       	ldi	r26, 0x21	; 33
-    446c:	1a 2e       	mov	r1, r26
-    446e:	aa 1b       	sub	r26, r26
-    4470:	bb 1b       	sub	r27, r27
-    4472:	fd 01       	movw	r30, r26
-    4474:	0d c0       	rjmp	.+26     	; 0x4490 <__udivmodsi4_ep>
+00004472 <__udivmodsi4>:
+    4472:	a1 e2       	ldi	r26, 0x21	; 33
+    4474:	1a 2e       	mov	r1, r26
+    4476:	aa 1b       	sub	r26, r26
+    4478:	bb 1b       	sub	r27, r27
+    447a:	fd 01       	movw	r30, r26
+    447c:	0d c0       	rjmp	.+26     	; 0x4498 <__udivmodsi4_ep>
 
-00004476 <__udivmodsi4_loop>:
-    4476:	aa 1f       	adc	r26, r26
-    4478:	bb 1f       	adc	r27, r27
-    447a:	ee 1f       	adc	r30, r30
-    447c:	ff 1f       	adc	r31, r31
-    447e:	a2 17       	cp	r26, r18
-    4480:	b3 07       	cpc	r27, r19
-    4482:	e4 07       	cpc	r30, r20
-    4484:	f5 07       	cpc	r31, r21
-    4486:	20 f0       	brcs	.+8      	; 0x4490 <__udivmodsi4_ep>
-    4488:	a2 1b       	sub	r26, r18
-    448a:	b3 0b       	sbc	r27, r19
-    448c:	e4 0b       	sbc	r30, r20
-    448e:	f5 0b       	sbc	r31, r21
+0000447e <__udivmodsi4_loop>:
+    447e:	aa 1f       	adc	r26, r26
+    4480:	bb 1f       	adc	r27, r27
+    4482:	ee 1f       	adc	r30, r30
+    4484:	ff 1f       	adc	r31, r31
+    4486:	a2 17       	cp	r26, r18
+    4488:	b3 07       	cpc	r27, r19
+    448a:	e4 07       	cpc	r30, r20
+    448c:	f5 07       	cpc	r31, r21
+    448e:	20 f0       	brcs	.+8      	; 0x4498 <__udivmodsi4_ep>
+    4490:	a2 1b       	sub	r26, r18
+    4492:	b3 0b       	sbc	r27, r19
+    4494:	e4 0b       	sbc	r30, r20
+    4496:	f5 0b       	sbc	r31, r21
 
-00004490 <__udivmodsi4_ep>:
-    4490:	66 1f       	adc	r22, r22
-    4492:	77 1f       	adc	r23, r23
-    4494:	88 1f       	adc	r24, r24
-    4496:	99 1f       	adc	r25, r25
-    4498:	1a 94       	dec	r1
-    449a:	69 f7       	brne	.-38     	; 0x4476 <__udivmodsi4_loop>
-    449c:	60 95       	com	r22
-    449e:	70 95       	com	r23
-    44a0:	80 95       	com	r24
-    44a2:	90 95       	com	r25
-    44a4:	9b 01       	movw	r18, r22
-    44a6:	ac 01       	movw	r20, r24
-    44a8:	bd 01       	movw	r22, r26
-    44aa:	cf 01       	movw	r24, r30
-    44ac:	08 95       	ret
+00004498 <__udivmodsi4_ep>:
+    4498:	66 1f       	adc	r22, r22
+    449a:	77 1f       	adc	r23, r23
+    449c:	88 1f       	adc	r24, r24
+    449e:	99 1f       	adc	r25, r25
+    44a0:	1a 94       	dec	r1
+    44a2:	69 f7       	brne	.-38     	; 0x447e <__udivmodsi4_loop>
+    44a4:	60 95       	com	r22
+    44a6:	70 95       	com	r23
+    44a8:	80 95       	com	r24
+    44aa:	90 95       	com	r25
+    44ac:	9b 01       	movw	r18, r22
+    44ae:	ac 01       	movw	r20, r24
+    44b0:	bd 01       	movw	r22, r26
+    44b2:	cf 01       	movw	r24, r30
+    44b4:	08 95       	ret
 
-000044ae <__divmodsi4>:
-    44ae:	97 fb       	bst	r25, 7
-    44b0:	09 2e       	mov	r0, r25
-    44b2:	05 26       	eor	r0, r21
-    44b4:	0e d0       	rcall	.+28     	; 0x44d2 <__divmodsi4_neg1>
-    44b6:	57 fd       	sbrc	r21, 7
-    44b8:	04 d0       	rcall	.+8      	; 0x44c2 <__divmodsi4_neg2>
-    44ba:	d7 df       	rcall	.-82     	; 0x446a <__udivmodsi4>
-    44bc:	0a d0       	rcall	.+20     	; 0x44d2 <__divmodsi4_neg1>
-    44be:	00 1c       	adc	r0, r0
-    44c0:	38 f4       	brcc	.+14     	; 0x44d0 <__divmodsi4_exit>
+000044b6 <__divmodsi4>:
+    44b6:	97 fb       	bst	r25, 7
+    44b8:	09 2e       	mov	r0, r25
+    44ba:	05 26       	eor	r0, r21
+    44bc:	0e d0       	rcall	.+28     	; 0x44da <__divmodsi4_neg1>
+    44be:	57 fd       	sbrc	r21, 7
+    44c0:	04 d0       	rcall	.+8      	; 0x44ca <__divmodsi4_neg2>
+    44c2:	d7 df       	rcall	.-82     	; 0x4472 <__udivmodsi4>
+    44c4:	0a d0       	rcall	.+20     	; 0x44da <__divmodsi4_neg1>
+    44c6:	00 1c       	adc	r0, r0
+    44c8:	38 f4       	brcc	.+14     	; 0x44d8 <__divmodsi4_exit>
 
-000044c2 <__divmodsi4_neg2>:
-    44c2:	50 95       	com	r21
-    44c4:	40 95       	com	r20
-    44c6:	30 95       	com	r19
-    44c8:	21 95       	neg	r18
-    44ca:	3f 4f       	sbci	r19, 0xFF	; 255
-    44cc:	4f 4f       	sbci	r20, 0xFF	; 255
-    44ce:	5f 4f       	sbci	r21, 0xFF	; 255
+000044ca <__divmodsi4_neg2>:
+    44ca:	50 95       	com	r21
+    44cc:	40 95       	com	r20
+    44ce:	30 95       	com	r19
+    44d0:	21 95       	neg	r18
+    44d2:	3f 4f       	sbci	r19, 0xFF	; 255
+    44d4:	4f 4f       	sbci	r20, 0xFF	; 255
+    44d6:	5f 4f       	sbci	r21, 0xFF	; 255
 
-000044d0 <__divmodsi4_exit>:
-    44d0:	08 95       	ret
+000044d8 <__divmodsi4_exit>:
+    44d8:	08 95       	ret
 
-000044d2 <__divmodsi4_neg1>:
-    44d2:	f6 f7       	brtc	.-4      	; 0x44d0 <__divmodsi4_exit>
-    44d4:	90 95       	com	r25
-    44d6:	80 95       	com	r24
-    44d8:	70 95       	com	r23
-    44da:	61 95       	neg	r22
-    44dc:	7f 4f       	sbci	r23, 0xFF	; 255
-    44de:	8f 4f       	sbci	r24, 0xFF	; 255
-    44e0:	9f 4f       	sbci	r25, 0xFF	; 255
-    44e2:	08 95       	ret
+000044da <__divmodsi4_neg1>:
+    44da:	f6 f7       	brtc	.-4      	; 0x44d8 <__divmodsi4_exit>
+    44dc:	90 95       	com	r25
+    44de:	80 95       	com	r24
+    44e0:	70 95       	com	r23
+    44e2:	61 95       	neg	r22
+    44e4:	7f 4f       	sbci	r23, 0xFF	; 255
+    44e6:	8f 4f       	sbci	r24, 0xFF	; 255
+    44e8:	9f 4f       	sbci	r25, 0xFF	; 255
+    44ea:	08 95       	ret
 
-000044e4 <__prologue_saves__>:
-    44e4:	2f 92       	push	r2
-    44e6:	3f 92       	push	r3
-    44e8:	4f 92       	push	r4
-    44ea:	5f 92       	push	r5
-    44ec:	6f 92       	push	r6
-    44ee:	7f 92       	push	r7
-    44f0:	8f 92       	push	r8
-    44f2:	9f 92       	push	r9
-    44f4:	af 92       	push	r10
-    44f6:	bf 92       	push	r11
-    44f8:	cf 92       	push	r12
-    44fa:	df 92       	push	r13
-    44fc:	ef 92       	push	r14
-    44fe:	ff 92       	push	r15
-    4500:	0f 93       	push	r16
-    4502:	1f 93       	push	r17
-    4504:	cf 93       	push	r28
-    4506:	df 93       	push	r29
-    4508:	cd b7       	in	r28, 0x3d	; 61
-    450a:	de b7       	in	r29, 0x3e	; 62
-    450c:	ca 1b       	sub	r28, r26
-    450e:	db 0b       	sbc	r29, r27
-    4510:	0f b6       	in	r0, 0x3f	; 63
-    4512:	f8 94       	cli
-    4514:	de bf       	out	0x3e, r29	; 62
-    4516:	0f be       	out	0x3f, r0	; 63
-    4518:	cd bf       	out	0x3d, r28	; 61
-    451a:	09 94       	ijmp
+000044ec <__prologue_saves__>:
+    44ec:	2f 92       	push	r2
+    44ee:	3f 92       	push	r3
+    44f0:	4f 92       	push	r4
+    44f2:	5f 92       	push	r5
+    44f4:	6f 92       	push	r6
+    44f6:	7f 92       	push	r7
+    44f8:	8f 92       	push	r8
+    44fa:	9f 92       	push	r9
+    44fc:	af 92       	push	r10
+    44fe:	bf 92       	push	r11
+    4500:	cf 92       	push	r12
+    4502:	df 92       	push	r13
+    4504:	ef 92       	push	r14
+    4506:	ff 92       	push	r15
+    4508:	0f 93       	push	r16
+    450a:	1f 93       	push	r17
+    450c:	cf 93       	push	r28
+    450e:	df 93       	push	r29
+    4510:	cd b7       	in	r28, 0x3d	; 61
+    4512:	de b7       	in	r29, 0x3e	; 62
+    4514:	ca 1b       	sub	r28, r26
+    4516:	db 0b       	sbc	r29, r27
+    4518:	0f b6       	in	r0, 0x3f	; 63
+    451a:	f8 94       	cli
+    451c:	de bf       	out	0x3e, r29	; 62
+    451e:	0f be       	out	0x3f, r0	; 63
+    4520:	cd bf       	out	0x3d, r28	; 61
+    4522:	09 94       	ijmp
 
-0000451c <__epilogue_restores__>:
-    451c:	2a 88       	ldd	r2, Y+18	; 0x12
-    451e:	39 88       	ldd	r3, Y+17	; 0x11
-    4520:	48 88       	ldd	r4, Y+16	; 0x10
-    4522:	5f 84       	ldd	r5, Y+15	; 0x0f
-    4524:	6e 84       	ldd	r6, Y+14	; 0x0e
-    4526:	7d 84       	ldd	r7, Y+13	; 0x0d
-    4528:	8c 84       	ldd	r8, Y+12	; 0x0c
-    452a:	9b 84       	ldd	r9, Y+11	; 0x0b
-    452c:	aa 84       	ldd	r10, Y+10	; 0x0a
-    452e:	b9 84       	ldd	r11, Y+9	; 0x09
-    4530:	c8 84       	ldd	r12, Y+8	; 0x08
-    4532:	df 80       	ldd	r13, Y+7	; 0x07
-    4534:	ee 80       	ldd	r14, Y+6	; 0x06
-    4536:	fd 80       	ldd	r15, Y+5	; 0x05
-    4538:	0c 81       	ldd	r16, Y+4	; 0x04
-    453a:	1b 81       	ldd	r17, Y+3	; 0x03
-    453c:	aa 81       	ldd	r26, Y+2	; 0x02
-    453e:	b9 81       	ldd	r27, Y+1	; 0x01
-    4540:	ce 0f       	add	r28, r30
-    4542:	d1 1d       	adc	r29, r1
-    4544:	0f b6       	in	r0, 0x3f	; 63
-    4546:	f8 94       	cli
-    4548:	de bf       	out	0x3e, r29	; 62
-    454a:	0f be       	out	0x3f, r0	; 63
-    454c:	cd bf       	out	0x3d, r28	; 61
-    454e:	ed 01       	movw	r28, r26
-    4550:	08 95       	ret
+00004524 <__epilogue_restores__>:
+    4524:	2a 88       	ldd	r2, Y+18	; 0x12
+    4526:	39 88       	ldd	r3, Y+17	; 0x11
+    4528:	48 88       	ldd	r4, Y+16	; 0x10
+    452a:	5f 84       	ldd	r5, Y+15	; 0x0f
+    452c:	6e 84       	ldd	r6, Y+14	; 0x0e
+    452e:	7d 84       	ldd	r7, Y+13	; 0x0d
+    4530:	8c 84       	ldd	r8, Y+12	; 0x0c
+    4532:	9b 84       	ldd	r9, Y+11	; 0x0b
+    4534:	aa 84       	ldd	r10, Y+10	; 0x0a
+    4536:	b9 84       	ldd	r11, Y+9	; 0x09
+    4538:	c8 84       	ldd	r12, Y+8	; 0x08
+    453a:	df 80       	ldd	r13, Y+7	; 0x07
+    453c:	ee 80       	ldd	r14, Y+6	; 0x06
+    453e:	fd 80       	ldd	r15, Y+5	; 0x05
+    4540:	0c 81       	ldd	r16, Y+4	; 0x04
+    4542:	1b 81       	ldd	r17, Y+3	; 0x03
+    4544:	aa 81       	ldd	r26, Y+2	; 0x02
+    4546:	b9 81       	ldd	r27, Y+1	; 0x01
+    4548:	ce 0f       	add	r28, r30
+    454a:	d1 1d       	adc	r29, r1
+    454c:	0f b6       	in	r0, 0x3f	; 63
+    454e:	f8 94       	cli
+    4550:	de bf       	out	0x3e, r29	; 62
+    4552:	0f be       	out	0x3f, r0	; 63
+    4554:	cd bf       	out	0x3d, r28	; 61
+    4556:	ed 01       	movw	r28, r26
+    4558:	08 95       	ret
 
-00004552 <_exit>:
-    4552:	f8 94       	cli
+0000455a <_exit>:
+    455a:	f8 94       	cli
 
-00004554 <__stop_program>:
-    4554:	ff cf       	rjmp	.-2      	; 0x4554 <__stop_program>
+0000455c <__stop_program>:
+    455c:	ff cf       	rjmp	.-2      	; 0x455c <__stop_program>
