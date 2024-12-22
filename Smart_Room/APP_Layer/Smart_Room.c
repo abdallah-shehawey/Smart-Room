@@ -30,14 +30,14 @@
 // Used Flags
 typedef struct
 {
-  u8 OneTimeFlag  : 1;
-  u8 STOP_Flag    : 1;
-  u8 Auto_Fan     : 1;
-  u8 Page_One     : 1;
-  u8 Lamp_One     : 1;
-  u8 Lamp_Two     : 1;
-  u8 Lamp_Three   : 1;
-  u8 Temp_Detect  : 3;
+  u8 OneTimeFlag     : 1;
+  u8 STOP_Flag       : 1;
+  u8 Auto_Fan        : 1;
+  u8 Page_One        : 1;
+  u8 Lamp_One        : 1;
+  u8 Lamp_Two        : 1;
+  u8 Lamp_Three      : 1;
+  u8 Temp_Detect     : 3;
   u8 Fan_ReturnSpeed : 1;
 } Flags_structConfig;
 
@@ -50,33 +50,44 @@ LDR_Config  LDR3  = {ADC_CHANNEL3, 5, ADC_RES_10_BIT};
 #define LS_Pin   DIO_PIN0
 #define IR_Pin   DIO_PIN2
 
-volatile u8 Error_State, KPD_Press, LM35_Degree;
-volatile u8 Error_Time_Out = 0, Prescaler_Falg = 0; // To count time out allow for user
-extern   u8 UserName[20];											// extern user name which intern with user to show on system
-extern   u8 UserName_Length;
-volatile u8 LDR_LightPrec, LM35_Temp;
-volatile u8 Timer_Counter = 0, Fan_SaveSpeed = 0;
+volatile u8 Error_State,        KPD_Press,          LM35_Degree;
+volatile u8 Error_Time_Out = 0, Prescaler_Falg = 0             ;    // To count time out allow for user
+extern   u8 UserName[20]                                       ;    // extern user name which intern with user to show on system
+extern   u8 UserName_Length                                    ;
+volatile u8 LDR_LightPrec,      LM35_Temp                      ;
+volatile u8 Timer_Counter = 0,  Fan_SaveSpeed = 0              ;
 
 LED_config Room_Led_1 = {DIO_PORTC, DIO_PIN5, HIGH};
 LED_config Room_Led_2 = {DIO_PORTD, DIO_PIN3, HIGH};
 LED_config Room_Led_3 = {DIO_PORTC, DIO_PIN4, HIGH};
 
 // Default flags value
-Flags_structConfig Flags = {1, 1, 0, 1, 0, 0, 0, 0, 0};
+Flags_structConfig Flags =
+{
+    1,//OneTimeFlag
+    1,//STOP_Flag
+    0,//Auto_Fan
+    1,//Page_One
+    0,//Lamp_One
+    0,//Lamp_Two
+    0,//Lamp_Three
+    0,//Temp_Detect
+    0 //Fan_RetunSpeed
+};
 
 // Function ProtoType
-void Room()               ;
-void Room_vFan()          ;
-void Room_vSetting()      ;
-void Room_Door(void)      ;
-void Auto_Fan_Control()   ;
-void ROOM_LampOne(void)   ;
-void ROOM_LampTwo(void)   ;
-void ROOM_LampThree(void) ;
+void Room(void                );
+void Room_vFan(void           );
+void Room_vSetting(void       );
+void Room_Door(void           );
+void Auto_Fan_Control(void    );
+void ROOM_LampOne(void        );
+void ROOM_LampTwo(void        );
+void ROOM_LampThree(void      );
 
 
-void ISR_EXTI0_Interrupt(void); //ISR function name for external interrupt
-void ISR_TIMER2_OVF_MODE(void);
+void ISR_EXTI0_Interrupt(void ); //ISR function name for external interrupt
+void ISR_TIMER2_OVF_MODE(void );
 
 
 void main()
@@ -98,10 +109,10 @@ void main()
   EEPROM_vInit();
 
   DIO_enumSetPinDir(DIO_PORTD, DIO_PIN5, DIO_PIN_OUTPUT);
-  TIMER1_vInit();
+  TIMER1_vInit(                                        );
   // set Timer2 Output PIN
   DIO_enumSetPinDir(DIO_PORTB, DIO_PIN3, DIO_PIN_OUTPUT);
-  TIMER0_vInit();
+  TIMER0_vInit(                                        );
   /*
    * Initialize TIMER2 with external clock at 32.768 KHz
    * Using division factor 128 to achieve 1 second intervals
@@ -112,16 +123,16 @@ void main()
   TIMER_u8SetCallBack(ISR_TIMER2_OVF_MODE, TIMER2_OVF_VECTOR_ID);
 
   // Initialize Servo Motor
-  SM_vInit();
+  SM_vInit(          );
   SM_vTimer1Degree(90);
 
   //SET I-Bit to enable Interrupt
   GIE_vEnable();
   //SET INT2 to execute on change on pin
-  EXTI_vEnableInterrupt(EXTI_LINE0);
-  EXTI_vSetSignal(EXTI_RISING_EDGE, EXTI_LINE0);
+  EXTI_vEnableInterrupt(EXTI_LINE0                    );
+  EXTI_vSetSignal      (EXTI_RISING_EDGE, EXTI_LINE0  );
   //Set Call Back Function for ISR to INT2
-  EXTI_vSetCallBack(ISR_EXTI0_Interrupt, EXTI_LINE0);
+  EXTI_vSetCallBack(ISR_EXTI0_Interrupt, EXTI_LINE0   );
   DIO_enumSetPinDir(DIO_PORTD, DIO_PIN2, DIO_PIN_INPUT);
 
   while (1)
