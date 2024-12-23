@@ -4,8 +4,6 @@
  *  Created on: Aug 29, 2024
  *      Author: Mega
  */
-
-#define  F_CPU 8000000UL
 #include <util/delay.h>
 
 #include "STD_TYPES.h"
@@ -1191,6 +1189,4 @@ void ISR_TIMER2_OVF_MODE()
 
     }
   }
-
-
 }
