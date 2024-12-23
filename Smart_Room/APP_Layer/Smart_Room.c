@@ -50,12 +50,12 @@ LDR_Config  LDR3  = {ADC_CHANNEL3, 5, ADC_RES_10_BIT};
 #define LS_Pin   DIO_PIN0
 #define IR_Pin   DIO_PIN2
 
-volatile u8 Error_State,        KPD_Press,          LM35_Degree;
-volatile u8 Error_Time_Out = 0, Prescaler_Falg = 0             ;    // To count time out allow for user
-extern   u8 UserName[20]                                       ;    // extern user name which intern with user to show on system
-extern   u8 UserName_Length                                    ;
-volatile u8 LDR_LightPrec,      LM35_Temp                      ;
-volatile u8 Timer_Counter = 0,  Fan_SaveSpeed = 0              ;
+volatile u8 Error_State,        KPD_Press,         LM35_Degree;
+volatile u8 Error_Time_Out = 0, Prescaler_Falg = 0            ;    // To count time out allow for user
+extern   u8 UserName[20]                                      ;    // extern user name which intern with user to show on system
+extern   u8 UserName_Length                                   ;
+volatile u8 LDR_LightPrec,      LM35_Temp                     ;
+volatile u8 Timer_Counter = 0,  Fan_SaveSpeed = 0             ;
 
 LED_config Room_Led_1 = {DIO_PORTC, DIO_PIN5, HIGH};
 LED_config Room_Led_2 = {DIO_PORTD, DIO_PIN3, HIGH};
@@ -74,7 +74,6 @@ Flags_structConfig Flags =
     0,//Temp_Detect
     0 //Fan_RetunSpeed
 };
-
 // Function ProtoType
 void Room(void                );
 void Room_vFan(void           );
@@ -155,17 +154,18 @@ void main()
         }
       } while (1); // go into infinite loop until press enter
 
-      // Check username and password
-      // Sign_In();
+      //Check username and password
+      Sign_In();
+      //After Successfully sign in
+      CLCD_vClearScreen();
+      // print hello message
+      CLCD_vSetPosition(2, 7);
+      CLCD_vSendString("Welcome ");
+      CLCD_vSetPosition(3, ((20 - UserName_Length) / 2) + 1);
+      CLCD_vSendString(UserName);
+      _delay_ms(1000);
 
-      //			CLCD_vClearScreen();
-      //			// print hello message
-      //			CLCD_vSetPosition(2, 7);
-      //			CLCD_vSendString("Welcome ");
-      //			CLCD_vSetPosition(3, ((20 - UserName_Length) / 2) + 1);
-      //			CLCD_vSendString(UserName);
-      //			_delay_ms(1000);
-      //			Flags.OneTimeFlag = 0; // to print it one time which system is open
+      Flags.OneTimeFlag = 0; // to print it one time when system open
       Room();
     }
     else
