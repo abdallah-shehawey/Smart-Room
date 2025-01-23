@@ -14,22 +14,23 @@
 #include "SECURITY_interface.h"
 
 
+
 #include "../../MCAL_Layer/DIO/DIO_interface.h"
 #include "../../MCAL_Layer/EEPROM/EEPROM_interface.h"
 
-#if OUTPUT_SCREEN == CLCD_OUTPUT
-#if INPUT_DATA    == KPD_INPUT
+#if      OUTPUT_SCREEN == CLCD_OUTPUT
+#if      INPUT_DATA    == KPD_INPUT
 #include "../../HAL_Layer/KPD/KPD_interface.h"
 #include "../../HAL_Layer/CLCD/CLCD_interface.h"
-#elif INPUT_DATA == TERMINAL_INPUT
+#elif    INPUT_DATA == TERMINAL_INPUT
 #include "../../MCAL_Layer/USART/USART_interface.h"
 #include "../../HAL_Layer/CLCD/CLCD_interface.h"
 #endif
-#elif OUTPUT_SCREEN == TERMINAL_OUTPUT
-#if INPUT_DATA == KPD_INPUT
+#elif    OUTPUT_SCREEN == TERMINAL_OUTPUT
+#if      INPUT_DATA == KPD_INPUT
 #include "../../HAL_Layer/KPD/KPD_interface.h"
 #include "../../MCAL_Layer/USART/USART_interface.h"
-#elif INPUT_DATA == TERMINAL_INPUT
+#elif    INPUT_DATA == TERMINAL_INPUT
 #include "../../MCAL_Layer/USART/USART_interface.h"
 #endif
 #endif
@@ -52,7 +53,7 @@ void EEPROM_vInit(void)
 {
   /* To get Number of User Name and Password Length from EEPROM for second sign in */
   UserName_Length =  EEPROM_FunReadName(EEPROM_USNL_Location);
-  PassWord_Length =  EEPROM_FunReadName(EEPROM_PWL_Location);
+  PassWord_Length =  EEPROM_FunReadName(EEPROM_PWL_Location );
 
   /* To get number of tries left from EEPROM if it lost one of it Maximum */
   if (EEPROM_FunReadName(EEPROM_NoTries_Location) != NOTPRESSED)

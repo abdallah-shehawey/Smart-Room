@@ -2,7 +2,7 @@
  * Smart_Home.c
  *
  *  Created on: Aug 29, 2024
- *      Author: Mega
+ *      Author: Abdallah Abdelmoemen
  */
 #include <util/delay.h>
 
@@ -25,18 +25,23 @@
 
 #include "SECURITY/SECURITY_interface.h"
 
-// Used Flags
+/* Constants */
+#define Time_Out 1000UL // Maximum Time Allow when not press any thing
+#define LS_PIN   DIO_PIN0
+#define IR_PIN   DIO_PIN2
+
+/* Hardware Mapping */
 typedef struct
 {
-  u8 OneTimeFlag     : 1;
-  u8 STOP_Flag       : 1;
-  u8 Auto_Fan        : 1;
-  u8 Page_One        : 1;
-  u8 Lamp_One        : 1;
-  u8 Lamp_Two        : 1;
-  u8 Lamp_Three      : 1;
-  u8 Temp_Detect     : 3;
-  u8 Fan_ReturnSpeed : 1;
+  u8 OneTimeFlag     : 1; //To show first screen on time before start system or end the system
+  u8 STOP_Flag       : 1; //To show system time out one time when time end
+  u8 Auto_Fan        : 1; //To make the system know if auto fan is turned on or off
+  u8 Page_One        : 1; //To make the system know it stopped in page one or two
+  u8 Lamp_One        : 1; //For lamp one to know if it opened or closed
+  u8 Lamp_Two        : 1; //For lamp two to know if it opened or closed
+  u8 Lamp_Three      : 1; //For lamp three to know if it opened or closed
+  u8 Temp_Detect     : 3; //For fan speed when turn on Auto_Fan
+  u8 Fan_ReturnSpeed : 1; //For return the speed of Fan
 } Flags_structConfig;
 
 LM35_Config LM35  = {ADC_CHANNEL0, 5, ADC_RES_10_BIT};
@@ -44,16 +49,12 @@ LDR_Config  LDR1  = {ADC_CHANNEL1, 5, ADC_RES_10_BIT};
 LDR_Config  LDR2  = {ADC_CHANNEL2, 5, ADC_RES_10_BIT};
 LDR_Config  LDR3  = {ADC_CHANNEL3, 5, ADC_RES_10_BIT};
 
-#define Time_Out 1000UL // Maximum Time Allow when not press any thing
-#define LS_Pin   DIO_PIN0
-#define IR_Pin   DIO_PIN2
-
 volatile u8 Error_State,        KPD_Press,         LM35_Degree;
-volatile u8 Error_Time_Out = 0, Prescaler_Falg = 0            ;    // To count time out allow for user
-extern   u8 UserName[20]                                      ;    // extern user name which intern with user to show on system
-extern   u8 UserName_Length                                   ;
-volatile u8 LDR_LightPrec,      LM35_Temp                     ;
-volatile u8 Timer_Counter = 0,  Fan_SaveSpeed = 0             ;
+volatile u8 Error_Time_Out = 0, Prescaler_Falg = 0            ; // To count time out allow for user
+extern   u8 UserName[20]                                      ; // extern user name which intern with user to show on system
+extern   u8 UserName_Length                                   ; // To extern user name length because i want it here for some cases
+volatile u8 LDR_LightPrec,      LM35_Temp                     ; // Var To store Light Precentage from LDR Sensor And Temperature from Temperature sensor
+volatile u8 Timer_Counter = 0,  Fan_SaveSpeed = 0             ; // Var for time counting for Time out time and var to save current speed for fans
 
 LED_config Room_Led_1 = {DIO_PORTC, DIO_PIN5, HIGH};
 LED_config Room_Led_2 = {DIO_PORTD, DIO_PIN3, HIGH};
@@ -62,26 +63,24 @@ LED_config Room_Led_3 = {DIO_PORTC, DIO_PIN4, HIGH};
 // Default flags value
 Flags_structConfig Flags =
 {
-    1,//OneTimeFlag
-    1,//STOP_Flag
-    0,//Auto_Fan
-    1,//Page_One
-    0,//Lamp_One
-    0,//Lamp_Two
-    0,//Lamp_Three
-    0,//Temp_Detect
-    0 //Fan_RetunSpeed
+    1,  //OneTimeFlag
+    1,  //STOP_Flag
+    0,  //Auto_Fan
+    1,  //Page_One
+    0,  //Lamp_One
+    0,  //Lamp_Two
+    0,  //Lamp_Three
+    0,  //Temp_Detect
+    0   //Fan_RetunSpeed
 };
 // Function ProtoType
-void Room(void                );
-void Room_vFan(void           );
-void Room_vSetting(void       );
-void Room_Door(void           );
-void Auto_Fan_Control(void    );
-void ROOM_LampOne(void        );
-void ROOM_LampTwo(void        );
-void ROOM_LampThree(void      );
-
+void System_Init(     void);
+void Room(            void);
+void Room_vFan(       void);
+void Room_vSetting(   void);
+void Room_Door(       void);
+void Auto_Fan_Control(void);
+void ROOM_Lamp(u8 Lamp    );
 
 void ISR_EXTI0_Interrupt(void ); //ISR function name for external interrupt
 void ISR_TIMER2_OVF_MODE(void );
@@ -89,49 +88,7 @@ void ISR_TIMER2_OVF_MODE(void );
 
 void main()
 {
-  DIO_enumSetPinDir(DIO_PORTB, DIO_PIN0, DIO_PIN_INPUT);
-
-  // Set Pin Direction
-  LED_vInit(Room_Led_1);
-  LED_vInit(Room_Led_2);
-  LED_vInit(Room_Led_3);
-
-  // Initialize CLCD Pins
-  CLCD_vInit();
-  // initialize ADC to Convert From Analog To digital
-  ADC_vInit();
-  // initialize USART to communicate with laptop with Baud Rate 9600
-  USART_vInit();
-  // Check EEPROM for password and username and tries left
-  EEPROM_vInit();
-
-  DIO_enumSetPinDir(DIO_PORTD, DIO_PIN5, DIO_PIN_OUTPUT);
-  TIMER1_vInit(                                        );
-  // set Timer2 Output PIN
-  DIO_enumSetPinDir(DIO_PORTB, DIO_PIN3, DIO_PIN_OUTPUT);
-  TIMER0_vInit(                                        );
-  /*
-   * Initialize TIMER2 with external clock at 32.768 KHz
-   * Using division factor 128 to achieve 1 second intervals
-   */
-  TIMER2_vInit();
-
-  // Set callback function for TIMER2 overflow interrup
-  TIMER_u8SetCallBack(ISR_TIMER2_OVF_MODE, TIMER2_OVF_VECTOR_ID);
-
-  // Initialize Servo Motor
-  SM_vInit(          );
-  SM_vTimer1Degree(90);
-
-  //SET I-Bit to enable Interrupt
-  GIE_vEnable();
-  //SET INT2 to execute on change on pin
-  EXTI_vEnableInterrupt(EXTI_LINE0                    );
-  EXTI_vSetSignal      (EXTI_RISING_EDGE, EXTI_LINE0  );
-  //Set Call Back Function for ISR to INT2
-  EXTI_vSetCallBack(ISR_EXTI0_Interrupt, EXTI_LINE0   );
-  DIO_enumSetPinDir(DIO_PORTD, DIO_PIN2, DIO_PIN_INPUT);
-
+  System_Init();
   while (1)
   {
     // if System is close and user want to open system
@@ -172,7 +129,54 @@ void main()
   }
 }
 
-//======================================================================================================================================//
+//====================================================================================================//
+void System_Init(void)
+{
+  DIO_enumSetPinDir(DIO_PORTB, DIO_PIN0, DIO_PIN_INPUT);
+
+  // Set Pin Direction
+  LED_vInit(Room_Led_1);
+  LED_vInit(Room_Led_2);
+  LED_vInit(Room_Led_3);
+
+  // Initialize CLCD Pins
+  CLCD_vInit();
+  // initialize ADC to Convert From Analog To digital
+  ADC_vInit();
+  // initialize USART to communicate with laptop with Baud Rate 9600 in config.h
+  USART_vInit();
+  // Check EEPROM for password and username and tries left
+  EEPROM_vInit();
+
+  DIO_enumSetPinDir(DIO_PORTD, DIO_PIN5, DIO_PIN_OUTPUT);
+  TIMER1_vInit(                                        );
+  // set Timer2 Output PIN
+  DIO_enumSetPinDir(DIO_PORTB, DIO_PIN3, DIO_PIN_OUTPUT);
+  TIMER0_vInit(                                        );
+  /*
+   * Initialize TIMER2 with external clock at 32.768 KHz
+   * Using division factor 128 to achieve 1 second intervals
+   */
+  TIMER2_vInit();
+
+  // Set callback function for TIMER2 overflow interrup
+  TIMER_u8SetCallBack(ISR_TIMER2_OVF_MODE, TIMER2_OVF_VECTOR_ID);
+
+  // Initialize Servo Motor
+  SM_vInit(          );
+  SM_vTimer1Degree(90);
+
+  //SET I-Bit to enable Interrupt
+  GIE_vEnable();
+  //SET INT2 to execute on change on pin
+  EXTI_vEnableInterrupt(EXTI_LINE0                    );
+  EXTI_vSetSignal      (EXTI_RISING_EDGE, EXTI_LINE0  );
+  //Set Call Back Function for ISR to INT2
+  EXTI_vSetCallBack(ISR_EXTI0_Interrupt, EXTI_LINE0   );
+  DIO_enumSetPinDir(DIO_PORTD, DIO_PIN2, DIO_PIN_INPUT);
+}
+
+//====================================================================================================//
 void Room()
 {
   if (Flags.Page_One == 0)
@@ -213,17 +217,17 @@ void Room()
       {
       case '1':
         Error_Time_Out = 0;
-        ROOM_LampOne();
+        ROOM_Lamp(1);
         KPD_Press = NOTPRESSED;
         break;
       case '2':
         Error_Time_Out = 0;
-        ROOM_LampTwo();
+        ROOM_Lamp(2);
         KPD_Press = NOTPRESSED;
         break;
       case '3':
         Error_Time_Out = 0;
-        ROOM_LampThree();
+        ROOM_Lamp(3);
         KPD_Press = NOTPRESSED;
         break;
       case '4':
@@ -292,377 +296,389 @@ void Room()
           Flags.STOP_Flag = 0;
           CLCD_vClearScreen();
         }
+        else
+        {
+
+        }
         Flags.OneTimeFlag = 1;
         break;
       }
+      else
+      {
+
+      };
       Error_Time_Out++;
     }
   } while (KPD_Press != 0X08);
 }
 
-//======================================================================================================================================//
-void ROOM_LampOne(void)
+//====================================================================================================//
+void ROOM_Lamp(u8 Lamp)
 {
-  CLCD_vClearScreen();
-  CLCD_vSendString("Lamp1 Option :");
-  CLCD_vSetPosition(2, 1);
-  CLCD_vSendString("1 : ON       2 : OFF");
-  KPD_Press = NOTPRESSED;
-  do
+  if (Lamp == 1)
   {
-    LDR_u8GetLightPres(&LDR1, &LDR_LightPrec);
-    if (KPD_Press == '1' && LDR_LightPrec < 50)
+    CLCD_vClearScreen();
+    CLCD_vSendString("Lamp1 Option :");
+    CLCD_vSetPosition(2, 1);
+    CLCD_vSendString("1 : ON       2 : OFF");
+    KPD_Press = NOTPRESSED;
+    do
     {
-      if (Flags.Lamp_One == 0)
+      LDR_u8GetLightPres(&LDR1, &LDR_LightPrec);
+      if (KPD_Press == '1' && LDR_LightPrec < 50)
+      {
+        if (Flags.Lamp_One == 0)
+        {
+          CLCD_vSetPosition(4, 5);
+          _delay_ms(500);
+          CLCD_vSendString("  Lamp has Error");
+          Flags.Lamp_One = 1;
+        }
+      }
+      if (LDR_LightPrec > 50)
+      {
+        Flags.Lamp_One = 0;
+        CLCD_vSetPosition(4, 5);
+        CLCD_vSendString("LED Status : ON ");
+        Error_State = USART_u8ReceiveData(&KPD_Press);
+        if (Error_State == OK)
+        {
+          switch (KPD_Press)
+          {
+          case '1':
+            break;
+          case '2':
+            LED_vTog(Room_Led_1);
+            break;
+          case 0X08:
+            CLCD_vClearScreen();
+            CLCD_vSendString("Room Options : ");
+            CLCD_vSetPosition(2, 1);
+            CLCD_vSendString("1- Led1 ON/OFF");
+            CLCD_vSetPosition(3, 1);
+            CLCD_vSendString("2- Led2 ON/OFF");
+            CLCD_vSetPosition(4, 1);
+            CLCD_vSendString("3- Led3 ON/OFF");
+            break;
+          default:
+            break;
+          }
+        }
+        else if (Error_State == TIMEOUT_STATE)
+        {
+          if (Error_Time_Out == Time_Out)
+          {
+            USART_u8SendData(0X0D);
+            if (Flags.STOP_Flag == 1)
+            {
+              USART_u8SendStringSynch("Session Time Out");
+              Flags.STOP_Flag = 0;
+            }
+            USART_u8SendData(0X0D);
+            Flags.OneTimeFlag = 1;
+            break;
+          }
+          Error_Time_Out++;
+        }
+      }
+      else if (LDR_LightPrec < 50)
       {
         CLCD_vSetPosition(4, 5);
-        CLCD_vSendString("  Lamp has Error");
-        Flags.Lamp_One = 1;
-      }
-    }
-    if (LDR_LightPrec > 50)
-    {
-      Flags.Lamp_One = 0;
-      CLCD_vSetPosition(4, 5);
-      CLCD_vSendString("LED Status : ON ");
-      Error_State = USART_u8ReceiveData(&KPD_Press);
-      if (Error_State == OK)
-      {
-        switch (KPD_Press)
+        if (Flags.Lamp_One == 0)
         {
-        case '1':
-          break;
-        case '2':
-          LED_vTog(Room_Led_1);
-          break;
-        case 0X08:
-          CLCD_vClearScreen();
-          CLCD_vSendString("Room Options : ");
-          CLCD_vSetPosition(2, 1);
-          CLCD_vSendString("1- Led1 ON/OFF");
-          CLCD_vSetPosition(3, 1);
-          CLCD_vSendString("2- Led2 ON/OFF");
-          CLCD_vSetPosition(4, 1);
-          CLCD_vSendString("3- Led3 ON/OFF");
-          break;
-        default:
-          break;
+          CLCD_vSendString("LED Status : OFF");
         }
-      }
-      else if (Error_State == TIMEOUT_STATE)
-      {
-        if (Error_Time_Out == Time_Out)
+        Error_State = USART_u8ReceiveData(&KPD_Press);
+        if (Error_State == OK)
         {
-          USART_u8SendData(0X0D);
-          if (Flags.STOP_Flag == 1)
+          switch (KPD_Press)
           {
-            USART_u8SendStringSynch("Session Time Out");
-            Flags.STOP_Flag = 0;
+          case '1':
+            LED_vTog(Room_Led_1);
+            break;
+          case '2':
+            Flags.Lamp_One = 0;
+            break;
+          case 0X08:
+            CLCD_vClearScreen();
+            CLCD_vSendString("Room Options : ");
+            CLCD_vSetPosition(2, 1);
+            CLCD_vSendString("1- Led1 ON/OFF");
+            CLCD_vSetPosition(3, 1);
+            CLCD_vSendString("2- Led2 ON/OFF");
+            CLCD_vSetPosition(4, 1);
+            CLCD_vSendString("3- Led3 ON/OFF");
+            break;
+          default:
+            break;
           }
-          USART_u8SendData(0X0D);
-          Flags.OneTimeFlag = 1;
-          break;
         }
-        Error_Time_Out++;
-      }
-    }
-    else if (LDR_LightPrec < 50)
-    {
-      CLCD_vSetPosition(4, 5);
-      if (Flags.Lamp_One == 0)
-      {
-        CLCD_vSendString("LED Status : OFF");
-      }
-      Error_State = USART_u8ReceiveData(&KPD_Press);
-      if (Error_State == OK)
-      {
-        switch (KPD_Press)
+        else if (Error_State == TIMEOUT_STATE)
         {
-        case '1':
-          LED_vTog(Room_Led_1);
-          break;
-        case '2':
-          Flags.Lamp_One = 0;
-          break;
-        case 0X08:
-          CLCD_vClearScreen();
-          CLCD_vSendString("Room Options : ");
-          CLCD_vSetPosition(2, 1);
-          CLCD_vSendString("1- Led1 ON/OFF");
-          CLCD_vSetPosition(3, 1);
-          CLCD_vSendString("2- Led2 ON/OFF");
-          CLCD_vSetPosition(4, 1);
-          CLCD_vSendString("3- Led3 ON/OFF");
-          break;
-        default:
-          break;
-        }
-      }
-      else if (Error_State == TIMEOUT_STATE)
-      {
-        if (Error_Time_Out == Time_Out)
-        {
-          if (Flags.STOP_Flag == 1)
+          if (Error_Time_Out == Time_Out)
           {
-            CLCD_vClearScreen();
-            CLCD_vSendString("Session Time Out");
-            _delay_ms(1000);
-            Flags.STOP_Flag = 0;
-            CLCD_vClearScreen();
+            if (Flags.STOP_Flag == 1)
+            {
+              CLCD_vClearScreen();
+              CLCD_vSendString("Session Time Out");
+              _delay_ms(1000);
+              Flags.STOP_Flag = 0;
+              CLCD_vClearScreen();
+            }
+            Flags.OneTimeFlag = 1;
+            break;
           }
-          Flags.OneTimeFlag = 1;
-          break;
+          Error_Time_Out++;
         }
-        Error_Time_Out++;
       }
-    }
-    else
-    {
-    }
-  } while (KPD_Press != 0X08);
-}
-//======================================================================================================================================//
-void ROOM_LampTwo(void)
-{
-  CLCD_vClearScreen();
-  CLCD_vSendString("Lamp2 Option :");
-  CLCD_vSetPosition(2, 1);
-  CLCD_vSendString("1 : ON       2 : OFF");
-  KPD_Press = NOTPRESSED;
-  do
+      else
+      {
+      }
+    } while (KPD_Press != 0X08);
+  }
+  else if (Lamp == 2)
   {
-    LDR_u8GetLightPres(&LDR2, &LDR_LightPrec);
-    if (KPD_Press == '1' && LDR_LightPrec < 50)
+    CLCD_vClearScreen();
+    CLCD_vSendString("Lamp2 Option :");
+    CLCD_vSetPosition(2, 1);
+    CLCD_vSendString("1 : ON       2 : OFF");
+    KPD_Press = NOTPRESSED;
+    do
     {
-      if (Flags.Lamp_Two == 0)
+      LDR_u8GetLightPres(&LDR2, &LDR_LightPrec);
+      if (KPD_Press == '1' && LDR_LightPrec < 50)
+      {
+        if (Flags.Lamp_Two == 0)
+        {
+          CLCD_vSetPosition(4, 5);
+          _delay_ms(500);
+          CLCD_vSendString("  Lamp has Error");
+          Flags.Lamp_Two = 1;
+        }
+      }
+      if (LDR_LightPrec > 50)
+      {
+        Flags.Lamp_Two = 0;
+        CLCD_vSetPosition(4, 5);
+        CLCD_vSendString("LED Status : ON ");
+        Error_State = USART_u8ReceiveData(&KPD_Press);
+        if (Error_State == OK)
+        {
+          switch (KPD_Press)
+          {
+          case '1':
+            break;
+          case '2':
+            LED_vTog(Room_Led_2);
+            break;
+          case 0X08:
+            CLCD_vClearScreen();
+            CLCD_vSendString("Room Options : ");
+            CLCD_vSetPosition(2, 1);
+            CLCD_vSendString("1- Led1 ON/OFF");
+            CLCD_vSetPosition(3, 1);
+            CLCD_vSendString("2- Led2 ON/OFF");
+            CLCD_vSetPosition(4, 1);
+            CLCD_vSendString("3- Led3 ON/OFF");
+            break;
+          default:
+            break;
+          }
+        }
+        else if (Error_State == TIMEOUT_STATE)
+        {
+          if (Error_Time_Out == Time_Out)
+          {
+            USART_u8SendData(0X0D);
+            if (Flags.STOP_Flag == 1)
+            {
+              USART_u8SendStringSynch("Session Time Out");
+              Flags.STOP_Flag = 0;
+            }
+            USART_u8SendData(0X0D);
+            Flags.OneTimeFlag = 1;
+            break;
+          }
+          Error_Time_Out++;
+        }
+      }
+      else if (LDR_LightPrec < 50)
       {
         CLCD_vSetPosition(4, 5);
-        CLCD_vSendString("  Lamp has Error");
-        Flags.Lamp_Two = 1;
-      }
-    }
-    if (LDR_LightPrec > 50)
-    {
-      Flags.Lamp_Two = 0;
-      CLCD_vSetPosition(4, 5);
-      CLCD_vSendString("LED Status : ON ");
-      Error_State = USART_u8ReceiveData(&KPD_Press);
-      if (Error_State == OK)
-      {
-        switch (KPD_Press)
+        if (Flags.Lamp_Two == 0)
         {
-        case '1':
-          break;
-        case '2':
-          LED_vTog(Room_Led_2);
-          break;
-        case 0X08:
-          CLCD_vClearScreen();
-          CLCD_vSendString("Room Options : ");
-          CLCD_vSetPosition(2, 1);
-          CLCD_vSendString("1- Led1 ON/OFF");
-          CLCD_vSetPosition(3, 1);
-          CLCD_vSendString("2- Led2 ON/OFF");
-          CLCD_vSetPosition(4, 1);
-          CLCD_vSendString("3- Led3 ON/OFF");
-          break;
-        default:
-          break;
+          CLCD_vSendString("LED Status : OFF");
         }
-      }
-      else if (Error_State == TIMEOUT_STATE)
-      {
-        if (Error_Time_Out == Time_Out)
+        Error_State = USART_u8ReceiveData(&KPD_Press);
+        if (Error_State == OK)
         {
-          USART_u8SendData(0X0D);
-          if (Flags.STOP_Flag == 1)
+          switch (KPD_Press)
           {
-            USART_u8SendStringSynch("Session Time Out");
-            Flags.STOP_Flag = 0;
+          case '1':
+            LED_vTog(Room_Led_2);
+            break;
+          case '2':
+            Flags.Lamp_Two = 0;
+            break;
+          case 0X08:
+            CLCD_vClearScreen();
+            CLCD_vSendString("Room Options : ");
+            CLCD_vSetPosition(2, 1);
+            CLCD_vSendString("1- Led1 ON/OFF");
+            CLCD_vSetPosition(3, 1);
+            CLCD_vSendString("2- Led2 ON/OFF");
+            CLCD_vSetPosition(4, 1);
+            CLCD_vSendString("3- Led3 ON/OFF");
+            break;
+          default:
+            break;
           }
-          USART_u8SendData(0X0D);
-          Flags.OneTimeFlag = 1;
-          break;
         }
-        Error_Time_Out++;
-      }
-    }
-    else if (LDR_LightPrec < 50)
-    {
-      CLCD_vSetPosition(4, 5);
-      if (Flags.Lamp_Two == 0)
-      {
-        CLCD_vSendString("LED Status : OFF");
-      }
-      Error_State = USART_u8ReceiveData(&KPD_Press);
-      if (Error_State == OK)
-      {
-        switch (KPD_Press)
+        else if (Error_State == TIMEOUT_STATE)
         {
-        case '1':
-          LED_vTog(Room_Led_2);
-          break;
-        case '2':
-          Flags.Lamp_Two = 0;
-          break;
-        case 0X08:
-          CLCD_vClearScreen();
-          CLCD_vSendString("Room Options : ");
-          CLCD_vSetPosition(2, 1);
-          CLCD_vSendString("1- Led1 ON/OFF");
-          CLCD_vSetPosition(3, 1);
-          CLCD_vSendString("2- Led2 ON/OFF");
-          CLCD_vSetPosition(4, 1);
-          CLCD_vSendString("3- Led3 ON/OFF");
-          break;
-        default:
-          break;
-        }
-      }
-      else if (Error_State == TIMEOUT_STATE)
-      {
-        if (Error_Time_Out == Time_Out)
-        {
-          if (Flags.STOP_Flag == 1)
+          if (Error_Time_Out == Time_Out)
           {
-            CLCD_vClearScreen();
-            CLCD_vSendString("Session Time Out");
-            _delay_ms(1000);
-            Flags.STOP_Flag = 0;
-            CLCD_vClearScreen();
+            if (Flags.STOP_Flag == 1)
+            {
+              CLCD_vClearScreen();
+              CLCD_vSendString("Session Time Out");
+              _delay_ms(1000);
+              Flags.STOP_Flag = 0;
+              CLCD_vClearScreen();
+            }
+            Flags.OneTimeFlag = 1;
+            break;
           }
-          Flags.OneTimeFlag = 1;
-          break;
+          Error_Time_Out++;
         }
-        Error_Time_Out++;
       }
-    }
-    else
-    {
-    }
-  } while (KPD_Press != 0X08);
-}
-//======================================================================================================================================//
-void ROOM_LampThree(void)
-{
-  CLCD_vClearScreen();
-  CLCD_vSendString("Lamp3 Option :");
-  CLCD_vSetPosition(2, 1);
-  CLCD_vSendString("1 : ON       2 : OFF");
-  KPD_Press = NOTPRESSED;
-  do
+      else
+      {
+      }
+    } while (KPD_Press != 0X08);
+  }
+  else if (Lamp == 3)
   {
-    LDR_u8GetLightPres(&LDR3, &LDR_LightPrec);
-    if (KPD_Press == '1' && LDR_LightPrec < 50)
+    CLCD_vClearScreen();
+    CLCD_vSendString("Lamp3 Option :");
+    CLCD_vSetPosition(2, 1);
+    CLCD_vSendString("1 : ON       2 : OFF");
+    KPD_Press = NOTPRESSED;
+    do
     {
-      if (Flags.Lamp_Three == 0)
+      LDR_u8GetLightPres(&LDR3, &LDR_LightPrec);
+      if (KPD_Press == '1' && LDR_LightPrec < 50)
+      {
+        if (Flags.Lamp_Three == 0)
+        {
+          CLCD_vSetPosition(4, 5);
+          _delay_ms(500);
+          CLCD_vSendString("  Lamp has Error");
+          Flags.Lamp_Three = 1;
+        }
+      }
+      if (LDR_LightPrec > 50)
+      {
+        Flags.Lamp_Three = 0;
+        CLCD_vSetPosition(4, 5);
+        CLCD_vSendString("LED Status : ON ");
+        Error_State = USART_u8ReceiveData(&KPD_Press);
+        if (Error_State == OK)
+        {
+          switch (KPD_Press)
+          {
+          case '1':
+            break;
+          case '2':
+            LED_vTog(Room_Led_3);
+            break;
+          case 0X08:
+            CLCD_vClearScreen();
+            CLCD_vSendString("Room Options : ");
+            CLCD_vSetPosition(2, 1);
+            CLCD_vSendString("1- Led1 ON/OFF");
+            CLCD_vSetPosition(3, 1);
+            CLCD_vSendString("2- Led2 ON/OFF");
+            CLCD_vSetPosition(4, 1);
+            CLCD_vSendString("3- Led3 ON/OFF");
+            break;
+          default:
+            break;
+          }
+        }
+        else if (Error_State == TIMEOUT_STATE)
+        {
+          if (Error_Time_Out == Time_Out)
+          {
+            USART_u8SendData(0X0D);
+            if (Flags.STOP_Flag == 1)
+            {
+              USART_u8SendStringSynch("Session Time Out");
+              Flags.STOP_Flag = 0;
+            }
+            USART_u8SendData(0X0D);
+            Flags.OneTimeFlag = 1;
+            break;
+          }
+          Error_Time_Out++;
+        }
+      }
+      else if (LDR_LightPrec < 50)
       {
         CLCD_vSetPosition(4, 5);
-        CLCD_vSendString("  Lamp has Error");
-        Flags.Lamp_Three = 1;
-      }
-    }
-    if (LDR_LightPrec > 50)
-    {
-      Flags.Lamp_Three = 0;
-      CLCD_vSetPosition(4, 5);
-      CLCD_vSendString("LED Status : ON ");
-      Error_State = USART_u8ReceiveData(&KPD_Press);
-      if (Error_State == OK)
-      {
-        switch (KPD_Press)
+        if (Flags.Lamp_Three == 0)
         {
-        case '1':
-          break;
-        case '2':
-          LED_vTog(Room_Led_3);
-          break;
-        case 0X08:
-          CLCD_vClearScreen();
-          CLCD_vSendString("Room Options : ");
-          CLCD_vSetPosition(2, 1);
-          CLCD_vSendString("1- Led1 ON/OFF");
-          CLCD_vSetPosition(3, 1);
-          CLCD_vSendString("2- Led2 ON/OFF");
-          CLCD_vSetPosition(4, 1);
-          CLCD_vSendString("3- Led3 ON/OFF");
-          break;
-        default:
-          break;
+          CLCD_vSendString("LED Status : OFF");
         }
-      }
-      else if (Error_State == TIMEOUT_STATE)
-      {
-        if (Error_Time_Out == Time_Out)
+        Error_State = USART_u8ReceiveData(&KPD_Press);
+        if (Error_State == OK)
         {
-          USART_u8SendData(0X0D);
-          if (Flags.STOP_Flag == 1)
+          switch (KPD_Press)
           {
-            USART_u8SendStringSynch("Session Time Out");
-            Flags.STOP_Flag = 0;
+          case '1':
+            LED_vTog(Room_Led_3);
+            break;
+          case '2':
+            break;
+          case 0X08:
+            CLCD_vClearScreen();
+            CLCD_vSendString("Room Options : ");
+            CLCD_vSetPosition(2, 1);
+            CLCD_vSendString("1- Led1 ON/OFF");
+            CLCD_vSetPosition(3, 1);
+            CLCD_vSendString("2- Led2 ON/OFF");
+            CLCD_vSetPosition(4, 1);
+            CLCD_vSendString("3- Led3 ON/OFF");
+            break;
+          default:
+            break;
           }
-          USART_u8SendData(0X0D);
-          Flags.OneTimeFlag = 1;
-          break;
         }
-        Error_Time_Out++;
-      }
-    }
-    else if (LDR_LightPrec < 50)
-    {
-      CLCD_vSetPosition(4, 5);
-      if (Flags.Lamp_Three == 0)
-      {
-        CLCD_vSendString("LED Status : OFF");
-      }
-      Error_State = USART_u8ReceiveData(&KPD_Press);
-      if (Error_State == OK)
-      {
-        switch (KPD_Press)
+        else if (Error_State == TIMEOUT_STATE)
         {
-        case '1':
-          LED_vTog(Room_Led_3);
-          break;
-        case '2':
-          break;
-        case 0X08:
-          CLCD_vClearScreen();
-          CLCD_vSendString("Room Options : ");
-          CLCD_vSetPosition(2, 1);
-          CLCD_vSendString("1- Led1 ON/OFF");
-          CLCD_vSetPosition(3, 1);
-          CLCD_vSendString("2- Led2 ON/OFF");
-          CLCD_vSetPosition(4, 1);
-          CLCD_vSendString("3- Led3 ON/OFF");
-          break;
-        default:
-          break;
-        }
-      }
-      else if (Error_State == TIMEOUT_STATE)
-      {
-        if (Error_Time_Out == Time_Out)
-        {
-          if (Flags.STOP_Flag == 1)
+          if (Error_Time_Out == Time_Out)
           {
-            CLCD_vClearScreen();
-            CLCD_vSendString("Session Time Out");
-            _delay_ms(1000);
-            Flags.STOP_Flag = 0;
-            CLCD_vClearScreen();
+            if (Flags.STOP_Flag == 1)
+            {
+              CLCD_vClearScreen();
+              CLCD_vSendString("Session Time Out");
+              _delay_ms(1000);
+              Flags.STOP_Flag = 0;
+              CLCD_vClearScreen();
+            }
+            Flags.OneTimeFlag = 1;
+            break;
           }
-          Flags.OneTimeFlag = 1;
-          break;
+          Error_Time_Out++;
         }
-        Error_Time_Out++;
       }
-    }
-    else
-    {
-    }
-  } while (KPD_Press != 0X08);
+      else
+      {
+      }
+    } while (KPD_Press != 0X08);
+  }
 }
-//======================================================================================================================================//
+//====================================================================================================//
 void Room_vFan()
 {
   CLCD_vClearScreen();
@@ -732,15 +748,15 @@ void Room_vFan()
         break;
       case 0x08:
         Error_Time_Out = 0;
-        Flags.Page_One = 0;
+        Flags.Page_One = 1;
         CLCD_vClearScreen();
         CLCD_vSendString("Room Options : ");
         CLCD_vSetPosition(2, 1);
-        CLCD_vSendString("1- Led1 ON/OFF");
+        CLCD_vSendString("4- Room Fan");
         CLCD_vSetPosition(3, 1);
-        CLCD_vSendString("2- Led2 ON/OFF");
+        CLCD_vSendString("5- Room Door");
         CLCD_vSetPosition(4, 1);
-        CLCD_vSendString("3- Led3 ON/OFF");
+        CLCD_vSendString("6- Room Setting");
         break;
       default:
         break;
@@ -765,7 +781,7 @@ void Room_vFan()
     }
   } while (KPD_Press != 0X08);
 }
-//======================================================================================================================================//
+//====================================================================================================//
 void Room_vSetting()
 {
   CLCD_vClearScreen();
@@ -848,7 +864,7 @@ void Room_vSetting()
   } while (KPD_Press != 0X08);
 }
 
-//======================================================================================================================================//
+//====================================================================================================//
 void Room_Door(void)
 {
   CLCD_vClearScreen();
@@ -875,12 +891,12 @@ void Room_Door(void)
         CLCD_vClearScreen();
         CLCD_vSendString("Room Options : ");
         CLCD_vSetPosition(2, 1);
-        CLCD_vSendString("1- Led1 ON/OFF");
+        CLCD_vSendString("4- Room Fan");
         CLCD_vSetPosition(3, 1);
-        CLCD_vSendString("2- Led2 ON/OFF");
+        CLCD_vSendString("5- Room Door");
         CLCD_vSetPosition(4, 1);
-        CLCD_vSendString("3- Led3 ON/OFF");
-        Flags.Page_One = 0;
+        CLCD_vSendString("6- Room Setting");
+        Flags.Page_One = 1;
         break;
       default:
         break;
@@ -905,13 +921,13 @@ void Room_Door(void)
     }
   } while (KPD_Press != 0X08);
 }
-//======================================================================================================================================//
+//====================================================================================================//
 void Auto_Fan_Control()
 {
   CLCD_vClearScreen();
   CLCD_vSendString("Auto Fan Control");
   CLCD_vSetPosition(2, 1);
-  CLCD_vSendString("1- Open        ");
+  CLCD_vSendString("1- Open     ");
   CLCD_vSendString("2- Close");
 
   do
@@ -931,6 +947,14 @@ void Auto_Fan_Control()
         break;
       case 0x08:
         USART_u8SendData(0X0D);
+        CLCD_vClearScreen();
+        CLCD_vSendString("Setting:");
+        CLCD_vSetPosition(2, 1);
+        CLCD_vSendString("1- Change UserName");
+        CLCD_vSetPosition(3, 1);
+        CLCD_vSendString("2- Change PassWord");
+        CLCD_vSetPosition(4, 1);
+        CLCD_vSendString("3- Auto Fan Control");
         Error_Time_Out = 0;
         break;
       default:
@@ -957,7 +981,7 @@ void Auto_Fan_Control()
   } while (KPD_Press != 0x08);
 }
 
-//======================================================================================================================================//
+//====================================================================================================//
 void Fan_Speed()
 {
   LM35_u8GetTemp(&LM35, &LM35_Degree);
@@ -1085,12 +1109,12 @@ void Fan_Speed()
 
 
 
-//======================================================================================================================================//
+//====================================================================================================//
 
 void ISR_EXTI0_Interrupt(void)
 {
   u8 LS_Status= 0;
-  DIO_enumReadPinVal(DIO_PORTB, LS_Pin, &LS_Status);
+  DIO_enumReadPinVal(DIO_PORTB, LS_PIN, &LS_Status);
   if (LS_Status == 1)
   {
 
@@ -1138,14 +1162,14 @@ void ISR_EXTI0_Interrupt(void)
 
 
 }
-//======================================================================================================================================//
+//====================================================================================================//
 void ISR_TIMER2_OVF_MODE()
 {
   Timer_Counter++;
   u8 IR_PinRead = 0;
   Fan_Speed();
 
-  DIO_enumReadPinVal(DIO_PORTD, IR_Pin, &IR_PinRead);
+  DIO_enumReadPinVal(DIO_PORTD, IR_PIN, &IR_PinRead);
   if (IR_PinRead == 1)
   {
     Timer_Counter = 0;

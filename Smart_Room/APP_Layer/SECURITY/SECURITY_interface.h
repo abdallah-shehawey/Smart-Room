@@ -8,6 +8,8 @@
 #ifndef APP_LAYER_SECURITY_H_
 #define APP_LAYER_SECURITY_H_
 
+#include "SECURITY_config.h"
+
 #define CLCD_OUTPUT                       1
 #define TERMINAL_OUTPUT                   2
 
@@ -35,7 +37,6 @@ void PassWord_Check                       (void);
 void Sign_In                              (void);
 void Error_TimeOut                        (void);
 void EEPROM_vInit                         (void);
-
 #if OUTPUT_SCREEN == CLCD_OUTPUT
 void Clear_Char();
 #endif

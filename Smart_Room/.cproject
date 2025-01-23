@@ -113,13 +113,16 @@
 	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
 		<project id="Smart_Room.de.innot.avreclipse.project.winavr.elf_2.1.0.837997747" name="AVR Cross Target Application" projectType="de.innot.avreclipse.project.winavr.elf_2.1.0"/>
 	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
+	<storageModule moduleId="refreshScope"/>
 	<storageModule moduleId="scannerConfiguration">
 		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.debug.297498087;de.innot.avreclipse.configuration.app.debug.297498087.;de.innot.avreclipse.tool.compiler.winavr.app.debug.448250683;de.innot.avreclipse.compiler.winavr.input.586569299">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC"/>
+		</scannerConfigBuildInfo>
 		<scannerConfigBuildInfo instanceId="de.innot.avreclipse.configuration.app.release.1641584486;de.innot.avreclipse.configuration.app.release.1641584486.;de.innot.avreclipse.tool.compiler.winavr.app.release.372449629;de.innot.avreclipse.compiler.winavr.input.611460292">
 			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="de.innot.avreclipse.core.AVRGCCManagedMakePerProjectProfileC"/>
 		</scannerConfigBuildInfo>
 	</storageModule>
-	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
-	<storageModule moduleId="org.eclipse.cdt.make.core.buildtargets"/>
-	<storageModule moduleId="refreshScope"/>
 </cproject>
