@@ -7153,7 +7153,7 @@ Disassembly of section .text:
     3b1c:	80 91 76 04 	lds	r24, 0x0476
     3b20:	88 23       	and	r24, r24
     3b22:	09 f0       	breq	.+2      	; 0x3b26 <ROOM_Lamp+0xb4>
-    3b24:	5a c0       	rjmp	.+180    	; 0x3bda <ROOM_Lamp+0x168>
+    3b24:	65 c0       	rjmp	.+202    	; 0x3bf0 <ROOM_Lamp+0x17e>
     3b26:	80 91 d2 04 	lds	r24, 0x04D2
     3b2a:	88 30       	cpi	r24, 0x08	; 8
     3b2c:	b9 f1       	breq	.+110    	; 0x3b9c <ROOM_Lamp+0x12a>
